@@ -1,24 +1,24 @@
-/* Variables for simple, clean colors, matching the dashboard theme */
+/* ==== COLOR VARIABLES ==== */
 :root {
-    --primary-purple: #8e44ad; /* Warna utama (seperti sidebar/judul di dashboard) */
-    --button-primary-bg: #6c5ce7; /* Warna tombol Ajukan/Log In (Ungu terang) */
-    --light-gray: #f5f5f5; /* Background yang sangat terang */
-    --card-bg: #fff;
-    --text-color-dark: #333;
-    --text-color-light: #666;
+    --purple-dark: #8e44ad;
+    --purple-light: #6c5ce7;
+    --gray-light: #f5f5f5;
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #fff;
 }
 
-/* 1. Base dan Layout */
+/* ==== GLOBAL STYLES ==== */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: sans-serif;
 }
 
 body {
-    background-color: var(--light-gray);
-    color: var(--text-color-dark);
+    background: var(--gray-light);
+    color: var(--text-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,127 +28,106 @@ body {
 .container {
     width: 100%;
     max-width: 1200px;
-    position: relative;
     height: 100vh;
-    border-radius: 10px;
+    position: relative;
 }
 
-/* 2. Header (Tombol Sign In) */
+/* ==== HEADER ==== */
 .header {
     position: absolute;
     top: 30px;
     right: 50px;
 }
 
-/* 3. Login Card Utama */
-.login-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    background-color: var(--card-bg);
-    padding: 50px 80px;
-    border-radius: 12px;
-    /* Shadow ringan seperti card di dashboard */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
-    
-    text-align: center;
-}
-
-.title {
-    font-size: 3.5rem;
-    color: var(--primary-purple); /* Menggunakan warna ungu utama */
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.subtitle {
-    font-size: 1.1rem;
-    color: var(--text-color-light); /* Warna teks abu-abu terang */
-    margin-bottom: 30px;
-}
-
-/* 4. Button Styling Sederhana */
-.btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 20px; /* Dibuat sedikit lebih bulat seperti tombol Ajukan */
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-}
-
-.btn-primary {
-    /* Tombol utama (Log In) - Menggunakan warna ungu terang/button di dashboard */
-    background-color: var(--button-primary-bg);
-    color: white;
-    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
-}
-
-.btn-secondary {
-    /* Tombol sekunder (Sign In) - Menggunakan warna ungu utama dengan background putih */
-    background-color: var(--card-bg);
-    color: var(--primary-purple);
-    border: 2px solid var(--primary-purple);
-}
-
-.btn-primary:hover {
-    background-color: #5d4aea;
-    transform: translateY(-2px);
-}
-
-.btn-secondary:hover {
-   
-    background-color: #f3f0ff; /* Mirip warna sidebar */
-}
-
-
-
-/*CHECK FOR REDUNDANCY */
-
-
-
-/* Mengganti .login-card menjadi .login-modal untuk halaman ini */
+/* ==== MAIN AUTH CARD ==== */
+.login-card,
 .login-modal {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     
-    /* Ukuran dan styling card */
-    width: 90%;
-    max-width: 450px; /* Ukuran yang ideal untuk form */
-    background-color: var(--card-bg);
-    padding: 30px 40px;
-    border-radius: 20px; /* Sudut lebih membulat */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     text-align: center;
 }
 
-/* Tombol Tutup 'X' */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--text-color-light);
-    cursor: pointer;
-    line-height: 1;
+/* Ukuran masing-masing tipe card */
+.login-card {
+    padding: 40px 60px;
 }
 
-/* Judul Log In */
-.modal-title {
-    font-size: 2rem;
-    color: var(--text-color-dark);
-    margin-bottom: 30px;
+.login-modal {
+    width: 90%;
+    max-width: 450px;
+    padding: 30px 40px;
+}
+
+.title {
+    font-size: 3rem;
+    color: var(--purple-dark);
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
-/* Form Styling */
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+.modal-title {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* ==== CLOSE BUTTON ==== */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* ==== BUTTONS ==== */
+.btn {
+    padding: 12px 28px;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Primary (Login / Submit) */
+.btn-primary,
+.btn-submit {
+    background: var(--purple-light);
+    color: white;
+    box-shadow: 0 4px 8px rgba(108,92,231,0.3);
+}
+
+.btn-primary:hover,
+.btn-submit:hover {
+    background: #5d4aea;
+}
+
+/* Secondary (Sign In) */
+.btn-secondary {
+    background: var(--white);
+    color: var(--purple-dark);
+    border: 2px solid var(--purple-dark);
+}
+
+.btn-secondary:hover {
+    background: #f3f0ff;
+}
+
+/* ==== FORM ==== */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -156,56 +135,31 @@ body {
 }
 
 .login-form label {
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-size: 0.95rem;
-    color: var(--text-color-dark);
+    margin: 12px 0 5px;
     font-weight: 600;
 }
 
-/* Input Fields */
 .input-field {
-    padding: 12px 15px;
+    padding: 12px 14px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 1rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: 0.2s;
 }
 
 .input-field:focus {
-    border-color: var(--primary-purple);
+    border-color: var(--purple-dark);
 }
 
-/* Tombol Submit */
-.btn-submit {
-    /* Menggunakan gaya tombol utama (btn-primary) */
-    background-color: var(--button-primary-bg);
-    color: white;
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
-}
-
-/* Link Forgot Password */
+/* ==== EXTRA LINKS ==== */
 .forgot-password {
     text-align: center;
     font-size: 0.85rem;
-    color: var(--primary-purple);
+    color: var(--purple-dark);
     text-decoration: none;
-    margin-top: 10px;
 }
 
 .forgot-password:hover {
     text-decoration: underline;
-}
-
-/* Override default button styling for the submit button */
-.btn-submit:hover {
-    background-color: #5d4aea;
-    transform: none; /* Jangan geser ke atas */
 }
