@@ -1,42 +1,45 @@
-/* Variables for easy color management */
+/* ===== COLOR VARIABLES ===== */
 :root {
-    --primary-purple: #8e44ad; /* Adjust based on exact design color */
-    --light-purple: #f3f0ff; /* Background of sidebar/active state */
-    --dark-text: #333;
-    --light-text: #666;
-    --border-color: #ddd;
-    --card-bg: #fff;
-    --button-primary-bg: #6c5ce7; /* Similar to Ajukan button */
-    --button-secondary-bg: #8e44ad; /* Similar to Lihat Ajuan button */
-    --hover-purple: #a55eea;
+    --purple: #8e44ad;
+    --purple-light: #f3f0ff;
+    --purple-btn: #6c5ce7;
+    --purple-btn-alt: #8e44ad;
+    --purple-hover: #a55eea;
+
+    --text-dark: #333;
+    --text-light: #666;
+
+    --border: #ddd;
+    --bg-page: #f5f5f5;
+    --bg-card: #fff;
 }
 
-/* Base Styles */
+/* ===== GLOBAL ===== */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: sans-serif; /* Use a common, clean font */
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 body {
-    background-color: #f5f5f5; /* Light grey background for the whole page */
-    color: var(--dark-text);
+    background: var(--bg-page);
+    color: var(--text-dark);
 }
 
-/* Dashboard Container */
+/* ===== DASHBOARD WRAPPER ===== */
 .dashboard-container {
     display: flex;
     height: 100vh;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: var(--card-bg);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Sidebar Styling */
+/* ===== SIDEBAR ===== */
 .sidebar {
     width: 250px;
-    background-color: var(--light-purple);
+    background: var(--purple-light);
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
@@ -44,65 +47,56 @@ body {
 
 .sidebar-title {
     font-size: 1.5rem;
-    color: var(--primary-purple);
+    color: var(--purple);
     margin-bottom: 40px;
 }
 
-.sidebar-nav ul {
-    list-style: none;
-}
-
-.sidebar-nav li {
-    margin-bottom: 10px;
-}
+.sidebar-nav ul { list-style: none; }
 
 .sidebar-nav a {
     display: block;
     padding: 10px 15px;
     border-radius: 8px;
     text-decoration: none;
-    color: var(--light-text);
-    transition: background-color 0.2s;
+    color: var(--text-light);
     line-height: 1.4;
+    transition: 0.2s;
 }
 
 .sidebar-nav .active a {
-    background-color: var(--card-bg); /* White background for active item */
-    color: var(--primary-purple);
+    background: var(--bg-card);
+    color: var(--purple);
     font-weight: bold;
 }
 
 .sidebar-nav a:hover:not(.active a) {
-    background-color: rgba(142, 68, 173, 0.1);
+    background: rgba(142, 68, 173, 0.1);
 }
 
 .menu-description {
-    display: block;
     font-size: 0.75rem;
     color: #aaa;
-    font-weight: normal;
 }
 
-/* Main Content Styling */
+/* ===== MAIN CONTENT ===== */
 .main-content {
-    flex-grow: 1;
+    flex: 1;
     padding: 30px;
     overflow-y: auto;
 }
 
-/* Header Styling (Beranda, Icons) */
+/* ===== HEADER ===== */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
 }
 
 .header h1 {
     font-size: 1.8rem;
-    color: var(--dark-text);
 }
 
 .header-icons {
@@ -114,7 +108,7 @@ body {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: var(--primary-purple);
+    background: var(--purple);
     color: white;
     display: flex;
     justify-content: center;
@@ -126,61 +120,56 @@ body {
 
 .fa-bell {
     font-size: 1.2rem;
-    color: var(--light-text);
+    color: var(--text-light);
     cursor: pointer;
 }
 
-/* Card and Grid Layout */
+/* ===== GRID & CARDS ===== */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
-    margin-bottom: 20px;
 }
 
 .card {
-    background-color: var(--card-bg);
+    background: var(--bg-card);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .card h3 {
     font-size: 1.1rem;
     margin-bottom: 15px;
-    color: var(--primary-purple);
+    color: var(--purple);
 }
 
-/* TA Overview Summary Card */
-.ta-overview-summary .summary-content {
+/* ===== TA SUMMARY ===== */
+.summary-content {
     display: flex;
     align-items: center;
     gap: 30px;
 }
 
 .profile-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center;
 }
 
 .profile-icon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: var(--light-purple);
-    border: 3px solid var(--primary-purple);
-    margin-bottom: 5px;
-    /* Placeholder for an actual image or icon */
+    background: var(--purple-light);
+    border: 3px solid var(--purple);
     position: relative;
 }
 
 .profile-icon::after {
-    content: '\f007'; /* User icon from Font Awesome */
-    font-family: 'Font Awesome 6 Free';
+    content: "\f007";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
-    color: var(--primary-purple);
     font-size: 2rem;
+    color: var(--purple);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -189,31 +178,22 @@ body {
 
 .stats-section p {
     margin: 5px 0;
-    color: var(--light-text);
+    color: var(--text-light);
 }
 
-.stats-section p strong {
-    color: var(--primary-purple);
-    font-weight: bold;
+.stats-section strong {
+    color: var(--purple);
     margin-left: 5px;
 }
 
-/* Pengajuan Bimbingan Card */
+/* ===== PENGAJUAN BIMBINGAN ===== */
 .pengajuan-bimbingan {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center;
-}
-
-.pengajuan-bimbingan h3 {
-    margin-top: 0;
+    text-align: center;
 }
 
 .button-group {
     display: flex;
     gap: 15px;
-    width: 100%;
     justify-content: center;
 }
 
@@ -223,31 +203,31 @@ body {
     border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
     flex: 1;
     max-width: 150px;
     font-size: 1rem;
+    transition: 0.2s;
 }
 
 .btn-primary {
-    background-color: var(--button-primary-bg);
+    background: var(--purple-btn);
     color: white;
-    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+    box-shadow: 0 4px 8px rgba(108,92,231,0.3);
 }
 
 .btn-secondary {
-    background-color: var(--button-secondary-bg);
+    background: var(--purple-btn-alt);
     color: white;
-    box-shadow: 0 4px 8px rgba(142, 68, 173, 0.3);
+    box-shadow: 0 4px 8px rgba(142,68,173,0.3);
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+.btn:hover {
     filter: brightness(1.1);
 }
 
-/* TA Overview Table */
+/* ===== TABLE ===== */
 .ta-overview-table {
-    grid-column: 1 / -1; /* Make it span across both columns */
+    grid-column: 1 / -1;
 }
 
 table {
@@ -257,21 +237,99 @@ table {
 }
 
 thead th {
-    background-color: #f9f9f9;
+    background: #f9f9f9;
     padding: 12px 15px;
     text-align: left;
-    color: var(--primary-purple);
-    font-weight: bold;
-    border-bottom: 2px solid var(--border-color);
+    color: var(--purple);
+    border-bottom: 2px solid var(--border);
 }
 
 tbody td {
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
-    color: var(--dark-text);
-    font-size: 0.95rem;
 }
 
 tbody tr:last-child td {
     border-bottom: none;
+}
+
+/* Form Card Styling (Sama seperti .card, tapi khusus untuk form) */
+.form-card {
+    padding: 30px;
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+.bimbingan-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px; /* Batasi lebar form agar terlihat lebih baik */
+    margin: 0 auto;
+    text-align: left;
+}
+
+.bimbingan-form label {
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+/* Styling Input Fields (Text, Select, Date) */
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-card); /* Latar belakang putih */
+}
+
+.form-input:focus {
+    border-color: var(--purple-btn);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+/* Input Tanggal dengan border ungu */
+.date-input {
+     border: 1px solid var(--border);
+    padding: 15px 15px; /* Padding lebih besar */
+}
+
+/* Select Input (Dropdown) */
+.form-select {
+    /* Untuk tampilan yang konsisten */
+    appearance: none; /* Hilangkan default arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+}
+
+/* Tombol Submit Form (Ukuran lebih besar dari tombol Ajukan/Lihat Ajuan) */
+.btn-submit-form {
+    /* Menggunakan gaya tombol utama */
+    background: var(--purple-btn);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 40px;
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+    width: 100%; /* Lebar penuh card */
+    max-width: none; /* Hapus batasan lebar dari .btn */
+}
+
+.btn-submit-form:hover {
+    filter: brightness(1.1);
 }
