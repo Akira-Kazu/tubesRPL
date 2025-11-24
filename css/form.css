@@ -203,3 +203,41 @@ body {
 .btn-submit-form:hover {
     filter: brightness(1.1);
 }
+
+.history-card {
+    background: var(--bg-card); /* Latar belakang putih */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px; /* Jarak antar kartu */
+}
+
+.history-date {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.history-desc {
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+/* Gaya untuk tombol Aksi di Riwayat */
+.btn-history-action {
+    /* Menggunakan styling dasar dari tombol sebelumnya */
+    background: var(--purple-btn); /* Warna ungu yang lebih gelap */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-history-action:hover {
+    filter: brightness(1.1);
+}
