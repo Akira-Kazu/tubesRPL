@@ -115,12 +115,6 @@ body {
     cursor: pointer;
 }
 
-.fa-bell {
-    font-size: 1.2rem;
-    color: var(--text-light);
-    cursor: pointer;
-}
-
 /* ===== GRID & CARDS (Untuk Dashboard Content) ===== */
 .dashboard-grid {
     display: grid;
@@ -249,4 +243,10 @@ tbody td {
 
 tbody tr:last-child td {
     border-bottom: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;    
+  display: block;  
 }

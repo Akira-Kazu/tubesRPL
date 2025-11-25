@@ -241,3 +241,9 @@ body {
 .btn-history-action:hover {
     filter: brightness(1.1);
 }
+
+img {
+  max-width: 100%;
+  height: auto;    
+  display: block;  
+}
