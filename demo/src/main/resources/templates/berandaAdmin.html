@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bimbingan TA - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- ===== Sidebar ===== -->
+        <div class="sidebar">
+            <h2 class="sidebar-title">Bimbingan TA</h2>
+             <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#">
+                            Menu utama
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Pengajuan Bimbingan
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="#">
+                            Kelola Mahasiswa
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Kelola Dosen
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- ===== Main Content ===== -->
+        <div class="main-content">
+
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="header-icons">
+                    <span class="icon-circle">M</span>
+                    <span class="icon-circle">
+                        <img src="https://cdn-icons-png.flaticon.com/512/561/561188.png" width="20">
+                    </span>
+                </div>
+            </header>
+
+
+            <!-- Card Section -->
+            <div class="dashboard-grid">
+
+                <div class="card">
+                    <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Kelola Dosen</button>
+                        <button class="btn btn-primary">Kelola Mahasiswa</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Jadwal Dosen</button>
+                        <button class="btn btn-primary">Jadwal Mahasiswa</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Table Section -->
+            <div class="card ta-overview-table">
+                <h3>Today</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Mahasiswa</th>
+                            <th>Dosen</th>
+                            <th>Lokasi</th>
+                            <th>Aksi</th>
+                            <th>Pengajuan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>09:00</td>
+                            <td>Tony Stank</td>
+                            <td>Gede Karya</td>
+                            <td>Unpar</td>
+                            <td>🗑️</td>
+                            <td>➡️</td>
+                        </tr>
+                        <tr>
+                            <td>10:30</td>
+                            <td>Nelson Kenzo</td>
+                            <td>Keenan Adiwijaya Leman</td>
+                            <td>Unpar</td>
+                            <td>🗑️</td>
+                            <td>➡️</td>
+                        </tr>
+                        <tr>
+                            <td>13:00</td>
+                            <td>Denji Reze</td>
+                            <td>Pascal Alfadian Nugroho</td>
+                            <td>Unpar</td>
+                            <td>🗑️</td>
+                            <td>➡️</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
