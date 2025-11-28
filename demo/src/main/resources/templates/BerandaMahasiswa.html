@@ -71,13 +71,17 @@
         <header class="header">
             <h1>Beranda</h1>
 
+
             <div class="header-icons">
-                <span class="icon-circle">M</span>
-                <span class="icon-circle">
-                    <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                         alt="Tampilan Inbox Email">
-                </span>
-            </div>
+    <span class="icon-circle">M</span>
+    <span class="icon-circle">
+        <a th:href="@{/inbox}">
+            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                 alt="Tampilan Inbox Email">
+        </a>
+    </span>
+</div>
+
         </header>
 
         <!-- Overview Section -->
@@ -105,8 +109,8 @@
             <div class="card pengajuan-bimbingan">
                 <h3>Pengajuan Bimbingan</h3>
                 <div class="button-group">
-                    <button class="btn btn-primary" th:onclick="'location.href=\'/ajukan\''">Ajukan</button>
-                    <button class="btn btn-secondary" th:onclick="'location.href=\'/ajuan\''">Lihat Ajuan</button>
+                    <button class="btn btn-primary" th:onclick="'location.href=\'/pengajuan\''">Ajukan</button>
+                    <button class="btn btn-secondary" th:onclick="'location.href=\'/kelola\''">Lihat Ajuan</button>
                 </div>
             </div>
         </div>

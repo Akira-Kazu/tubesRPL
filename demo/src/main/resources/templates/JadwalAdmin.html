@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Saya</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/jadwal.css}">
+</head>
+
+<body>
+<div class="dashboard-container">
+
+       <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a th:href="@{/menu-utama}">
+                        Menu utama<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan Bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a th:href="@{/kelola-mahasiswa}">
+                        Kelola Mahasiswa<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/kelola-dosen}">
+                        Kelola Dosen<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+            <h1 class="header-title-custom">Jadwal Saya</h1>
+
+          <div class="header-icons">
+    <span class="icon-circle">M</span>
+    <span class="icon-circle">
+        <a th:href="@{/inbox}">
+            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                 alt="Tampilan Inbox Email">
+        </a>
+    </span>
+</div>
+
+        </header>
+
+        <!-- FILTER & ACTION BUTTON -->
+        <div class="schedule-header">
+            <h2>Jadwal Saya</h2>
+
+            <div class="schedule-actions">
+                <select class="select-view" th:value="${view}">
+                    <option value="jadwal" selected>Jadwal saya</option>
+                    <option value="dosen">Jadwal dosen</option>
+                </select>
+
+                <a class="btn btn-add" th:href="@{/pengajuan}">
+                    + Tambah Ajuan
+                </a>
+            </div>
+        </div>
+
+        <!-- WEEKLY SCHEDULE GRID -->
+        <div class="schedule-grid">
+
+            <!-- Days Row -->
+            <div class="days-row">
+                <span>Week</span>
+                <span>Sun</span>
+                <span>Mon</span>
+                <span class="active-day">Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+
+            <!-- Time Column + Events -->
+            <div class="time-column">
+
+                <!-- Example static times -->
+                <div class="time-slot">09:00</div>
+                <div class="time-slot">10:00</div>
+                <div class="time-slot">11:00</div>
+                <div class="time-slot">12:00</div>
+                <div class="time-slot">13:00</div>
+                <div class="time-slot">14:00</div>
+                <div class="time-slot">15:00</div>
+                <div class="time-slot">16:00</div>
+                <div class="time-slot">17:00</div>
+                <div class="time-slot">18:00</div>
+
+                <!-- EVENTS (Cards) -->
+                <div class="event-card event-blue"
+                     style="top: 50px; left: 200px; height: 70px;"
+                     th:each="item : ${jadwalList}">
+                    <strong th:text="${item.nama}">DAA</strong>
+                    <div class="event-time">
+                        <span class="clock-icon">🕒</span>
+                        <span th:text="${item.jamMulai + ' - ' + item.jamSelesai}">09:00 - 10:20</span>
+                    </div>
+                </div>
+
+                <!-- Static examples for visual reference -->
+                <div class="event-card event-blue" style="top: 50px; left: 200px;">  
+                    <strong>DAA</strong>
+                    <div class="event-time"><span class="clock-icon">🕒</span> 09:00 - 10:20</div>
+                </div>
+
+                <div class="event-card event-blue" style="top: 150px; left: 350px;">
+                    <strong>AOK</strong>
+                    <div class="event-time"><span class="clock-icon">🕒</span> 10:30 - 11:50</div>
+                </div>
+
+                <div class="event-card event-cyan" style="top: 230px; left: 500px;">
+                    <strong>Ajuan Pertemuan 1-1-2025</strong>
+                    <div class="event-time"><span class="clock-icon">🕒</span> 12:30 - 13:50</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

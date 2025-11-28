@@ -19,7 +19,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a th:href="@{/dashboard}">
+                        <a th:href="@{/menu}">
                             Menu utama <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
@@ -70,14 +70,15 @@
                 <h1>Riwayat Bimbingan</h1>
 
                 <div class="header-icons">
-                    <span class="icon-circle">M</span>
+    <span class="icon-circle">M</span>
+    <span class="icon-circle">
+        <a th:href="@{/inbox}">
+            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                 alt="Tampilan Inbox Email">
+        </a>
+    </span>
+</div>
 
-                    <span class="icon-circle">
-                        <img th:src="@{https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg}"
-                             alt="Inbox"
-                             style="width:20px;">
-                    </span>
-                </div>
             </header>
 
             <!-- CARD LIST (STATIC EXAMPLE) -->
