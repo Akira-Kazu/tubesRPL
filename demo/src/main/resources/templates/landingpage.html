@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bimbingan TA - Login Sederhana</title>
-    <link rel="stylesheet" href="landing.css">
+    <title>Bimbingan TA - Login</title>
+
+    <!-- Pemanggilan CSS Thymeleaf -->
+    <link rel="stylesheet" th:href="@{/landing.css}">
 </head>
+
 <body>
     <div class="container">
+
         <header class="header">
-            <button class="btn btn-secondary">Sign In</button>
+            <!-- Tombol menuju halaman login -->
+            <button class="btn btn-secondary" 
+                    th:onclick="'location.href=\'' + @{/login} + '\'''">
+                Sign In
+            </button>
         </header>
 
         <main class="login-card">
             <h1 class="title">Bimbingan TA</h1>
             <p class="subtitle">Sistem Informasi Pembimbingan Tugas Akhir</p>
-            <button class="btn btn-primary">Log In</button>
+
+            <!-- Tombol login menuju controller -->
+            <button class="btn btn-primary"
+                    th:onclick="'location.href=\'' + @{/login} + '\'''">
+                Log In
+            </button>
         </main>
     </div>
 </body>

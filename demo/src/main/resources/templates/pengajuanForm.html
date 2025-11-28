@@ -1,40 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengajuan Bimbingan</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
     <div class="dashboard-container">
-       <div class="sidebar">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
             <h2 class="sidebar-title">Bimbingan TA</h2>
+
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="#">
-                            **Menu utama**
+                        <a th:href="@{/menu}">
+                            Menu utama
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
-                            **Riwayat Bimbingan**
+                        <a th:href="@{/riwayat}">
+                            Riwayat Bimbingan
+                            <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li class="active">
-                        <a href="#">
-                            **Pengajuan bimbingan**
-                         <br>
+                        <a th:href="@{/pengajuan}">
+                            Pengajuan bimbingan
+                            <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
-                            **Jadwal**
+                        <a th:href="@{/jadwal}">
+                            Jadwal
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
@@ -43,36 +51,54 @@
             </nav>
         </div>
 
+        <!-- Main -->
         <div class="main-content">
+
             <header class="header">
                 <h1 class="header-title-custom">Beranda</h1>
+
                 <div class="header-icons">
                     <span class="icon-circle">M</span>
                     <i class="fas fa-bell"></i>
                 </div>
             </header>
 
+
             <div class="card form-card">
                 <h2>Pengajuan Bimbingan</h2>
-                
-                <form class="bimbingan-form">
-                    
+
+                <!-- FORM THYMELEAF -->
+                <form class="bimbingan-form"
+                      th:action="@{/pengajuan/submit}"
+                      th:object="${pengajuan}"
+                      method="post">
+
                     <label for="dosen">Dosen</label>
-                    <input type="text" id="dosen" name="dosen" class="form-input" value="" />
+                    <input type="text"
+                           id="dosen"
+                           class="form-input"
+                           th:field="*{dosen}" />
 
                     <label for="lokasi">Lokasi</label>
-                    <select id="lokasi" name="lokasi" class="form-input form-select">
-                        <option value="" disabled selected>Value</option>
-                        <option value="unpar">Unpar</option>
-                        <option value="online">Online</option>
+                    <select id="lokasi"
+                            class="form-input form-select"
+                            th:field="*{lokasi}">
+                        <option value="" disabled selected>Pilih lokasi</option>
+                        <option value="Unpar">Unpar</option>
+                        <option value="Online">Online</option>
                     </select>
 
                     <label for="tanggal">Tanggal</label>
-                    <input type="text" id="tanggal" name="tanggal" class="form-input date-input" placeholder="mm/dd/yyyy" />
+                    <input type="date"
+                           id="tanggal"
+                           class="form-input"
+                           th:field="*{tanggal}" />
 
                     <label for="waktu">Waktu</label>
-                    <select id="waktu" name="waktu" class="form-input form-select">
-                        <option value="" disabled selected>Value</option>
+                    <select id="waktu"
+                            class="form-input form-select"
+                            th:field="*{waktu}">
+                        <option value="" disabled selected>Pilih waktu</option>
                         <option value="09:00">09:00</option>
                         <option value="10:30">10:30</option>
                     </select>
@@ -80,7 +106,9 @@
                     <button type="submit" class="btn btn-submit-form">Submit</button>
                 </form>
             </div>
+
         </div>
     </div>
+
 </body>
 </html>

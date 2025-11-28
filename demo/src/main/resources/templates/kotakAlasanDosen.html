@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Penolakan</title>
 </head>
 <body>
-     <div id="rejectionModal" class="modal-overlay"> 
+
+<div id="rejectionModal" class="modal-overlay" style="display:none;">
     <div class="modal-content">
         <h2>Berikan Alasan Penolakan</h2>
-        
-        <form id="rejectionForm">
+
+        <form th:action="@{/pengajuan/tolak}" method="post">
+            
+            <!-- ID pengajuan yang mau ditolak -->
+            <input type="hidden" name="id" th:value="${pengajuanId}">
+
             <label for="rejectReason">Alasan:</label>
-            <textarea id="rejectReason" class="form-input" rows="5" required></textarea>
+            <textarea id="rejectReason" name="alasan" class="form-input" rows="5" required></textarea>
+
             <button type="submit" class="btn btn-primary btn-modal-submit">Kirim Penolakan</button>
         </form>
     </div>
 </div>
+
 </body>
 </html>

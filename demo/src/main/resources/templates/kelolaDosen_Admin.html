@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Dosen</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -16,10 +19,33 @@
 
         <nav class="sidebar-nav">
             <ul>
-                <li><a href="#">Menu utama <div class="menu-description">Menu description.</div></a></li>
-                <li><a href="#">Pengajuan Bimbingan <div class="menu-description">Menu description.</div></a></li>
-                <li><a href="#">Kelola Mahasiswa <div class="menu-description">Menu description.</div></a></li>
-                <li class="active"><a href="#">Kelola Dosen <div class="menu-description">Menu description.</div></a></li>
+                <li>
+                    <a th:href="@{/}">
+                        Menu utama 
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan Bimbingan
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/mahasiswa}">
+                        Kelola Mahasiswa
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a th:href="@{/dosen}">
+                        Kelola Dosen
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -28,15 +54,20 @@
     <!-- Main Content -->
     <main class="main-content">
 
-  <header class="header">
-                <h1>Dashboard</h1>
-                <div class="header-icons">
-                    <span class="icon-circle">M</span>
-                    <span class="icon-circle">
-                        <img src="https://cdn-icons-png.flaticon.com/512/561/561188.png" width="20">
-                    </span>
-                </div>
-            </header>
+        <header class="header">
+            <h1>Dashboard</h1>
+            <div class="header-icons">
+
+                <span class="icon-circle">M</span>
+
+                <span class="icon-circle">
+                    <img th:src="@{https://cdn-icons-png.flaticon.com/512/561/561188.png}"
+                         width="20">
+                </span>
+
+            </div>
+        </header>
+
 
         <!-- Body -->
         <section>
@@ -48,62 +79,43 @@
 
                 <table class="styled-table">
                     <thead>
-                        <tr>
-                            <th>NPM</th>
-                            <th>Nama Dosen</th>
-                            <th>Aksi</th>
-                            <th>Pengajuan</th>
-                        </tr>
+                    <tr>
+                        <th>NPM</th>
+                        <th>Nama Dosen</th>
+                        <th>Aksi</th>
+                        <th>Pengajuan</th>
+                    </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
 
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
+                    <!-- === LOOP DOSEN === -->
+                    <tr th:each="d : ${dosenList}">
+                        <td th:text="${d.npm}"></td>
+                        <td th:text="${d.nama}"></td>
 
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
+                        <td>
+                            <button class="delete-btn"
+                                    th:onclick="'location.href=\'/dosen/delete/' + ${d.id} + '\';'">
+                                🗑
+                            </button>
+                        </td>
 
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
+                        <td>
+                            <button class="action-btn"
+                                    th:onclick="'location.href=\'/dosen/detail/' + ${d.id} + '\';'">
+                                →
+                            </button>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
-
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td><button class="delete-btn">🗑</button></td>
-                            <td><button class="action-btn">→</button></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
 
         </section>
     </main>
+
 </div>
 
 </body>

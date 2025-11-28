@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Pengajuan</title>
-    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <div class="dashboard-container">
@@ -15,7 +15,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="#">
+                        <a th:href="@{/dashboard}">
                             Menu utama
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -23,7 +23,7 @@
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a th:href="@{/pengajuan}">
                             Pengajuan Bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -31,7 +31,7 @@
                     </li>
 
                     <li class="active">
-                        <a href="#">
+                        <a th:href="@{/kelola-mahasiswa}">
                             Kelola Mahasiswa
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -39,7 +39,7 @@
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a th:href="@{/kelola-dosen}">
                             Kelola Dosen
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -52,7 +52,7 @@
         <!-- Main Content -->
         <div class="main-content">
 
-       <header class="header">
+            <header class="header">
                 <h1>Dashboard</h1>
                 <div class="header-icons">
                     <span class="icon-circle">M</span>
@@ -76,54 +76,18 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr>
-                            <td>6182301020</td>
-                            <td>Suprimi Putra</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301021</td>
-                            <td>Gabriel Nathan Wibowo</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301022</td>
-                            <td>Tony Start</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301023</td>
-                            <td>Suprimi Putra</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301024</td>
-                            <td>Gabriel Nathan Wibowo</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301025</td>
-                            <td>Tony Start</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301026</td>
-                            <td>Gabriel Nathan Wibowo</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>6182301027</td>
-                            <td>Tony Start</td>
-                            <td>Raymond Chandra Putra</td>
-                            <td class="action-icons">🗑️</td>
+                        <!-- LOOP DATA MAHASISWA -->
+                        <tr th:each="mhs : ${mahasiswaList}">
+                            <td th:text="${mhs.npm}">6182301020</td>
+                            <td th:text="${mhs.nama}">Suprimi Putra</td>
+                            <td th:text="${mhs.dosenPembimbing.nama}">Raymond</td>
+                            
+                            <!-- Tombol hapus -->
+                            <td class="action-icons">
+                                <a th:href="@{'/kelola-mahasiswa/delete/' + ${mhs.npm}}">🗑️</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

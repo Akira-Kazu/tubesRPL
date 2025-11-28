@@ -1,137 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bimbingan TA - Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Load CSS dari folder static -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-    <div class="dashboard-container">
+<div class="dashboard-container">
 
-        <!-- ===== Sidebar ===== -->
-        <div class="sidebar">
-            <h2 class="sidebar-title">Bimbingan TA</h2>
-             <nav class="sidebar-nav">
-                <ul>
-                    <li>
-                        <a href="#">
-                            Menu utama
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
+    <!-- ===== Sidebar ===== -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
 
-                    <li>
-                        <a href="#">
-                            Pengajuan Bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a th:href="@{/menu-utama}">
+                        Menu utama<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
 
-                    <li class="active">
-                        <a href="#">
-                            Kelola Mahasiswa
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan Bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
 
-                    <li>
-                        <a href="#">
-                            Kelola Dosen
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+                <li class="active">
+                    <a th:href="@{/kelola-mahasiswa}">
+                        Kelola Mahasiswa<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
 
-        <!-- ===== Main Content ===== -->
-        <div class="main-content">
-
-            <!-- Header -->
-            <header class="header">
-                <h1>Dashboard</h1>
-                <div class="header-icons">
-                    <span class="icon-circle">M</span>
-                    <span class="icon-circle">
-                        <img src="https://cdn-icons-png.flaticon.com/512/561/561188.png" width="20">
-                    </span>
-                </div>
-            </header>
-
-
-            <!-- Card Section -->
-            <div class="dashboard-grid">
-
-                <div class="card">
-                    <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
-                    <div class="button-group">
-                        <button class="btn btn-primary">Kelola Dosen</button>
-                        <button class="btn btn-primary">Kelola Mahasiswa</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
-                    <div class="button-group">
-                        <button class="btn btn-primary">Jadwal Dosen</button>
-                        <button class="btn btn-primary">Jadwal Mahasiswa</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Table Section -->
-            <div class="card ta-overview-table">
-                <h3>Today</h3>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Mahasiswa</th>
-                            <th>Dosen</th>
-                            <th>Lokasi</th>
-                            <th>Aksi</th>
-                            <th>Pengajuan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>09:00</td>
-                            <td>Tony Stank</td>
-                            <td>Gede Karya</td>
-                            <td>Unpar</td>
-                            <td>🗑️</td>
-                            <td>➡️</td>
-                        </tr>
-                        <tr>
-                            <td>10:30</td>
-                            <td>Nelson Kenzo</td>
-                            <td>Keenan Adiwijaya Leman</td>
-                            <td>Unpar</td>
-                            <td>🗑️</td>
-                            <td>➡️</td>
-                        </tr>
-                        <tr>
-                            <td>13:00</td>
-                            <td>Denji Reze</td>
-                            <td>Pascal Alfadian Nugroho</td>
-                            <td>Unpar</td>
-                            <td>🗑️</td>
-                            <td>➡️</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
+                <li>
+                    <a th:href="@{/kelola-dosen}">
+                        Kelola Dosen<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
+
+    <!-- ===== Main Content ===== -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <header class="header">
+            <h1>Dashboard</h1>
+
+            <div class="header-icons">
+                <span class="icon-circle" th:text="${initial ?: 'M'}">M</span>
+
+                <span class="icon-circle">
+                    <img th:src="@{https://cdn-icons-png.flaticon.com/512/561/561188.png}" width="20">
+                </span>
+            </div>
+        </header>
+
+
+        <!-- Card Section -->
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
+                <div class="button-group">
+                    <button class="btn btn-primary" th:onclick="'location.href=\'/dosen\''">Kelola Dosen</button>
+                    <button class="btn btn-primary" th:onclick="'location.href=\'/mahasiswa\''">Kelola Mahasiswa</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
+                <div class="button-group">
+                    <button class="btn btn-primary" th:onclick="'location.href=\'/jadwal-dosen\''">Jadwal Dosen</button>
+                    <button class="btn btn-primary" th:onclick="'location.href=\'/jadwal-mahasiswa\''">Jadwal Mahasiswa</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Table Section -->
+        <div class="card ta-overview-table">
+            <h3>Today</h3>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>Mahasiswa</th>
+                    <th>Dosen</th>
+                    <th>Lokasi</th>
+                    <th>Aksi</th>
+                    <th>Pengajuan</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- Contoh: jika data dari controller -->
+                <tr th:each="row : ${todayList}">
+                    <td th:text="${row.waktu}">09:00</td>
+                    <td th:text="${row.mahasiswa}">Mahasiswa</td>
+                    <td th:text="${row.dosen}">Dosen</td>
+                    <td th:text="${row.lokasi}">Unpar</td>
+                    <td>🗑️</td>
+                    <td>➡️</td>
+                </tr>
+
+                <!-- Jika tidak ada list, tampilkan default -->
+                <tr th:if="${todayList == null}">
+                    <td>09:00</td>
+                    <td>Tony Stank</td>
+                    <td>Gede Karya</td>
+                    <td>Unpar</td>
+                    <td>🗑️</td>
+                    <td>➡️</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

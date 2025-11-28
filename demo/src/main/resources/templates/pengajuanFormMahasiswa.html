@@ -1,82 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengajuan Bimbingan</title>
-    <link rel="stylesheet" href="css/form.css"> 
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
+
 <body>
     <div class="dashboard-container">
-       <div class="sidebar">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
             <h2 class="sidebar-title">Bimbingan TA</h2>
+
             <nav class="sidebar-nav">
                 <ul>
-                    <li >
-                        <a href="#">
+                    <li>
+                        <a th:href="@{/menu}">
                             Menu utama
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
+                        <a th:href="@{/riwayat}">
                             Riwayat Bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li class="active">
-                        <a href="#">
+                        <a th:href="@{/pengajuan}">
                             Pengajuan bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
+                        <a th:href="@{/kelola}">
                             Kelola Pengajuan
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
+                        <a th:href="@{/progress}">
                             progressTA
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
+                        <a th:href="@{/jadwal}">
                             Jadwal
                             <br>
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
-
                 </ul>
             </nav>
         </div>
 
+        <!-- MAIN CONTENT -->
         <div class="main-content">
             <header class="header">
                 <h1 class="header-title-custom">Beranda</h1>
+
                 <div class="header-icons">
                     <span class="icon-circle">M</span>
-                                        <span class="icon-circle">
-                          <img src="https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg" alt="Tampilan Inbox Email">
-                        </span>
+                    <span class="icon-circle">
+                        <img src="https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg"
+                             alt="Tampilan Inbox Email">
+                    </span>
                 </div>
             </header>
 
+            <!-- FORM -->
             <div class="card form-card">
                 <h2>Pengajuan Bimbingan</h2>
-                
-                <form class="bimbingan-form">
-                    
+
+                <form class="bimbingan-form" th:action="@{/pengajuan/submit}" method="post">
+
                     <label for="dosen">Dosen</label>
-                    <input type="text" id="dosen" name="dosen" class="form-input" value="" />
+                    <input type="text" id="dosen" name="dosen" class="form-input"
+                           th:value="${pengajuan?.dosen}" />
 
                     <label for="lokasi">Lokasi</label>
                     <select id="lokasi" name="lokasi" class="form-input form-select">
@@ -86,7 +101,8 @@
                     </select>
 
                     <label for="tanggal">Tanggal</label>
-                    <input type="text" id="tanggal" name="tanggal" class="form-input date-input" placeholder="mm/dd/yyyy" />
+                    <input type="text" id="tanggal" name="tanggal" class="form-input date-input"
+                           placeholder="mm/dd/yyyy" th:value="${pengajuan?.tanggal}" />
 
                     <label for="waktu">Waktu</label>
                     <select id="waktu" name="waktu" class="form-input form-select">
@@ -98,6 +114,7 @@
                     <button type="submit" class="btn btn-submit-form">Submit</button>
                 </form>
             </div>
+
         </div>
     </div>
 </body>

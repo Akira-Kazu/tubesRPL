@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="landing.css">
-    </head>
+
+    <!-- Gunakan th:href agar file CSS diambil dari static folder -->
+    <link rel="stylesheet" th:href="@{/landing.css}">
+</head>
+
 <body>
     <div class="container">
         <header class="header">
-            <button class="btn btn-secondary">Sign In</button>
+            <!-- Jika tombol ini menuju halaman login, gunakan th:href -->
+            <a th:href="@{/login}" class="btn btn-secondary">Sign In</a>
         </header>
 
         <main class="login-modal">
@@ -17,17 +21,22 @@
 
             <h1 class="modal-title">Log In</h1>
 
-            <form class="login-form">
-                
+            <!-- Ubah form agar bisa dikirim ke controller Spring -->
+            <form class="login-form" th:action="@{/login}" method="post">
+
                 <label for="account">Enter your account</label>
-                <input type="text" id="account" name="account" class="input-field" placeholder=" ">
+                <input type="text" id="account" name="username"
+                       class="input-field" placeholder=" " required>
 
                 <label for="password">Enter your Password</label>
-                <input type="password" id="password" name="password" class="input-field" placeholder=" ">
+                <input type="password" id="password" name="password"
+                       class="input-field" placeholder=" " required>
 
                 <button type="submit" class="btn btn-submit">Submit</button>
 
-                <a href="#" class="forgot-password">Forgot password?</a>
+                <a th:href="@{/forgot-password}" class="forgot-password">
+                    Forgot password?
+                </a>
             </form>
         </main>
     </div>
