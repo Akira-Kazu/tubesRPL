@@ -1,9 +1,9 @@
 package com.example.demo.Admin;
 
 import com.example.demo.Entity.Pengguna;
-import com.example.demo.Entity.PengajuanDosen;
+import com.example.demo.Entity.Bimbingan;
 import com.example.demo.Repository.PenggunaRepository;
-import com.example.demo.Repository.PengajuanDosenRepository;
+import com.example.demo.Repository.BimbinganRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +15,15 @@ public class AdminService {
     @Autowired
     private PenggunaRepository penggunaRepository;
 
-    @Autowired
-    private PengajuanDosenRepository pengajuanDosenRepository;
+   @Autowired
+    private BimbinganRepository bimbinganRepository;
 
 
     // ================================================================
     // PENGAJUAN DOSEN
     // ================================================================
-    public List<PengajuanDosen> getPengajuanDosen() {
-        return pengajuanDosenRepository.findAll();
+ public List<Bimbingan> getPengajuanDosen() {
+        return bimbinganRepository.findAll(); // sebelumnya repository pengajuan dosen
     }
 
 

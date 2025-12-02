@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Pengajuan</title>
+    <title>Kelola Mahasiswa</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -15,7 +15,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a th:href="@{/dashboard}">
+                        <a th:href="@{/admin/menu-utama}">
                             Menu utama
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -23,7 +23,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/pengajuan}">
+                        <a th:href="@{/admin/pengajuan}">
                             Pengajuan Bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -31,7 +31,7 @@
                     </li>
 
                     <li class="active">
-                        <a th:href="@{/kelola-mahasiswa}">
+                        <a th:href="@{/admin/kelola-mahasiswa}">
                             Kelola Mahasiswa
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -39,7 +39,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/kelola-dosen}">
+                        <a th:href="@{/admin/kelola-dosen}">
                             Kelola Dosen
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -55,15 +55,14 @@
             <header class="header">
                 <h1>Dashboard</h1>
                 <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
+                    <span class="icon-circle">M</span>
+                    <span class="icon-circle">
+                        <a th:href="@{/admin/inbox}">
+                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                                 alt="Inbox Email">
+                        </a>
+                    </span>
+                </div>
             </header>
 
             <h2>Kelola Mahasiswa</h2>
@@ -74,23 +73,21 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>NPM</th>
-                            <th>Mahasiswa</th>
-                            <th>Dosen Pembimbing</th>
+                            <th>Email</th>
+                            <th>Nama</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <!-- LOOP DATA MAHASISWA -->
-                        <tr th:each="mhs : ${mahasiswaList}">
-                            <td th:text="${mhs.npm}">6182301020</td>
-                            <td th:text="${mhs.nama}">Suprimi Putra</td>
-                            <td th:text="${mhs.dosenPembimbing.nama}">Raymond</td>
-                            
+                        <tr th:each="mhs : ${mahasiswa}">
+                            <td th:text="${mhs.email}">email</td>
+                            <td th:text="${mhs.nama}">Nama Mahasiswa</td>
+
                             <!-- Tombol hapus -->
                             <td class="action-icons">
-                                <a th:href="@{'/kelola-mahasiswa/delete/' + ${mhs.npm}}">🗑️</a>
+                                <a th:href="@{'/admin/delete/' + ${mhs.email}}">🗑️</a>
                             </td>
                         </tr>
                     </tbody>
