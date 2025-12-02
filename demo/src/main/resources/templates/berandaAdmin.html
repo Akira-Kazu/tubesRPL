@@ -18,29 +18,29 @@
 
         <nav class="sidebar-nav">
             <ul>
-                <li>
-                    <a th:href="@{/menu-utama}">
+                <li class="active">
+                    <a th:href="@{/admin/menu-utama}">
                         Menu utama<br>
                         <span class="menu-description">Menu description.</span>
                     </a>
                 </li>
 
                 <li>
-                    <a th:href="@{/pengajuan}">
+                    <a th:href="@{/admin/pengajuan}">
                         Pengajuan Bimbingan<br>
                         <span class="menu-description">Menu description.</span>
                     </a>
                 </li>
 
-                <li class="active">
-                    <a th:href="@{/kelola-mahasiswa}">
+                <li >
+                    <a th:href="@{/admin/kelola-mahasiswa}">
                         Kelola Mahasiswa<br>
                         <span class="menu-description">Menu description.</span>
                     </a>
                 </li>
 
                 <li>
-                    <a th:href="@{/kelola-dosen}">
+                    <a th:href="@{/admin/kelola-dosen}">
                         Kelola Dosen<br>
                         <span class="menu-description">Menu description.</span>
                     </a>
@@ -57,17 +57,16 @@
             <h1>Dashboard</h1>
 
             <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                    <a th:href="@{/admin/inbox}">
+                        <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                             alt="Tampilan Inbox Email">
+                    </a>
+                </span>
+            </div>
 
         </header>
-
 
         <!-- Card Section -->
         <div class="dashboard-grid">
@@ -75,20 +74,33 @@
             <div class="card">
                 <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
                 <div class="button-group">
-                    <button class="btn btn-primary" th:onclick="'location.href=\'/dosen\''">Kelola Dosen</button>
-                    <button class="btn btn-primary" th:onclick="'location.href=\'/mahasiswa\''">Kelola Mahasiswa</button>
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/dosen\''">
+                        Kelola Dosen
+                    </button>
+
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/mahasiswa\''">
+                        Kelola Mahasiswa
+                    </button>
                 </div>
             </div>
 
             <div class="card">
                 <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
                 <div class="button-group">
-                    <button class="btn btn-primary" th:onclick="'location.href=\'/jadwal-dosen\''">Jadwal Dosen</button>
-                    <button class="btn btn-primary" th:onclick="'location.href=\'/jadwal-mahasiswa\''">Jadwal Mahasiswa</button>
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/jadwal-dosen\''">
+                        Jadwal Dosen
+                    </button>
+
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/jadwal-mahasiswa\''">
+                        Jadwal Mahasiswa
+                    </button>
                 </div>
             </div>
         </div>
-
 
         <!-- Table Section -->
         <div class="card ta-overview-table">
@@ -107,7 +119,6 @@
                 </thead>
 
                 <tbody>
-                <!-- Contoh: jika data dari controller -->
                 <tr th:each="row : ${todayList}">
                     <td th:text="${row.waktu}">09:00</td>
                     <td th:text="${row.mahasiswa}">Mahasiswa</td>
@@ -117,7 +128,6 @@
                     <td>➡️</td>
                 </tr>
 
-                <!-- Jika tidak ada list, tampilkan default -->
                 <tr th:if="${todayList == null}">
                     <td>09:00</td>
                     <td>Tony Stank</td>

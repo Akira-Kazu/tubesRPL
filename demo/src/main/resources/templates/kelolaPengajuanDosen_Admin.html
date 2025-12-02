@@ -16,10 +16,10 @@
 
         <nav class="sidebar-nav">
             <ul>
-                <li><a th:href="@{/}">Menu utama</a></li>
-                <li><a th:href="@{/pengajuan}">Pengajuan Bimbingan</a></li>
-                <li><a th:href="@{/mahasiswa}">Kelola Mahasiswa</a></li>
-                <li class="active"><a th:href="@{/dosen}">Kelola Dosen</a></li>
+                <li><a th:href="@{/admin/menu-utama}">Menu utama</a></li>
+                <li><a th:href="@{/admin/pengajuan}">Pengajuan Bimbingan</a></li>
+                <li><a th:href="@{/admin/mahasiswa}">Kelola Mahasiswa</a></li>
+                <li class="active"><a th:href="@{/admin/dosen}">Kelola Dosen</a></li>
             </ul>
         </nav>
     </aside>
@@ -30,15 +30,14 @@
         <header class="header">
             <h1>Dashboard</h1>
             <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                    <a th:href="@{/admin/inbox}">
+                        <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                             alt="Tampilan Inbox Email">
+                    </a>
+                </span>
+            </div>
         </header>
 
         <!-- Body -->
@@ -71,12 +70,12 @@
 
                         <td>
                             <button class="delete-btn"
-                                    th:onclick="'location.href=\'/hapus/' + ${p.id} + '\''">
+                                    th:onclick="'location.href=\'/admin/hapus/' + ${p.id} + '\''">
                                 ✖
                             </button>
 
                             <button class="confirm-btn"
-                                    th:onclick="'location.href=\'/konfirmasi/' + ${p.id} + '\''">
+                                    th:onclick="'location.href=\'/admin/konfirmasi/' + ${p.id} + '\''">
                                 ✔
                             </button>
                         </td>
