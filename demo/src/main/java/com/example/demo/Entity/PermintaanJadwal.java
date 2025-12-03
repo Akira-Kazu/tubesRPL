@@ -1,81 +1,32 @@
 package com.example.demo.Entity;
-
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "permintaan_jadwal")
 public class PermintaanJadwal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_permintaan;
+    @Column(name = "id_permintaan")
+    private Long id;
 
+    @Column(name = "tanggal", nullable = false)
     private LocalDate tanggal;
 
+    @Column(name = "catatan")
     private String catatan;
 
-    private String email_mahasiswa;
+    // Relasi ke Mahasiswa
+    @ManyToOne
+    @JoinColumn(name = "email_mahasiswa", referencedColumnName = "email")
+    private Pengguna mahasiswa;
 
-    private String email_dosen;
-    
-    @Column(columnDefinition = "VARCHAR(20) DEFAULT 'PENDING'")
-    private String status; //isinya nanti buat "PENDING", "DISETUJUI", "DITOLAK"
-
-    @Column(columnDefinition = "TEXT")
-    private String alasan_penolakan; //kalau ditolak nanti dosen isi ini
-    
-    public Integer getId_permintaan() { 
-        return id_permintaan; 
-    }
-    
-    public void setId_permintaan(Integer id_permintaan) { 
-        this.id_permintaan = id_permintaan; 
-    }
-
-    public LocalDate getTanggal() { 
-        return tanggal; 
-    }
-    public void setTanggal(LocalDate tanggal) { 
-        this.tanggal = tanggal; 
-    }
-
-    public String getCatatan() { 
-        return catatan; 
-    }
-    public void setCatatan(String catatan) { 
-        this.catatan = catatan; 
-    }
-
-    public String getEmail_mahasiswa() { 
-        return email_mahasiswa; 
-    }
-    public void setEmail_mahasiswa(String email_mahasiswa) { 
-        this.email_mahasiswa = email_mahasiswa; 
-    }
-
-    public String getEmail_dosen() { 
-        return email_dosen; 
-    }
-    
-    public void setEmail_dosen(String email_dosen) { 
-        this.email_dosen = email_dosen; 
-    }
-    
-    public String getStatus() { 
-        return status; 
-    }
-    
-    public void setStatus(String status) { 
-        this.status = status; 
-    }
-
-    public String getAlasan_penolakan() { 
-        return alasan_penolakan; 
-    }
-    
-    public void setAlasan_penolakan(String alasan_penolakan) { 
-        this.alasan_penolakan = alasan_penolakan; 
-    }
+    // Relasi ke Dosen
+    @ManyToOne
+    @JoinColumn(name = "email_dosen", referencedColumnName = "email")
+    private Pengguna dosen;
 }

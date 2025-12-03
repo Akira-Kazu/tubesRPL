@@ -128,14 +128,9 @@
                     <td>➡️</td>
                 </tr>
 
-                <tr th:if="${todayList == null}">
-                    <td>09:00</td>
-                    <td>Tony Stank</td>
-                    <td>Gede Karya</td>
-                    <td>Unpar</td>
-                    <td>🗑️</td>
-                    <td>➡️</td>
-                </tr>
+    <tr th:if="${#lists.isEmpty(todayList)}">
+        <td colspan="6" style="text-align:center;">Belum ada jadwal hari ini</td>
+    </tr>
 
                 </tbody>
             </table>

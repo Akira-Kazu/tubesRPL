@@ -1,8 +1,8 @@
 package com.example.demo.Entity;
-
+import lombok.Data;
 import jakarta.persistence.*;
 import java.time.LocalTime;
-
+@Data // otomatis membuat getter, setter, toString, equals, hashCode
 @Entity
 @Table(name = "bimbingan")
 public class Bimbingan {
@@ -16,11 +16,8 @@ public class Bimbingan {
 
     private String lokasi;
 
-    private String hari;   // <-- ini menyimpan tanggal (kalau mau LocalDate boleh ubah di database)
+    private String hari;
 
     private LocalTime waktu;
 
-    @ManyToOne
-    @JoinColumn(name = "id_permintaan", referencedColumnName = "id_permintaan")
-    private PermintaanJadwal permintaanJadwal;
 }

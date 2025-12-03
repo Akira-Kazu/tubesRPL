@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PenggunaRepository extends JpaRepository<Pengguna, String> {
-
     // Untuk login
     Pengguna findByEmailAndPassword(String email, String password);
 
