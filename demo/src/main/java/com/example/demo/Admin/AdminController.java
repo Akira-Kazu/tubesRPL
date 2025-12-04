@@ -5,6 +5,10 @@ import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.PermintaanJadwal;
 import com.example.demo.service.BimbinganService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +34,20 @@ public String kelolaPengajuan(Model model) {
     return "pengajuanFormAdmin";
 }
 
-    @PostMapping("/pengajuan/submit")
-    public String submit(@ModelAttribute("pengajuan") Bimbingan bimbingan) {
-        bimbinganService.saveBimbingan(bimbingan); // pakai service
-        return "redirect:/admin/pengajuan";
-    }
+   @PostMapping("/pengajuan/submit")
+public String submit(
+        @RequestParam("dosen") String dosenEmail,
+        @RequestParam("mahasiswa") String mahasiswaEmail,
+        @RequestParam("lokasi") String lokasi,
+        @RequestParam("tanggal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate tanggal,
+        @RequestParam("waktu") @DateTimeFormat(pattern = "HH:mm") LocalTime waktu,
+        @RequestParam(value = "catatan", required = false) String catatan
+) {
+    adminService.prosesPengajuan(
+            dosenEmail, mahasiswaEmail, lokasi, tanggal, waktu, catatan
+    );
+    return "redirect:/admin/pengajuan?success";
+}
 
     @GetMapping({"/menu-utama", "/dashboard"})
     public String menuUtama(Model model) {
