@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bimbingan TA - Beranda</title>
-
-     <link rel="stylesheet" href="css/style.css">
-</head>
+    <title>Kelola Pengajuan</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    </head>
 <body>
     <div class="dashboard-container">
         <div class="sidebar">
             <h2 class="sidebar-title">Bimbingan TA</h2>
             <nav class="sidebar-nav">
                 <ul>
-                    <li class="active">
+               <li >
                         <a href="#">
                             Menu utama
                             <br>
@@ -34,7 +33,7 @@
                             <span class="menu-description">Menu description.</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#">
                             Kelola Pengajuan
                             <br>
@@ -62,80 +61,54 @@
 
         <div class="main-content">
             <header class="header">
-                <h1>Beranda</h1>
+                <h1>Dashboard</h1>
                 <div class="header-icons">
                     <span class="icon-circle">M</span>
-                    <span class="icon-circle">
+                                        <span class="icon-circle">
                           <img src="https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg" alt="Tampilan Inbox Email">
                         </span>
                 </div>
-
-                  
             </header>
+            
+            <h2>Kelola Pengajuan</h2>
 
-            <div class="dashboard-grid">
-                <div class="card ta-overview-summary">
-                    <h3>TA Overview</h3>
-                    <div class="summary-content">
-                        <div class="profile-section">
-                            <div class="profile-icon"></div> <p>Account Name</p>
-                        </div>
-                        <div class="stats-section">
-                            <p>Pengajuan Baru 0</p>
-                            <p>Catatan Diberikan 0</p>
-                            <p>Bimbingan minggu ini 0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card pengajuan-bimbingan">
-                    <h3>Pengajuan Bimbingan</h3>
-                    <div class="button-group">
-                        <button class="btn btn-primary">Ajukan</button>
-                        <button class="btn btn-secondary">Lihat Ajuan</button>
-                    </div>
-                </div>
-            </div>
-
-            data jadwal masuk ke sini
-            <div class="card ta-overview-table">
-                <h3>TA Overview</h3>
+            <div class="card ta-overview-table kelola-table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Waktu</th>
                             <th>Hari & Tanggal</th>
                             <th>Mahasiswa</th>
                             <th>Lokasi</th>
                             <th>Jenis</th>
+                             <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>09:00</td>
                             <td>Senin, 01-01-2025</td>
-                            <td>Gede Karya</td>
+                            <td>Gabriel Nathan Wibowo</td>
                             <td>Unpar</td>
                             <td>TA 1</td>
+                            <td>belum selesai</td>
+                            <td class="action-icons">
+                                <span class="action-icon action-comment">komen</span>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>10:30</td>
-                            <td>Rabu, 03-01-2025</td>
-                            <td>Keenan Adiwijaya Leman</td>
-                            <td>Unpar</td>
-                            <td>TA 1</td>
-                        </tr>
-                        <tr>
-                            <td>13:00</td>
-                            <td>Jumat, 05-01-2025</td>
-                            <td>Pascal Alfadian Nugroho</td>
-                            <td>Unpar</td>
-                            <td>TA 1</td>
+                         <tr>
+                            <td>Senin, 01-02-2025</td>
+                            <td>Dodo Berry</td>
+                            <td>Gedung 9 lantai 1</td>
+                            <td>TA 2</td>
+                            <td>sudah selesai</td>
+                            <td class="action-icons">
+                                <span class="action-icon action-comment">komen</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+            </div>
     </div>
 </body>
 </html>
