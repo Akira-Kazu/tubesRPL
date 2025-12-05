@@ -250,39 +250,3 @@ img {
   height: auto;    
   display: block;  
 }
-
-/*untuk halaman riwayat bimbingan tombol ke komen*/
-
-/* Styling Tombol Menggunakan Kelas yang Sudah Ada */
-.action-icon.action-comment {
-    /* Mengubah display agar padding, margin, dll. berfungsi */
-    display: inline-flex; 
-    align-items: center; /* Untuk penataan vertikal yang rapi */
-
-    /* Gaya Visual Tombol */
-    background-color:#d10404;/* Latar belakang abu-abu muda */
-    color:  #f0f2f5; /* Warna teks standar */
-    padding: 8px 12px;
-    border-radius: 10px; /* Sudut membulat */
-    font-size: 14px;
-    font-weight: 600;
-    
-    /* Atribut Kunci Clickable */
-    cursor: pointer; /* WAJIB: Mengubah kursor menjadi tangan */
-    user-select: none; /* Mencegah teks terpilih saat diklik */
-    
-    /* Transisi untuk efek halus */
-    transition: background-color 0.2s, color 0.2s, transform 0.1s;
-}
-
-/* Umpan Balik Visual Saat Kursor Diarahkan (Hover) */
-.action-icon.action-comment:hover {
-    background-color: #ff1f1f; /* Latar belakang sedikit lebih gelap */
-    color: #ffffff; /* Teks sedikit lebih gelap */
-}
-
-/* Umpan Balik Visual Saat Elemen Diklik (Active) */
-.action-icon.action-comment:active {
-    background-color: #d8dade; /* Warna lebih gelap lagi */
-    transform: translateY(1px); /* Efek tombol tertekan ke bawah */
-}
