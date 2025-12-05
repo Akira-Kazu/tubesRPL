@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pengajuan</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a th:href="@{/menu}">
+                        Menu utama<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/riwayat}">
+                        Riwayat Bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a th:href="@{/kelola}">
+                        Kelola Pengajuan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/progress}">
+                        progressTA<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/jadwal}">
+                        Jadwal<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <header class="header">
+            <h1>Dashboard</h1>
+
+             <div class="header-icons">
+    <span class="icon-circle">M</span>
+    <span class="icon-circle">
+        <a th:href="@{/inbox}">
+            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                 alt="Tampilan Inbox Email">
+        </a>
+    </span>
+</div>
+
+        </header>
+
+        <h2>Kelola Pengajuan</h2>
+
+        <div class="card ta-overview-table kelola-table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Hari & Tanggal</th>
+                    <th>Mahasiswa</th>
+                    <th>Lokasi</th>
+                    <th>Jenis</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- Looping data pengajuan -->
+                <tr th:each="item : ${pengajuanList}">
+                    <td th:text="${item.tanggal}">Senin, 01-01-2025</td>
+                    <td th:text="${item.mahasiswa}">Nama</td>
+                    <td th:text="${item.lokasi}">Lokasi</td>
+                    <td th:text="${item.jenis}">TA 1</td>
+                    <td th:text="${item.status}">belum selesai</td>
+
+                    <td class="action-icons">
+                        <span class="action-icon action-comment"
+                              th:onclick="'location.href=\'/pengajuan/detail/' + ${item.id} + '\''">
+                            komen
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

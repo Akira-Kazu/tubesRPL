@@ -1,0 +1,20 @@
+package com.example.demo.Repository;
+
+import com.example.demo.Entity.Pengguna;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface PenggunaRepository extends JpaRepository<Pengguna, String> {
+    // Untuk login
+    Pengguna findByEmailAndPassword(String email, String password);
+
+    // Untuk kelola role
+    List<Pengguna> findByRole(Integer role);
+
+      // Cari user berdasarkan email (WAJIB ADA)
+    Pengguna findByEmail(String email);
+
+}
