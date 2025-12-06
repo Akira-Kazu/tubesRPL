@@ -1,0 +1,165 @@
+/* ==== COLOR VARIABLES ==== */
+:root {
+    --purple-dark: #8e44ad;
+    --purple-light: #6c5ce7;
+    --gray-light: #f5f5f5;
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #fff;
+}
+
+/* ==== GLOBAL STYLES ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background: var(--gray-light);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    height: 100vh;
+    position: relative;
+}
+
+/* ==== HEADER ==== */
+.header {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+}
+
+/* ==== MAIN AUTH CARD ==== */
+.login-card,
+.login-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+/* Ukuran masing-masing tipe card */
+.login-card {
+    padding: 40px 60px;
+}
+
+.login-modal {
+    width: 90%;
+    max-width: 450px;
+    padding: 30px 40px;
+}
+
+.title {
+    font-size: 3rem;
+    color: var(--purple-dark);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+.modal-title {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* ==== CLOSE BUTTON ==== */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* ==== BUTTONS ==== */
+.btn {
+    padding: 12px 28px;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Primary (Login / Submit) */
+.btn-primary,
+.btn-submit {
+    background: var(--purple-light);
+    color: white;
+    box-shadow: 0 4px 8px rgba(108,92,231,0.3);
+}
+
+.btn-primary:hover,
+.btn-submit:hover {
+    background: #5d4aea;
+}
+
+/* Secondary (Sign In) */
+.btn-secondary {
+    background: var(--white);
+    color: var(--purple-dark);
+    border: 2px solid var(--purple-dark);
+}
+
+.btn-secondary:hover {
+    background: #f3f0ff;
+}
+
+/* ==== FORM ==== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.login-form label {
+    margin: 12px 0 5px;
+    font-weight: 600;
+}
+
+.input-field {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-field:focus {
+    border-color: var(--purple-dark);
+}
+
+/* ==== EXTRA LINKS ==== */
+.forgot-password {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--purple-dark);
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
