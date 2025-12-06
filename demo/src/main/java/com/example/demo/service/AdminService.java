@@ -1,4 +1,4 @@
-package com.example.demo.Admin;
+package com.example.demo.service;
 
 import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.Bimbingan;
@@ -52,7 +52,7 @@ public class AdminService {
         b.setLokasi(lokasi);
         b.setWaktu(waktu);
         b.setHari(tanggal.getDayOfWeek().name());
-        b.setPermintaan(saved); // RELASI baru
+        b.setPermintaanJadwal(saved); // RELASI baru
 
         bimbinganRepository.save(b);
     }

@@ -62,24 +62,25 @@
 
                     <tbody>
                     <tr th:each="p : ${listPengajuan}">
-                        <td th:text="${p.waktu}"></td>
-                        <td th:text="${p.hariTanggal}"></td>
-                        <td th:text="${p.mahasiswa}"></td>
-                        <td th:text="${p.lokasi}"></td>
-                        <td th:text="${p.jenis}"></td>
+    <td th:text="${p.waktu}"></td>
+    <td th:text="${p.permintaanJadwal.tanggal}"></td>
+    <td th:text="${p.permintaanJadwal.mahasiswa.nama}"></td>
+    <td th:text="${p.lokasi}"></td>
+    <td th:text="${p.isBimbingan ? 'Bimbingan' : 'Lainnya'}"></td>
 
-                        <td>
-                            <button class="delete-btn"
-                                    th:onclick="'location.href=\'/admin/hapus/' + ${p.id} + '\''">
-                                ✖
-                            </button>
+    <td>
+<button class="delete-btn" 
+        th:attr="data-id=${p.idBimbingan}, data-email=${email}"
+        onclick="hapusBimbingan(this)">
+    ✖
+</button>
 
-                            <button class="confirm-btn"
-                                    th:onclick="'location.href=\'/admin/konfirmasi/' + ${p.id} + '\''">
-                                ✔
-                            </button>
-                        </td>
-                    </tr>
+
+
+<button class="confirm-btn" th:onclick="|location.href='/admin/konfirmasi/${p.idBimbingan}'|">✔</button>
+
+    </td>
+</tr>
                     </tbody>
                 </table>
 
@@ -87,6 +88,14 @@
         </section>
     </main>
 </div>
-
+   <script>
+function hapusBimbingan(btn) {
+    const id = btn.dataset.id;
+    const email = btn.dataset.email;
+    if(confirm("Apakah yakin ingin menghapus bimbingan ini?")) {
+        window.location.href = `/admin/hapus/${id}?email=${email}`;
+    }
+}
+</script>
 </body>
 </html>

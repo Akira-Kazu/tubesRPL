@@ -1,8 +1,10 @@
 package com.example.demo.Entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -11,7 +13,7 @@ public class PermintaanJadwal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_permintaan")
+    @Column(name = "id_permintaan") // mapping ke kolom DB
     private Long id;
 
     @Column(name = "tanggal", nullable = false)

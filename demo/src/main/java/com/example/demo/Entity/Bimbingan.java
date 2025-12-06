@@ -24,8 +24,9 @@ public class Bimbingan {
 
     private LocalTime waktu;
 
-    // Wajib: relasi ke permintaan_jadwal
+    // RELASI KE PERMINTAAN_JADWAL
     @ManyToOne
-    @JoinColumn(name = "id_permintaan")
-    private PermintaanJadwal permintaan;
+    @JoinColumn(name = "id_permintaan", referencedColumnName = "id_permintaan")
+    private PermintaanJadwal permintaanJadwal;
 }
+

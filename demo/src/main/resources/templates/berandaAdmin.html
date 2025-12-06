@@ -74,15 +74,16 @@
             <div class="card">
                 <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
                 <div class="button-group">
-                    <button class="btn btn-primary"
-                            th:onclick="'location.href=\'/admin/dosen\''">
-                        Kelola Dosen
-                    </button>
+<button class="btn btn-primary" 
+        th:onclick="|location.href='@{/admin/kelola-mahasiswa}'|">
+    Kelola Dosen
+</button>
 
-                    <button class="btn btn-primary"
-                            th:onclick="'location.href=\'/admin/mahasiswa\''">
-                        Kelola Mahasiswa
-                    </button>
+<button class="btn btn-primary" 
+        th:onclick="|location.href='@{/admin/kelola-dosen}'|">
+    Kelola Mahasiswa
+</button>
+
                 </div>
             </div>
 
@@ -113,26 +114,22 @@
                     <th>Mahasiswa</th>
                     <th>Dosen</th>
                     <th>Lokasi</th>
-                    <th>Aksi</th>
-                    <th>Pengajuan</th>
                 </tr>
                 </thead>
 
-                <tbody>
-                <tr th:each="row : ${todayList}">
-                    <td th:text="${row.waktu}">09:00</td>
-                    <td th:text="${row.mahasiswa}">Mahasiswa</td>
-                    <td th:text="${row.dosen}">Dosen</td>
-                    <td th:text="${row.lokasi}">Unpar</td>
-                    <td>🗑️</td>
-                    <td>➡️</td>
-                </tr>
+<tbody>
+<tr th:each="row : ${todayList}">
+    <td th:text="${row.waktu}">09:00</td>
+    <td th:text="${row.permintaanJadwal.mahasiswa.nama}">Mahasiswa</td>
+    <td th:text="${row.permintaanJadwal.dosen.nama}">Dosen</td>
+    <td th:text="${row.lokasi}">Unpar</td>
+</tr>
 
-    <tr th:if="${#lists.isEmpty(todayList)}">
-        <td colspan="6" style="text-align:center;">Belum ada jadwal hari ini</td>
-    </tr>
+<tr th:if="${#lists.isEmpty(todayList)}">
+    <td colspan="6" style="text-align:center;">Belum ada jadwal hari ini</td>
+</tr>
+</tbody>
 
-                </tbody>
             </table>
         </div>
 
