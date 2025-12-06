@@ -1,7 +1,19 @@
 package com.example.demo.Repository;
+
 import com.example.demo.Entity.Bimbingan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
-public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {}
+public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
+
+    // ambil bimbingan berdasarkan email dosen
+    List<Bimbingan> findByPermintaanJadwal_Dosen_Email(String email);
+
+    // Ambil list bimbingan berdasarkan tanggal permintaan
+    List<Bimbingan> findByPermintaanJadwal_Tanggal(LocalDate tanggal);
+
+}
