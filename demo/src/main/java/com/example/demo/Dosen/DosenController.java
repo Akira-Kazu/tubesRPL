@@ -1,6 +1,7 @@
 package com.example.demo.Dosen;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,6 +14,7 @@ import com.example.demo.Repository.PermintaanJadwalRepository;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -88,12 +90,59 @@ public String buatPengajuanDosen(
 
     return "kelolaPengajuanDosen";
 }
+@GetMapping("/pengajuan/pending")
+public String listPengajuanPending(Model model) {
+    List<PermintaanJadwal> pengajuanList = permintaanRepo.findAll()
+            .stream()
+            .filter(p -> "Pending".equals(p.getStatus()))
+            .toList();
+
+    model.addAttribute("pengajuanList", pengajuanList);
+    return "kelolaPengajuanDosen"; 
+}
 
 
-    @GetMapping("/kelola")
-    public String kelolaPengajuan() {
-        return "kelolaPengajuanDosen";
+    @GetMapping("/pengajuan/approve/{id}")
+public String approvePengajuan(@PathVariable Long id) {
+    PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
+    if (pengajuan != null) {
+        pengajuan.setStatus("Approved");
+        permintaanRepo.save(pengajuan);
+
+        // Optional: langsung buat Bimbingan jika disetujui
+        Bimbingan bimbingan = new Bimbingan();
+        bimbingan.setPermintaanJadwal(pengajuan);
+        bimbingan.setLokasi(pengajuan.getLokasi());
+        bimbingan.setHari(pengajuan.getTanggal().getDayOfWeek().toString());
+        bimbingan.setWaktu(pengajuan.getWaktu());
+        bimbingan.setIsBimbingan(true);
+
+        bimbinganRepo.save(bimbingan);
     }
+    return "redirect:/dosen/pengajuan/pending";
+}
+
+@GetMapping("/pengajuan/reject/{id}")
+public String rejectPengajuan(@PathVariable Long id) {
+    PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
+    if (pengajuan != null) {
+        pengajuan.setStatus("Rejected");
+        permintaanRepo.save(pengajuan);
+    }
+    return "redirect:/dosen/pengajuan/pending";
+}
+
+
+@GetMapping("/kelola")
+public String kelolaPengajuan(Model model) {
+    List<PermintaanJadwal> pengajuanList = permintaanRepo.findAll()
+            .stream()
+            .filter(p -> "Pending".equals(p.getStatus()))
+            .toList();
+
+    model.addAttribute("pengajuanList", pengajuanList);
+    return "kelolaPengajuanDosen"; // sesuaikan nama file HTML
+}
 
     @GetMapping("/progress")
     public String progressTA() {

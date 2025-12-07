@@ -250,3 +250,34 @@ img {
   height: auto;    
   display: block;  
 }
+
+.action-icons .btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.9rem;
+}
+/* Tombol Approve (Hijau) */
+.action-icons .btn-approve {
+    background-color: #4CAF50; /* hijau */
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.action-icons .btn-approve:hover {
+    background-color: #45A049;
+}
+
+/* Tombol Reject (Merah) */
+.action-icons .btn-reject {
+    background-color: #F44336; /* merah */
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.action-icons .btn-reject:hover {
+    background-color: #D32F2F;
+}
