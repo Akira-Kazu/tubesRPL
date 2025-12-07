@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Dosen</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a th:href="@{/admin/menu-utama}">
+                        Menu Utama
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/admin/pengajuan}">
+                        Pengajuan Bimbingan
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/admin/kelola-mahasiswa}">
+                        Kelola Mahasiswa
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a th:href="@{/admin/dosen}">
+                        Kelola Dosen
+                        <div class="menu-description">Menu description.</div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="header">
+            <h1>Dashboard</h1>
+            <div class="header-icons">
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                    <a th:href="@{/admin/inbox}">
+                        <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                             alt="Inbox">
+                    </a>
+                </span>
+            </div>
+        </header>
+
+      <!-- Body -->
+<section>
+    <h2 class="section-title">Kelola Dosen</h2>
+
+    <div class="table-container">
+
+        <h4 class="table-header">Overview</h4>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nama Dosen</th>
+                    <th>Aksi</th>
+                    <th>Pengajuan</th>
+                </tr>
+            </thead>
+
+            <tbody>
+<tr th:each="d : ${dosenList}">
+    <!-- Tampilkan email dan nama dosen -->
+    <td th:text="${d.email}">email@example.com</td>
+    <td th:text="${d.nama}">Nama Dosen</td>
+
+    <!-- Tombol hapus menggunakan <a> seperti mahasiswa -->
+    <td class="action-icons">
+        <a th:href="@{'/admin/delete/' + ${d.email}}">🗑️</a>
+            </td>
+        <td>
+          <a th:href="@{'/admin/kelolaPengajuanDosen}">→</a>
+        </td>
+
+
+</tr>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+    </main>
+
+</div>
+
+</body>
+</html>

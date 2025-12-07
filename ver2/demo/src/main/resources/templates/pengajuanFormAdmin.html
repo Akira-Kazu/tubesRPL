@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Bimbingan</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li >
+                    <a th:href="@{/admin/menu-utama}">
+                        Menu utama<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a th:href="@{/admin/pengajuan}">
+                        Pengajuan Bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li >
+                    <a th:href="@{/admin/kelola-mahasiswa}">
+                        Kelola Mahasiswa<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/admin/kelola-dosen}">
+                        Kelola Dosen<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+        <!-- Main -->
+        <div class="main-content">
+
+            <header class="header">
+                <h1 class="header-title-custom">Beranda</h1>
+
+                <div class="header-icons">
+    <span class="icon-circle">M</span>
+    <span class="icon-circle">
+        <a th:href="@{/inbox}">
+            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                 alt="Tampilan Inbox Email">
+        </a>
+    </span>
+</div>
+
+            </header>
+
+
+<div class="card form-card">
+    <h2>Pengajuan Bimbingan</h2>
+
+    <form class="bimbingan-form"
+          th:action="@{/admin/pengajuan/submit}"
+          method="post">
+
+        <!-- Pilih Dosen -->
+        <label for="dosen">Dosen</label>
+        <select id="dosen" name="dosen" class="form-input form-select" required>
+            <option value="" disabled selected>Pilih Dosen</option>
+            <option th:each="d : ${dosenList}"
+                    th:value="${d.email}"
+                    th:text="${d.nama}"></option>
+        </select>
+
+        <!-- Pilih Mahasiswa (opsional jika perlu) -->
+        <label for="mahasiswa">Mahasiswa</label>
+        <select id="mahasiswa" name="mahasiswa" class="form-input form-select" required>
+            <option value="" disabled selected>Pilih Mahasiswa</option>
+            <option th:each="m : ${mahasiswa}"
+                    th:value="${m.email}"
+                    th:text="${m.nama}"></option>
+        </select>
+
+        <!-- Lokasi -->
+        <label for="lokasi">Lokasi</label>
+        <select id="lokasi" name="lokasi" class="form-input form-select" required>
+            <option value="" disabled selected>Pilih lokasi</option>
+            <option value="Unpar">Unpar</option>
+            <option value="Online">Online</option>
+        </select>
+
+        <!-- Tanggal -->
+        <label for="tanggal">Tanggal</label>
+        <input type="date" id="tanggal" name="tanggal" class="form-input" required />
+
+        <!-- Waktu -->
+        <label for="waktu">Waktu</label>
+        <select id="waktu" name="waktu" class="form-input form-select" required>
+            <option value="" disabled selected>Pilih waktu</option>
+            <option value="09:00">09:00</option>
+            <option value="10:30">10:30</option>
+        </select>
+
+        <button type="submit" class="btn btn-submit-form">Submit</button>
+    </form>
+</div>
+
+        </div>
+    </div>
+
+</body>
+</html>
