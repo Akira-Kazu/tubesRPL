@@ -13,4 +13,8 @@ public interface PenggunaRepository extends JpaRepository<Pengguna, String> {
 
     // Untuk kelola role
     List<Pengguna> findByRole(Integer role);
+
+      // Cari user berdasarkan email (WAJIB ADA)
+    Pengguna findByEmail(String email);
+
 }

@@ -1,14 +1,18 @@
 package com.example.demo.Entity;
-import lombok.Data;
+
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalTime;
-@Data // otomatis membuat getter, setter, toString, equals, hashCode
+
+@Data
 @Entity
 @Table(name = "bimbingan")
 public class Bimbingan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_bimbingan")
     private Long idBimbingan;
 
     @Column(name = "is_bimbingan")
@@ -20,4 +24,9 @@ public class Bimbingan {
 
     private LocalTime waktu;
 
+    // RELASI KE PERMINTAAN_JADWAL
+    @ManyToOne
+    @JoinColumn(name = "id_permintaan", referencedColumnName = "id_permintaan")
+    private PermintaanJadwal permintaanJadwal;
 }
+

@@ -1,10 +1,18 @@
 package com.example.demo.Admin;
 
 import com.example.demo.Entity.Bimbingan;
-import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.PermintaanJadwal;
+import com.example.demo.Repository.BimbinganRepository;
+import com.example.demo.service.AdminService;
 import com.example.demo.service.BimbinganService;
+import com.example.demo.service.PermintaanJadwalService;
 
+import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +21,77 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-       private final AdminService adminService;
-    private final BimbinganService bimbinganService; // tambah service
+    @Autowired
+private BimbinganRepository bimbinganRepository;
 
-    public AdminController(AdminService adminService, BimbinganService bimbinganService) {
+    private final AdminService adminService;
+    private final BimbinganService bimbinganService;
+    private final PermintaanJadwalService permintaanJadwalService;
+
+    @Autowired
+    public AdminController(AdminService adminService,
+                           BimbinganService bimbinganService,
+                           PermintaanJadwalService permintaanJadwalService) {
         this.adminService = adminService;
         this.bimbinganService = bimbinganService;
+        this.permintaanJadwalService = permintaanJadwalService;
     }
-@GetMapping("/pengajuan")
-public String kelolaPengajuan(Model model) {
-    Bimbingan bimbingan = new Bimbingan();
-    model.addAttribute("pengajuan", new Bimbingan());
-    // Kirim ke template
-    model.addAttribute("mahasiswa", adminService.getMahasiswa());
-    model.addAttribute("dosenList", adminService.getDosen());
-    return "pengajuanFormAdmin";
-}
+
+    @GetMapping("/pengajuan")
+    public String kelolaPengajuan(Model model) {
+        model.addAttribute("pengajuan", new Bimbingan());
+        model.addAttribute("mahasiswa", adminService.getMahasiswa());
+        model.addAttribute("dosenList", adminService.getDosen());
+        return "pengajuanFormAdmin";
+    }
 
     @PostMapping("/pengajuan/submit")
-    public String submit(@ModelAttribute("pengajuan") Bimbingan bimbingan) {
-        bimbinganService.saveBimbingan(bimbingan); // pakai service
-        return "redirect:/admin/pengajuan";
+    public String submit(
+            @RequestParam("dosen") String dosenEmail,
+            @RequestParam("mahasiswa") String mahasiswaEmail,
+            @RequestParam("lokasi") String lokasi,
+            @RequestParam("tanggal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate tanggal,
+            @RequestParam("waktu") @DateTimeFormat(pattern = "HH:mm") LocalTime waktu,
+            @RequestParam(value = "catatan", required = false) String catatan
+    ) {
+        adminService.prosesPengajuan(dosenEmail, mahasiswaEmail, lokasi, tanggal, waktu, catatan);
+        return "redirect:/admin/pengajuan?success";
     }
+
+    @GetMapping("/kelolaPengajuanDosen/{email}")
+public String kelolaPengajuan(@PathVariable("email") String email, Model model) {
+
+    // Ambil semua bimbingan untuk dosen
+    List<Bimbingan> listBimbingan = bimbinganService.getBimbinganUntukDosen(email);
+
+    model.addAttribute("listPengajuan", listBimbingan); // nama sama dengan HTML
+    model.addAttribute("email", email);
+
+    return "kelolaPengajuanDosen_Admin";
+}
+
+@GetMapping("/hapus/{idBimbingan}")
+public String hapusBimbingan(@PathVariable("idBimbingan") Long idBimbingan,
+                             @RequestParam(value = "email", required = false) String email) {
+    // Hapus data bimbingan
+    bimbinganService.deleteBimbingan(idBimbingan);
+
+    // Redirect kembali ke halaman pengajuan dosen yang sama
+    if (email != null) {
+        return "redirect:/admin/kelolaPengajuanDosen/" + email;
+    }
+    return "redirect:/admin/kelola-dosen";
+}
 
     @GetMapping({"/menu-utama", "/dashboard"})
     public String menuUtama(Model model) {
-        // todayList dummy atau ambil dari service nanti
-        model.addAttribute("todayList", null);
-        return "berandaAdmin";   // nama HTML kamu
+        LocalDate today = LocalDate.now();
+
+    // Ambil semua bimbingan yang tanggalnya hari ini
+    List<Bimbingan> todayList = bimbinganRepository.findByPermintaanJadwal_Tanggal(today);
+
+    model.addAttribute("todayList", todayList);
+        return "berandaAdmin";
     }
 
     @GetMapping("/kelola-mahasiswa")
@@ -51,49 +102,14 @@ public String kelolaPengajuan(Model model) {
 
     @GetMapping("/kelola-dosen")
     public String kelolaDosen(Model model) {
-       model.addAttribute("dosenList", adminService.getDosen());
+        model.addAttribute("dosenList", adminService.getDosen());
         return "kelolaDosen_Admin";
     }
-
-
 
     @GetMapping("/delete/{email}")
     public String deleteUser(@PathVariable("email") String email) {
         adminService.deleteUser(email);
         return "redirect:/admin/menu-utama";
-    }
-
-    
-    // ===== TOMBOL DI CARD =====
-
-    @GetMapping("/admin/dosen")
-    public String tombolKelolaDosen() {
-        return "admin/kelola-dosen";
-    }
-
-    @GetMapping("/admin/mahasiswa")
-    public String tombolKelolaMahasiswa() {
-        return "admin/kelola-mahasiswa";
-    }
-
-    // ===== JADWAL DOSEN =====
-    @GetMapping("/admin/jadwal-dosen")
-    public String jadwalDosen(Model model) {
-        model.addAttribute("jadwalDosenList", null);
-        return "admin/jadwal-dosen";
-    }
-
-    // ===== JADWAL MAHASISWA =====
-    @GetMapping("/admin/jadwal-mahasiswa")
-    public String jadwalMahasiswa(Model model) {
-        model.addAttribute("jadwalMahasiswaList", null);
-        return "admin/jadwal-mahasiswa";
-    }
-
-    // ===== INBOX =====
-    @GetMapping("/admin/inbox")
-    public String inboxAdmin() {
-        return "admin/inbox"; 
     }
 
 }
