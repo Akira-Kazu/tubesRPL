@@ -11,4 +11,7 @@ public interface PermintaanJadwalRepository extends JpaRepository<PermintaanJadw
      // Karena email ada di entity Pengguna dan field relasinya adalah "dosen"
     List<PermintaanJadwal> findByDosen_Email(String email);
 
+         // Karena email ada di entity Pengguna dan field relasinya adalah "dosen"
+    List<PermintaanJadwal> findByMahasiswa_Email(String email);
+
 }

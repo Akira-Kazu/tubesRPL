@@ -1,9 +1,33 @@
 package com.example.demo.Mahasiswa;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.Entity.Pengguna;
+import com.example.demo.Entity.PermintaanJadwal;
+import com.example.demo.Repository.PenggunaRepository;
+import com.example.demo.Repository.PermintaanJadwalRepository;
+
+import jakarta.servlet.http.HttpSession;
+
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 @Controller
 public class MahasiswaController {
+
+    @Autowired
+    private PermintaanJadwalRepository permintaanRepo;
+
+    @Autowired
+    private PenggunaRepository penggunaRepo;
+
     @GetMapping("/mahasiswa")
     public String beranda(){
         return "BerandaMahasiswa";
@@ -20,14 +44,48 @@ public class MahasiswaController {
     }
 
     @GetMapping("/pengajuan")
-    public String pengajuan() {
-        return "pengajuanFormMahasiswa"; // templates/pengajuan.html
-    }
+    public String pengajuan(Model model) {
+   model.addAttribute("dosenList", penggunaRepo.findByRole(2));
+
+    return "pengajuanFormMahasiswa";
+}
+
+@PostMapping("/pengajuan/submit")
+public String submitPengajuan(
+        @RequestParam("dosenEmail") String emailDosen,
+        @RequestParam("lokasi") String lokasi,
+        @RequestParam("tanggal") String tanggal,
+        @RequestParam("waktu") String waktu,
+        @RequestParam(value = "catatan", required = false) String catatan,
+        HttpSession session
+) {
+    Pengguna mahasiswa = (Pengguna) session.getAttribute("loggedUser");
+
+    if (mahasiswa == null) return "redirect:/login";
+
+    Pengguna dosen = penggunaRepo.findByEmail(emailDosen);
+
+    PermintaanJadwal p = new PermintaanJadwal();
+    p.setMahasiswa(mahasiswa);
+    p.setDosen(dosen);
+    p.setLokasi(lokasi);
+    p.setTanggal(LocalDate.parse(tanggal));
+    p.setWaktu(LocalTime.parse(waktu));
+    p.setCatatan(catatan);
+    p.setStatus("Pending");
+
+    permintaanRepo.save(p);
+
+    return "redirect:/pengajuan?success=true";
+}
+
 
     @GetMapping("/kelola")
     public String kelola() {
         return "kelolaPengajuanmahasiswa"; // templates/kelola.html
     }
+
+    
 
     @GetMapping("/progress")
     public String progress() {

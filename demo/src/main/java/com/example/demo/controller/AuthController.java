@@ -7,6 +7,8 @@ package com.example.demo.controller;
 import com.example.demo.Entity.Pengguna;
 import com.example.demo.Repository.PenggunaRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,24 +38,26 @@ public class AuthController {
         return "redirect:/";
     }
 
-    // Proses login
     @PostMapping("/login")
-    public String processLogin(@ModelAttribute Pengguna pengguna, Model model) {
-        String email = pengguna.getEmail();
-        String password = pengguna.getPassword();
+public String processLogin(@ModelAttribute Pengguna pengguna, Model model, HttpSession session) {
+    String email = pengguna.getEmail();
+    String password = pengguna.getPassword();
 
-        Pengguna user = penggunaRepository.findByEmailAndPassword(email, password);
+    Pengguna user = penggunaRepository.findByEmailAndPassword(email, password);
 
-        if (user != null) {
-            switch (user.getRole()) {
-                case 1: return "redirect:/mahasiswa";
-                case 2: return "redirect:/dosen";
-                case 3: return "redirect:/admin/dashboard";
-            }
+    if (user != null) {
+        // Simpan user ke session
+        session.setAttribute("loggedUser", user);
+
+        switch (user.getRole()) {
+            case 1: return "redirect:/mahasiswa";
+            case 2: return "redirect:/dosen";
+            case 3: return "redirect:/admin/dashboard";
         }
-
-        // Login gagal
-        model.addAttribute("error", "Email atau Password salah!");
-        return "login";
     }
+
+    model.addAttribute("error", "Email atau Password salah!");
+    return "login";
+}
+
 }

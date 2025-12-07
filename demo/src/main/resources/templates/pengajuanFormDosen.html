@@ -19,7 +19,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a th:href="@{/}">
+                        <a th:href="@{/dosen}">
                             Menu utama
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -27,7 +27,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/riwayat}">
+                        <a th:href="@{/dosen/riwayat}">
                             Riwayat Bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -35,7 +35,7 @@
                     </li>
 
                     <li class="active">
-                        <a th:href="@{/pengajuan}">
+                        <a th:href="@{/dosen/pengajuan}">
                             Pengajuan bimbingan
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -43,7 +43,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/kelola}">
+                        <a th:href="@{/dosen/kelola}">
                             Kelola Pengajuan
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -51,7 +51,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/progress}">
+                        <a th:href="@{/dosen/progress}">
                             progressTA
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -59,7 +59,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/jadwal}">
+                        <a th:href="@{/dosen/jadwal}">
                             Jadwal
                             <br>
                             <span class="menu-description">Menu description.</span>
@@ -90,39 +90,41 @@
             <div class="card form-card">
                 <h2>Pengajuan Bimbingan</h2>
 
-                <form class="bimbingan-form"
-                      th:action="@{/pengajuan/submit}" 
-                      method="post">
+<form class="bimbingan-form"
+      th:action="@{/dosen/pengajuan/create}"
+      method="post">
 
-                    <label for="dosen">Dosen</label>
-                    <input type="text" id="dosen" name="dosen"
-                           class="form-input"
-                           th:value="${pengajuan?.dosen}" />
+    <!-- Mahasiswa -->
+    <label for="mahasiswa">Mahasiswa</label>
+    <select id="mahasiswa" name="mahasiswa" class="form-input form-select" required>
+        <option value="" disabled selected>Pilih Mahasiswa</option>
+        <option th:each="m : ${mahasiswaList}" 
+                th:value="${m.email}" 
+                th:text="${m.nama}"></option>
+    </select>
 
-                    <label for="lokasi">Lokasi</label>
-                    <select id="lokasi" name="lokasi"
-                            class="form-input form-select">
-                        <option value="" disabled selected>Value</option>
-                        <option value="unpar">Unpar</option>
-                        <option value="online">Online</option>
-                    </select>
+    <!-- Lokasi -->
+    <label for="lokasi">Lokasi</label>
+    <select id="lokasi" name="lokasi" class="form-input form-select" required>
+        <option value="unpar">Unpar</option>
+        <option value="online">Online</option>
+    </select>
 
-                    <label for="tanggal">Tanggal</label>
-                    <input type="text" id="tanggal" name="tanggal"
-                           class="form-input date-input"
-                           placeholder="mm/dd/yyyy"
-                           th:value="${pengajuan?.tanggal}" />
+    <!-- Tanggal -->
+    <label for="tanggal">Tanggal</label>
+    <input type="date" id="tanggal" name="tanggal" class="form-input" required/>
 
-                    <label for="waktu">Waktu</label>
-                    <select id="waktu" name="waktu"
-                            class="form-input form-select">
-                        <option value="" disabled selected>Value</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:30">10:30</option>
-                    </select>
+    <!-- Waktu -->
+    <label for="waktu">Waktu</label>
+    <input type="time" id="waktu" name="waktu" class="form-input" required/>
 
-                    <button type="submit" class="btn btn-submit-form">Submit</button>
-                </form>
+    <!-- Catatan -->
+    <label for="catatan">Catatan (opsional)</label>
+    <textarea id="catatan" name="catatan" class="form-input"></textarea>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-submit-form">Buat Bimbingan</button>
+</form>
             </div>
 
         </div>
