@@ -13,7 +13,7 @@ public class PermintaanJadwal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_permintaan") // mapping ke kolom DB
+    @Column(name = "id_permintaan")
     private Long id;
 
     @Column(name = "tanggal", nullable = false)
@@ -21,6 +21,15 @@ public class PermintaanJadwal {
 
     @Column(name = "catatan")
     private String catatan;
+
+    @Column(name = "status", nullable = false)
+    private String status = "Pending"; // default biar aman
+
+    @Column(name = "lokasi")
+    private String lokasi;
+
+    @Column(name = "waktu")
+    private LocalTime waktu;
 
     // Relasi ke Mahasiswa
     @ManyToOne
