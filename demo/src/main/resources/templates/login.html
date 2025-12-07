@@ -6,7 +6,7 @@
     <title>Login Page</title>
 
     <!-- Gunakan th:href agar file CSS diambil dari static folder -->
-    <link rel="stylesheet" th:href="@{/landing.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
@@ -25,11 +25,11 @@
             <form class="login-form" th:action="@{/login}" method="post">
 
                 <label for="account">Enter your account</label>
-                <input type="text" id="account" name="username"
+                <input type="text" id="account" name="email"
                        class="input-field" placeholder=" " required>
 
                 <label for="password">Enter your Password</label>
-                <input type="password" id="password" name="password"
+               <input type="password" id="password" name="password"
                        class="input-field" placeholder=" " required>
 
                 <button type="submit" class="btn btn-submit">Submit</button>

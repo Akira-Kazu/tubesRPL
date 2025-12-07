@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,21 +36,23 @@ public class AuthController {
         return "redirect:/";
     }
 
+    // Proses login
     @PostMapping("/login")
-    public String processLogin(@RequestParam("account") String email,
-                               @RequestParam("password") String password,
-                               Model model) {
+    public String processLogin(@ModelAttribute Pengguna pengguna, Model model) {
+        String email = pengguna.getEmail();
+        String password = pengguna.getPassword();
 
         Pengguna user = penggunaRepository.findByEmailAndPassword(email, password);
+
         if (user != null) {
-            if (user.getRole() == 1) {
-                return "redirect:/mahasiswa";                
-            } else if (user.getRole() == 2) {
-                return "redirect:/dosen";                    
-            } else if (user.getRole() == 3) {
-                return "redirect:/admin/dashboard"; 
+            switch (user.getRole()) {
+                case 1: return "redirect:/mahasiswa";
+                case 2: return "redirect:/dosen";
+                case 3: return "redirect:/admin/dashboard";
             }
         }
+
+        // Login gagal
         model.addAttribute("error", "Email atau Password salah!");
         return "login";
     }
