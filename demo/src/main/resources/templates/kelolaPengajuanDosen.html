@@ -108,21 +108,26 @@
                 <tbody>
 
                 <!-- LOOP DINAMIS THYMELEAF -->
-                <tr th:each="item : ${pengajuanList}">
-                    <td th:text="${item.waktu}">09:00</td>
-                    <td th:text="${item.tanggal}">Senin, 01-01-2025</td>
-                    <td th:text="${item.mahasiswa}">Nama</td>
-                    <td th:text="${item.lokasi}">Unpar</td>
-                    <td th:text="${item.jenis}">TA 1</td>
+<tr th:each="item : ${pengajuanList}">
+    <td th:text="${item.waktu}">09:00</td>
+    <td th:text="${item.tanggal}">Senin, 01-01-2025</td>
+    <td th:text="${item.mahasiswa.nama}">Nama Mahasiswa</td>
+    <td th:text="${item.lokasi}">Unpar</td>
+    <td th:text="${item.status}">Pending</td>
 
-                    <td class="action-icons">
-                        <span class="action-icon action-reject"
-                              th:onclick="'window.location.href=\'/pengajuan/reject/' + ${item.id} + '\';'">x</span>
+    <td class="action-icons">
+    <button class="btn btn-reject"
+            th:onclick="'window.location.href=\'/dosen/pengajuan/reject/' + ${item.id} + '\';'">
+       tolak
+    </button>
 
-                        <span class="action-icon action-approve"
-                              th:onclick="'window.location.href=\'/pengajuan/approve/' + ${item.id} + '\';'">v</span>
-                    </td>
-                </tr>
+    <button class="btn btn-approve"
+            th:onclick="'window.location.href=\'/dosen/pengajuan/approve/' + ${item.id} + '\';'">
+        setuju
+    </button>
+    </td>
+</tr>
+
 
                 </tbody>
             </table>
