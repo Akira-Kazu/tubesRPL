@@ -9,13 +9,14 @@ import com.example.demo.Entity.PermintaanJadwal;
 
 @Service
 public class PermintaanJadwalService {
-
     private final PermintaanJadwalRepository repository;
 
     @Autowired
     public PermintaanJadwalService(PermintaanJadwalRepository repository) {
         this.repository = repository;
     }
+
+
 
     // ✅ INI method yang dipanggil DosenController
     public List<PermintaanJadwal> getRiwayatBimbinganDosen(String emailDosen) {
@@ -29,4 +30,12 @@ public class PermintaanJadwalService {
     public PermintaanJadwal getById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    public List<PermintaanJadwal> getRiwayatApprovedUntukMahasiswa(String email) {
+        return repository.findAllByMahasiswa_EmailAndStatus(email, "Approved");
+    }
+    public PermintaanJadwal getDetail(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
 }

@@ -23,6 +23,11 @@ public class BimbinganService {
     return bimbinganRepository.findByPermintaanJadwal_Dosen_Email(email);
 }
 
+    public List<Bimbingan> getBimbinganUntukMahasiswa(String email) {
+        return bimbinganRepository.findByPermintaanJadwal_Mahasiswa_Email(email);
+    }
+
+
     public void setKomentar(Long idBimbingan, String komentar) {
         Bimbingan b = bimbinganRepository.findById(idBimbingan).orElse(null);
         if (b != null) {
@@ -31,10 +36,9 @@ public class BimbinganService {
         }
     }
 
-
-    // Ambil semua bimbingan
-    public List<Bimbingan> getAllBimbingan() {
-        return bimbinganRepository.findAll();
+    public Bimbingan getByPermintaanId(Long idPermintaan) {
+        return bimbinganRepository.findByPermintaanJadwal_Id(idPermintaan);
+                 // atau handle sesuai kebutuhan
     }
 
     // Simpan bimbingan baru

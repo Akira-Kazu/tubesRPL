@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail Bimbingan Mahasiswa</title>
+    <link rel="stylesheet" th:href="@{/css/detailBimbingan.css}">
+</head>
+<body>
+
+<div class="main-content">
+    <h2>Detail Bimbingan</h2>
+
+    <p><strong>Dosen Pembimbing:</strong>
+        <span th:text="${bimbingan.permintaanJadwal?.dosen?.nama ?: '-'}"></span>
+    </p>
+
+    <p><strong>Tanggal:</strong>
+        <span th:text="${bimbingan.permintaanJadwal?.tanggal ?: '-'}"></span>
+    </p>
+
+    <p><strong>Waktu:</strong>
+        <span th:text="${bimbingan.waktu ?: '-'}"></span>
+    </p>
+
+    <p><strong>Lokasi:</strong>
+        <span th:text="${bimbingan.lokasi ?: '-'}"></span>
+    </p>
+
+    <p><strong>Status:</strong>
+        <span th:text="${bimbingan.permintaanJadwal?.status ?: '-'}"></span>
+    </p>
+
+    <hr>
+
+    <h3>Komentar dari Dosen</h3>
+
+    <div class="komentar-box">
+        <p th:if="${bimbingan.komentarDosen != null}"
+           th:text="${bimbingan.komentarDosen}"></p>
+
+        <p th:if="${bimbingan.komentarDosen == null}" style="color: gray;">
+            Belum ada komentar dari dosen.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
+

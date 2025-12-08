@@ -58,7 +58,14 @@ private BimbinganRepository bimbinganRepo;
         String email = dosen.getEmail();
         List<Bimbingan> riwayat = bimbinganService.getBimbinganUntukDosen(emailDosen);
 
-        model.addAttribute("riwayat", riwayat);
+        // Filter hanya yang APPROVED
+        List<Bimbingan> approvedOnly = riwayat.stream()
+                .filter(b -> b.getPermintaanJadwal() != null
+                        && b.getPermintaanJadwal().getStatus() != null
+                        && b.getPermintaanJadwal().getStatus().equalsIgnoreCase("Approved"))
+                .toList();
+
+        model.addAttribute("riwayat",approvedOnly);
         return "riwayatBimbinganDosen";
     }
 

@@ -13,7 +13,7 @@ public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
 
     // ambil bimbingan berdasarkan email dosen
     List<Bimbingan> findByPermintaanJadwal_Dosen_Email(String email);
-
+    List<Bimbingan> findByPermintaanJadwal_Mahasiswa_Email(String email);
     // Ambil list bimbingan berdasarkan tanggal permintaan
     List<Bimbingan> findByPermintaanJadwal_Tanggal(LocalDate tanggal);
 

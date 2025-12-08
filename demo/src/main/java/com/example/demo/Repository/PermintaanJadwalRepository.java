@@ -26,5 +26,9 @@ public interface PermintaanJadwalRepository extends JpaRepository<PermintaanJadw
 """)
 List<PermintaanJadwal> getRiwayatDosen(@Param("emailDosen") String emailDosen);
 
+    List<PermintaanJadwal> findAllByMahasiswa_EmailOrderByIdDesc(String email);
+
+    List<PermintaanJadwal> findAllByMahasiswa_EmailAndStatus(String email, String status);
+
 
 }
