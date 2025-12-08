@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail Bimbingan</title>
+    <link rel="stylesheet" th:href="@{/css/detailBimbingan.css}">
+</head>
+<body>
+
+<div class="main-content">
+    <h2>Detail Bimbingan</h2>
+    <p><strong>Mahasiswa:</strong> <span th:text="${bimbingan.permintaanJadwal.mahasiswa.nama}"></span></p>
+    <p><strong>Tanggal:</strong> <span th:text="${bimbingan.permintaanJadwal.tanggal}"></span></p>
+    <p><strong>Waktu:</strong> <span th:text="${bimbingan.waktu}"></span></p>
+    <p><strong>Lokasi:</strong> <span th:text="${bimbingan.lokasi}"></span></p>
+
+    <hr>
+
+    <h3>Catatan / Komentar Dosen</h3>
+    <form th:action="@{/dosen/riwayat/update-komentar}" method="post">
+        <input type="hidden" name="id" th:value="${bimbingan.idBimbingan}"/>
+        <textarea name="komentar" rows="5" cols="60" th:text="${bimbingan.komentarDosen}"></textarea>
+        <button type="submit">Simpan Komentar</button>
+    </form>
+</div>
+</body>
+</html>
+

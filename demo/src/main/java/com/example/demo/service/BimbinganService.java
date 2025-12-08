@@ -16,14 +16,29 @@ public class BimbinganService {
         this.bimbinganRepository = bimbinganRepository;
     }
 
+    public Bimbingan getById(Long id) {
+        return bimbinganRepository.findById(id).orElse(null);
+    }
  public List<Bimbingan> getBimbinganUntukDosen(String email) {
     return bimbinganRepository.findByPermintaanJadwal_Dosen_Email(email);
 }
 
+    public List<Bimbingan> getBimbinganUntukMahasiswa(String email) {
+        return bimbinganRepository.findByPermintaanJadwal_Mahasiswa_Email(email);
+    }
 
-    // Ambil semua bimbingan
-    public List<Bimbingan> getAllBimbingan() {
-        return bimbinganRepository.findAll();
+
+    public void setKomentar(Long idBimbingan, String komentar) {
+        Bimbingan b = bimbinganRepository.findById(idBimbingan).orElse(null);
+        if (b != null) {
+            b.setKomentarDosen(komentar);
+            bimbinganRepository.save(b);
+        }
+    }
+
+    public Bimbingan getByPermintaanId(Long idPermintaan) {
+        return bimbinganRepository.findByPermintaanJadwal_Id(idPermintaan);
+                 // atau handle sesuai kebutuhan
     }
 
     // Simpan bimbingan baru

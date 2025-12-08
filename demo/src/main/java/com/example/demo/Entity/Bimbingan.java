@@ -28,5 +28,7 @@ public class Bimbingan {
     @ManyToOne
     @JoinColumn(name = "id_permintaan", referencedColumnName = "id_permintaan")
     private PermintaanJadwal permintaanJadwal;
+
+    private String komentarDosen;
 }
 

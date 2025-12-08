@@ -7,13 +7,15 @@ import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.PermintaanJadwal;
 import com.example.demo.Repository.PenggunaRepository;
 import com.example.demo.Repository.PermintaanJadwalRepository;
-
+import com.example.demo.service.PermintaanJadwalService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.security.Principal;
+import com.example.demo.Entity.Bimbingan;
+import com.example.demo.service.BimbinganService;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +25,16 @@ import org.springframework.ui.Model;
 public class MahasiswaController {
 
     @Autowired
+    private PermintaanJadwalService permintaanJadwalService;
+
+    @Autowired
     private PermintaanJadwalRepository permintaanRepo;
 
     @Autowired
     private PenggunaRepository penggunaRepo;
+
+    @Autowired
+    private BimbinganService bimbinganService;
 
     @GetMapping("/mahasiswa")
     public String beranda(){
@@ -39,9 +47,32 @@ public class MahasiswaController {
     }
 
     @GetMapping("/riwayat")
-    public String riwayat() {
-        return "riwayatBimbinganMahasiswa"; // templates/riwayat.html
+    public String riwayatBimbingan(HttpSession session, Model model) {
+
+        // Ambil user dari session
+        Pengguna mahasiswa = (Pengguna) session.getAttribute("loggedUser");
+        if (mahasiswa == null) return "redirect:/login";
+
+        String email = mahasiswa.getEmail();
+
+        List<PermintaanJadwal> approvedRiwayat = permintaanJadwalService.getRiwayatApprovedUntukMahasiswa(email);
+
+        model.addAttribute("riwayat", approvedRiwayat);
+        model.addAttribute("inisialUser", mahasiswa.getNama().substring(0,1));
+
+        return "riwayatBimbinganMahasiswa";
     }
+
+    @GetMapping("/mahasiswa/detail/{id}")
+    public String detailMahasiswa(@PathVariable("id") Long idPermintaan, Model model){
+        Bimbingan bimbingan = bimbinganService.getByPermintaanId(idPermintaan);
+        model.addAttribute("bimbingan", bimbingan);
+        return "riwayatdetailBimbinganMahasiswa";
+    }
+
+
+
+
 
     @GetMapping("/pengajuan")
     public String pengajuan(Model model) {
@@ -101,7 +132,4 @@ public String submitPengajuan(
     public String inbox() {
         return "inboxMahasiswa"; // templates/jadwal.html
     }
-
-
-
 }
