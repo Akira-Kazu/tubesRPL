@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import com.example.demo.Entity.PermintaanJadwal;
 
 @Repository
 public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
@@ -16,4 +17,9 @@ public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
     // Ambil list bimbingan berdasarkan tanggal permintaan
     List<Bimbingan> findByPermintaanJadwal_Tanggal(LocalDate tanggal);
 
+    // Cari bimbingan berdasarkan Permintaan Jadwal
+    Bimbingan findByPermintaanJadwal(PermintaanJadwal permintaan);
+
+    // Tambahan (opsional): kalau kamu butuh by id permintaan
+    Bimbingan findByPermintaanJadwal_Id(Long id);
 }

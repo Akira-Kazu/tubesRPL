@@ -17,7 +17,16 @@ public class PermintaanJadwalService {
         this.repository = repository;
     }
 
+    // ✅ INI method yang dipanggil DosenController
+    public List<PermintaanJadwal> getRiwayatBimbinganDosen(String emailDosen) {
+        return repository.findByDosen_Email(emailDosen);
+    }
+
     public List<PermintaanJadwal> getPengajuanUntukDosen(String emailDosen) {
         return repository.findByDosen_Email(emailDosen);
+    }
+
+    public PermintaanJadwal getById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }

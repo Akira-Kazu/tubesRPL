@@ -89,23 +89,38 @@
             </header>
 
             <!-- CONTENT (Hardcoded Example) -->
-            <div class="history-card">
-                <p class="history-date">1 Januari 2025, Gede Karya</p>
-                <p class="history-desc">...</p>
-                <button class="btn btn-history-action">Lihat Catatan & Feedback</button>
+            <div th:if="${riwayat.size() == 0}">
+                <p>Tidak ada riwayat bimbingan.</p>
             </div>
 
-            <div class="history-card">
-                <p class="history-date">3 Januari 2025, Keenan Adiwijaya Leman</p>
-                <p class="history-desc">...</p>
-                <button class="btn btn-history-action">Lihat Catatan & Feedback</button>
+            <div th:each="item : ${riwayat}" class="history-card">
+
+                <p class="history-date"
+                   th:text="${item.permintaanJadwal.tanggal + ' - ' + item.permintaanJadwal.mahasiswa.nama}">
+                    1 Januari 2025, Nama Mahasiswa
+                </p>
+
+                <p class="history-desc">
+                    Lokasi: <span th:text="${item.lokasi}"></span><br>
+                    Waktu: <span th:text="${item.waktu}"></span><br>
+
+                    Catatan:
+                    <span th:text="${item.permintaanJadwal.catatan != null ? item.permintaanJadwal.catatan : '-'}"></span>
+                    <br>
+
+                    Status:
+                    <span th:text="${item.permintaanJadwal.status}"></span>
+                </p>
+
+                <button class="btn btn-history-action"
+                        th:onclick="|location.href='/dosen/riwayat/detail/${item.idBimbingan}'|">
+                    Lihat Catatan & Feedback
+                </button>
+
             </div>
 
-            <div class="history-card">
-                <p class="history-date">5 Januari 2025, Pascal Alfadian Nugroho</p>
-                <p class="history-desc">...</p>
-                <button class="btn btn-history-action">Lihat Catatan & Feedback</button>
-            </div>
+
+</div>
 
         </div>
     </div>

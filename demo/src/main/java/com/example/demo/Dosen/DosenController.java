@@ -4,13 +4,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.demo.Entity.Bimbingan;
 import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.PermintaanJadwal;
 import com.example.demo.Repository.BimbinganRepository;
+import com.example.demo.service.BimbinganService;
 import com.example.demo.Repository.PenggunaRepository;
 import com.example.demo.Repository.PermintaanJadwalRepository;
+import com.example.demo.service.PermintaanJadwalService;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +31,17 @@ import org.springframework.ui.Model;
 public class DosenController {
 
     @Autowired
+private PermintaanJadwalService permintaanJadwalService;
+
+    @Autowired
     private PenggunaRepository penggunaRepository;
     @Autowired
 private PermintaanJadwalRepository permintaanRepo;
 @Autowired
 private BimbinganRepository bimbinganRepo;
+    @Autowired
+    private BimbinganService bimbinganService;
+
 
  @GetMapping
     public String dosenHome() {
@@ -42,7 +49,16 @@ private BimbinganRepository bimbinganRepo;
     }
 
     @GetMapping("/riwayat")
-    public String riwayatBimbingan() {
+    public String riwayatBimbingan(HttpSession session, Model model) {
+        Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+        if (dosen == null) return "redirect:/login";
+
+        String emailDosen = dosen.getEmail();
+
+        String email = dosen.getEmail();
+        List<Bimbingan> riwayat = bimbinganService.getBimbinganUntukDosen(emailDosen);
+
+        model.addAttribute("riwayat", riwayat);
         return "riwayatBimbinganDosen";
     }
 
@@ -54,7 +70,31 @@ private BimbinganRepository bimbinganRepo;
         return "pengajuanFormDosen";
     }
 
-@PostMapping("/pengajuan/create")
+    @GetMapping("/riwayat/detail/{id}")
+    public String detailRiwayat(@PathVariable Long id, Model model) {
+        Bimbingan bimbingan = bimbinganService.getById(id);
+        model.addAttribute("bimbingan", bimbingan);
+        return "riwayatDetailDosen";
+    }
+
+    @PostMapping("/riwayat/update-komentar")
+    public String updateKomentar(@RequestParam Long id,
+                                 @RequestParam String komentar) {
+
+        Bimbingan b = bimbinganService.getById(id);
+        if (b != null) {
+            b.setKomentarDosen(komentar);
+            bimbinganService.saveBimbingan(b);
+        }
+
+        return "redirect:/dosen/riwayat/detail/" + id;
+    }
+
+
+
+
+
+    @PostMapping("/pengajuan/create")
 public String buatPengajuanDosen(
         @RequestParam("mahasiswa") String emailMahasiswa,
         @RequestParam("lokasi") String lokasi,
@@ -120,6 +160,22 @@ public String approvePengajuan(@PathVariable Long id) {
         bimbinganRepo.save(bimbingan);
     }
     return "redirect:/dosen/pengajuan/pending";
+}
+
+    @PostMapping("/dosen/permintaan/{id}/komentar")
+public String tambahKomentar(
+        @PathVariable Long id,
+        @RequestParam String komentar,
+        HttpSession session
+) {
+    Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+
+        PermintaanJadwal permintaan = permintaanRepo.findById(id).orElse(null);
+        permintaanRepo.save(permintaan);
+
+
+        permintaanRepo.save(permintaan);
+    return "redirect:/dosen/permintaan";
 }
 
 @GetMapping("/pengajuan/reject/{id}")
