@@ -1,12 +1,10 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.util.Set;
 
 @Entity
 @Table(name = "pengguna")
@@ -23,4 +21,26 @@ public class Pengguna {
     private String nama;
 
     private Integer role;  // 1 = Mahasiswa, 2 = Dosen, 3 = Admin
+
+    // -------------------
+    // Relasi untuk mahasiswa: mata kuliah yang diambil
+    // -------------------
+    @ManyToMany
+    @JoinTable(
+            name = "terdaftar",
+            joinColumns = @JoinColumn(name = "email"),
+            inverseJoinColumns = @JoinColumn(name = "id_mk")
+    )
+    private Set<MataKuliah> mataKuliah;
+
+    // -------------------
+    // Relasi untuk dosen: mata kuliah yang diajarkan
+    // -------------------
+    @ManyToMany
+    @JoinTable(
+            name = "mengajar",
+            joinColumns = @JoinColumn(name = "email_dosen"),
+            inverseJoinColumns = @JoinColumn(name = "id_mk")
+    )
+    private Set<MataKuliah> mengajar;
 }

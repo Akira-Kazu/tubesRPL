@@ -3,89 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Saya</title>
+    <title>Jadwal Mahasiswa</title>
 
-    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">  
     <link rel="stylesheet" th:href="@{/css/jadwal.css}">
 </head>
 
 <body>
 <div class="dashboard-container">
 
-    <!-- SIDEBAR -->
-        <div class="sidebar">
-            <h2 class="sidebar-title">Bimbingan TA</h2>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a th:href="@{/dashboard}">
+                        Menu utama <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/riwayat}">
+                        Riwayat Bimbingan <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan Bimbingan <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/kelola}">
+                        Kelola Pengajuan <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/progress}">
+                        Progress TA <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/jadwal}">
+                        Jadwal <br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-            <nav class="sidebar-nav">
-                <ul>
-                    <li>
-                        <a th:href="@{/dashboard}">
-                            Menu utama <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li class="active">
-                        <a th:href="@{/riwayat}">
-                            Riwayat Bimbingan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/pengajuan}">
-                            Pengajuan Bimbingan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/kelola}">
-                            Kelola Pengajuan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/progress}">
-                            Progress TA <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/jadwal}">
-                            Jadwal <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-    <!-- MAIN CONTENT -->
     <div class="main-content">
 
-        <!-- HEADER -->
         <header class="header">
             <h1 class="header-title-custom">Jadwal Saya</h1>
-
             <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                    <a th:href="@{/inbox}">
+                        <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}" alt="Inbox">
+                    </a>
+                </span>
+            </div>
         </header>
 
-        <!-- FILTER & ACTION BUTTON -->
         <div class="schedule-header">
-            <h2>Jadwal Saya</h2>
-
+            <h2>Jadwal Kuliah & TA</h2>
             <div class="schedule-actions">
                 <select class="select-view" th:value="${view}">
                     <option value="jadwal" selected>Jadwal saya</option>
@@ -98,25 +84,21 @@
             </div>
         </div>
 
-        <!-- WEEKLY SCHEDULE GRID -->
         <div class="schedule-grid">
-
-            <!-- Days Row -->
+            
             <div class="days-row">
-                <span>Week</span>
-                <span>Sun</span>
-                <span>Mon</span>
-                <span class="active-day">Tue</span>
-                <span>Wed</span>
-                <span>Thu</span>
-                <span>Fri</span>
-                <span>Sat</span>
+                <span>Jam</span>
+                <span>Senin</span>
+                <span class="active-day">Selasa</span>
+                <span>Rabu</span>
+                <span>Kamis</span>
+                <span>Jumat</span>
+                <span>Sabtu</span>
+                <span>Minggu</span>
             </div>
 
-            <!-- Time Column + Events -->
             <div class="time-column">
-
-                <!-- Example static times -->
+                <div class="time-slot">08:00</div>
                 <div class="time-slot">09:00</div>
                 <div class="time-slot">10:00</div>
                 <div class="time-slot">11:00</div>
@@ -128,38 +110,34 @@
                 <div class="time-slot">17:00</div>
                 <div class="time-slot">18:00</div>
 
-                <!-- EVENTS (Cards) -->
                 <div class="event-card event-blue"
-                     style="top: 50px; left: 200px; height: 70px;"
+                     style="top: 80px; left: 15%; height: 80px;"
                      th:each="item : ${jadwalList}">
-                    <strong th:text="${item.nama}">DAA</strong>
+                    <strong th:text="${item.nama}">Mata Kuliah</strong>
                     <div class="event-time">
                         <span class="clock-icon">🕒</span>
                         <span th:text="${item.jamMulai + ' - ' + item.jamSelesai}">09:00 - 10:20</span>
                     </div>
                 </div>
 
-                <!-- Static examples for visual reference -->
-                <div class="event-card event-blue" style="top: 50px; left: 200px;">  
+                <div class="event-card event-blue" style="top: 80px; left: calc(80px + ((100% - 80px) * 0 / 7)); height: 100px;">
                     <strong>DAA</strong>
                     <div class="event-time"><span class="clock-icon">🕒</span> 09:00 - 10:20</div>
                 </div>
 
-                <div class="event-card event-blue" style="top: 150px; left: 350px;">
+                <div class="event-card event-blue" style="top: 240px; left: calc(80px + ((100% - 80px) * 2 / 7)); height: 100px;">
                     <strong>AOK</strong>
                     <div class="event-time"><span class="clock-icon">🕒</span> 10:30 - 11:50</div>
                 </div>
 
-                <div class="event-card event-cyan" style="top: 230px; left: 500px;">
-                    <strong>Ajuan Pertemuan 1-1-2025</strong>
+                <div class="event-card event-cyan" style="top: 360px; left: calc(80px + ((100% - 80px) * 4 / 7)); height: 80px;">
+                    <strong>Ajuan Pertemuan</strong>
                     <div class="event-time"><span class="clock-icon">🕒</span> 12:30 - 13:50</div>
                 </div>
-
             </div>
         </div>
 
     </div>
 </div>
-
 </body>
 </html>
