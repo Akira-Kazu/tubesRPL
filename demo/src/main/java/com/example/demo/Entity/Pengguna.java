@@ -59,4 +59,7 @@ public class Pengguna {
         return Objects.hash(email);
     }
 
+    @OneToOne(mappedBy = "mahasiswa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private TugasAkhir tugasAkhir;
+
 }

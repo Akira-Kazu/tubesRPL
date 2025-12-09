@@ -5,120 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress TA</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Gaya Sederhana untuk status (Tambahkan ini ke style.css Anda) */
+        .status-verified { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .action-icon { display: inline-block; width: 20px; text-align: center; }
+        .action-approve { color: green; }
+        .action-reject { color: red; }
+        .progress-bar-container { background-color: #f3f3f3; border-radius: 5px; margin-bottom: 5px; }
+        .progress-bar { height: 15px; border-radius: 5px; background-color: #4CAF50; text-align: center; color: white; line-height: 15px; }
+    </style>
 </head>
 
 <body>
-    <div class="dashboard-container">
+<div class="dashboard-container">
 
-        <!-- SIDEBAR -->
-        <div class="sidebar">
-            <h2 class="sidebar-title">Bimbingan TA</h2>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li>
-                        <a th:href="@{/menu}">
-                            Menu utama<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/riwayat}">
-                            Riwayat Bimbingan<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/pengajuan}">
-                            Pengajuan bimbingan<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/kelola}">
-                            Kelola Pengajuan<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li class="active">
-                        <a th:href="@{/progress}">
-                            progressTA<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/jadwal}">
-                            Jadwal<br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- MAIN CONTENT -->
-        <div class="main-content">
-
-            <header class="header">
-                <h1>Progress TA</h1>
-                <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
-            </header>
-
-            <!-- TABLE -->
-            <div class="card ta-overview-table progress-table-container">
-                <h3>TA Overview</h3>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Syarat</th>
-                            <th>Status</th>
-                            <th>Tanggal Verifikasi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <!-- STATIC EXAMPLE -->
-                        <tr>
-                            <td>Telah bimbingan minimal 5x</td>
-                            <td class="status-verified">
-                                <span class="action-icon action-approve">✔</span>
-                            </td>
-                            <td>1 Januari 2025</td>
-                        </tr>
-
-                        <!-- EXAMPLE DYNAMIC ROW -->
-                        <!--
-                        <tr th:each="item : ${progressList}">
-                            <td th:text="${item.syarat}"></td>
-                            <td>
-                                <span class="action-icon action-approve" 
-                                      th:if="${item.status == 'verified'}">✔</span>
-
-                                <span class="action-icon action-reject" 
-                                      th:if="${item.status == 'rejected'}">✘</span>
-                            </td>
-                            <td th:text="${item.verifikasi}"></td>
-                        </tr>
-                        -->
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a th:href="@{/menu}">Menu utama</a></li>
+                <li><a th:href="@{/riwayat}">Riwayat Bimbingan</a></li>
+                <li><a th:href="@{/pengajuan}">Pengajuan bimbingan</a></li>
+                <li><a th:href="@{/kelola}">Kelola Pengajuan</a></li>
+                <li class="active"><a th:href="@{/progress}">progressTA</a></li>
+                <li><a th:href="@{/jadwal}">Jadwal</a></li>
+            </ul>
+        </nav>
     </div>
+
+    <div class="main-content">
+
+        <header class="header">
+            <h1>Progress Tugas Akhir (TA)</h1>
+            <div class="header-icons">
+                <span class="icon-circle">M</span>
+                <span class="icon-circle"><a th:href="@{/inbox}">✉️</a></span>
+            </div>
+        </header>
+
+        <div class="card ta-title-card">
+            <h3 th:if="${showProgress}" th:text="${'Judul TA: ' + judulTa}">Judul TA: [Judul TA Mahasiswa]</h3>
+            <h3 th:unless="${showProgress}" class="status-rejected" th:text="${error}"></h3>
+        </div>
+
+        <div class="card status-kelayakan" th:if="${showProgress}">
+            <h3>Status Kelayakan Sidang (Bimbingan)</h3>
+            <p th:if="${isLulusSyarat}" class="status-verified">
+                <span class="action-icon action-approve">✔</span>
+                **MEMENUHI SYARAT.** Anda telah menyelesaikan semua bimbingan minimum.
+            </p>
+            <p th:unless="${isLulusSyarat}" class="status-rejected">
+                <span class="action-icon action-reject">✘</span>
+                **BELUM MEMENUHI SYARAT.** Periksa detail di bawah ini.
+            </p>
+        </div>
+
+
+        <div class="card ta-overview-table progress-table-container" th:if="${showProgress}">
+            <h3>Detail Persyaratan Bimbingan</h3>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Persyaratan</th>
+                    <th>Target</th>
+                    <th>Tercapai</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Total Sesi Bimbingan</td>
+                    <td th:text="${minTotal} + ' Sesi'"></td>
+                    <td th:text="${totalSelesai} + ' Sesi'"></td>
+                    <td th:classappend="${totalSelesai >= minTotal ? 'status-verified' : 'status-rejected'}">
+                        <span class="action-icon" th:text="${totalSelesai >= minTotal ? '✔' : '✘'}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td th:text="'Sesi Sebelum UTS (Batas: ' + ${batasUts} + ')'"></td>
+                    <td th:text="${minPraUts} + ' Sesi'"></td>
+                    <td th:text="${praUts} + ' Sesi'"></td>
+                    <td th:classappend="${praUts >= minPraUts ? 'status-verified' : 'status-rejected'}">
+                        <span class="action-icon" th:text="${praUts >= minPraUts ? '✔' : '✘'}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td th:text="'Sesi Sebelum Sidang (Batas: ' + ${batasUas} + ')'"></td>
+                    <td th:text="${minPraUas} + ' Sesi'"></td>
+                    <td th:text="${praUas} + ' Sesi'"></td>
+                    <td th:classappend="${praUas >= minPraUas ? 'status-verified' : 'status-rejected'}">
+                        <span class="action-icon" th:text="${praUas >= minPraUas ? '✔' : '✘'}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

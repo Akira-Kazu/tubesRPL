@@ -104,17 +104,22 @@
                     Lokasi: <span th:text="${item.lokasi}"></span><br>
                     Waktu: <span th:text="${item.waktu}"></span><br>
 
-                    Catatan:
-                    <span th:text="${item.permintaanJadwal.catatan != null ? item.permintaanJadwal.catatan : '-'}"></span>
+                    Status Sesi:
+                    <span th:if="${item.statusRealisasi != null && item.statusRealisasi == 'Selesai'}" class="status-verified">
+        Selesai
+    </span>
+                    <span th:unless="${item.statusRealisasi != null && item.statusRealisasi == 'Selesai'}" class="status-pending">
+        Menunggu Realisasi
+    </span>
                     <br>
 
-                    Status:
-                    <span th:text="${item.permintaanJadwal.status}"></span>
+                    Catatan Dosen:
+                    <span th:text="${item.komentarDosen != null ? item.komentarDosen : '-'}"></span>
                 </p>
 
                 <button class="btn btn-history-action"
                         th:onclick="|location.href='/dosen/riwayat/detail/${item.idBimbingan}'|">
-                    Lihat Catatan & Feedback
+                    Kelola Realisasi
                 </button>
 
             </div>

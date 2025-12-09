@@ -1,6 +1,7 @@
 package com.example.demo.Mahasiswa;
 import com.example.demo.Entity.*;
 import com.example.demo.service.JadwalService;
+import com.example.demo.service.PersyaratanService;
 import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,8 @@ public class MahasiswaController {
     @Autowired
     private JadwalService jadwalService;
 
+    @Autowired
+    private PersyaratanService persyaratanService;
     @Autowired
     private PermintaanJadwalService permintaanJadwalService;
 
@@ -126,9 +129,65 @@ public class MahasiswaController {
     }
 
 
+    // Dalam com.example.demo.Mahasiswa.MahasiswaController
+
+// Pastikan autowired ini ada di bagian atas class:
+// @Autowired
+// private PersyaratanService persyaratanService;
+
+// ...
+
     @GetMapping("/progress")
-    public String progress() {
-        return "progressTAMahasiswa"; // templates/progress.html
+    public String progress(HttpSession session, Model model) {
+
+        Pengguna mahasiswa = (Pengguna) session.getAttribute("loggedUser");
+
+        // Guard Clause: Pastikan user login dan adalah Mahasiswa (Role 1)
+        if (mahasiswa == null || mahasiswa.getRole() != 1) {
+            return "redirect:/login";
+        }
+
+        // 1. Ambil Tugas Akhir Mahasiswa
+        // Diasumsikan relasi Pengguna -> TugasAkhir sudah dikonfigurasi dan terisi
+        TugasAkhir ta = mahasiswa.getTugasAkhir();
+
+        if (ta == null) {
+            model.addAttribute("error", "Anda belum memiliki Tugas Akhir yang terdaftar.");
+            model.addAttribute("showProgress", false);
+            return "progressTAMahasiswa";
+        }
+
+        Integer idTa = ta.getIdTa();
+
+        // 2. Cek Status Kelayakan Sidang
+        boolean isMemenuhiSyarat = persyaratanService.isSyaratSidangTerpenuhi(idTa);
+
+        // 3. Ambil Detail Hitungan untuk Display (Untuk memberikan feedback spesifik ke mahasiswa)
+        // Asumsi: PersyaratanService memiliki helper method untuk mendapatkan hitungan ini
+        long totalSelesai = persyaratanService.countTotalBimbingan(idTa);
+        long praUts = persyaratanService.countBimbinganPraUts(idTa);
+        long praUas = persyaratanService.countBimbinganPraUas(idTa);
+
+        // 4. Set Model Attributes
+        model.addAttribute("showProgress", true);
+        model.addAttribute("judulTa", ta.getJudul());
+        model.addAttribute("isLulusSyarat", isMemenuhiSyarat);
+
+        // Detail Angka Bimbingan
+        model.addAttribute("totalSelesai", totalSelesai);
+        model.addAttribute("minTotal", PersyaratanService.MIN_TOTAL_BIMBINGAN);
+
+        model.addAttribute("praUts", praUts);
+        model.addAttribute("minPraUts", PersyaratanService.MIN_BIMBINGAN_UTS);
+
+        model.addAttribute("praUas", praUas);
+        model.addAttribute("minPraUas", PersyaratanService.MIN_BIMBINGAN_UAS);
+
+        // Batas Waktu (Opsional, untuk ditampilkan di UI)
+        model.addAttribute("batasUts", persyaratanService.getBatasWaktuUts().toLocalDate());
+        model.addAttribute("batasUas", persyaratanService.getBatasWaktuUas().toLocalDate());
+
+        return "progressTAMahasiswa";
     }
 
     @Transactional
