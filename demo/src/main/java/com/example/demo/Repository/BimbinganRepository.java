@@ -22,4 +22,9 @@ public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
 
     // Tambahan (opsional): kalau kamu butuh by id permintaan
     Bimbingan findByPermintaanJadwal_Id(Long id);
+
+    List<Bimbingan> findByPermintaanJadwal_Mahasiswa_EmailAndHari(String email, String hari);
+
+
+
 }
