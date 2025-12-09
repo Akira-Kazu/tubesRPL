@@ -140,64 +140,76 @@ public class MahasiswaController {
 
         Pengguna mahasiswa = penggunaRepo.findByEmail(sessionUser.getEmail());
 
-        Map<String, List<Object>> jadwalPerHari = new HashMap<>();
+        Map<String, List<Map<String, Object>>> jadwalPerHari = new HashMap<>();
 
-        // Mata kuliah -> jadwal sesi
-        System.out.println("===== DEBUG MATA KULIAH =====");
+        // Mapping hari Inggris -> Indonesia (untuk bimbingan)
+        Map<String, String> hariMapping = Map.of(
+                "MONDAY", "Senin",
+                "TUESDAY", "Selasa",
+                "WEDNESDAY", "Rabu",
+                "THURSDAY", "Kamis",
+                "FRIDAY", "Jumat",
+                "SATURDAY", "Sabtu",
+                "SUNDAY", "Minggu"
+        );
+
+        // --- MataKuliah ---
         for (MataKuliah mk : mahasiswa.getMataKuliah()) {
-            System.out.println("MK: " + mk.getNamaMK() + " (id=" + mk.getId() + ")");
             if (mk.getJadwal() != null) {
                 for (JadwalMK sesi : mk.getJadwal()) {
-                    System.out.println("  Sesi: hari=" + sesi.getHari()
-                            + " start=" + sesi.getWaktu()
-                            + " end=" + sesi.getEndTime());
-                    jadwalPerHari.computeIfAbsent(sesi.getHari(), k -> new ArrayList<>()).add(sesi);
+                    Map<String,Object> e = new HashMap<>();
+                    e.put("type","MK");
+                    e.put("name", mk.getNamaMK());
+                    e.put("startHour", sesi.getWaktu().getHour());
+                    e.put("endHour", sesi.getEndTime().getHour());
+
+                    System.out.println("DEBUG: Menambahkan MK " + mk.getNamaMK() + " ke hari " + sesi.getHari()
+                            + " start=" + sesi.getWaktu() + " end=" + sesi.getEndTime());
+
+                    jadwalPerHari.computeIfAbsent(sesi.getHari(), k -> new ArrayList<>()).add(e);
                 }
             }
         }
-        System.out.println("=============================");
 
-        // Bimbingan
+        // --- Bimbingan ---
         List<Bimbingan> bimbinganList = bimbinganService.getBimbinganUntukMahasiswa(mahasiswa.getEmail());
-
-        System.out.println("===== DEBUG BIMBINGAN =====");
-        if (bimbinganList == null || bimbinganList.isEmpty()) {
-            System.out.println("Tidak ada bimbingan untuk mahasiswa ini.");
-        } else {
+        if (bimbinganList != null) {
             for (Bimbingan b : bimbinganList) {
-                // gunakan getter yang ada di entity-mu: idBimbingan, hari, waktu, permintaanJadwal
-                System.out.println("Bimbingan id: " + b.getIdBimbingan());
-                System.out.println("  Hari: " + b.getHari());
-                System.out.println("  Waktu (mulai): " + b.getWaktu());
-                // durasi bimbingan di aplikasi kamu 1 jam -> kalkulasi end time
                 if (b.getWaktu() != null) {
-                    try {
-                        System.out.println("  Waktu (selesai asumsi): " + b.getWaktu().plusHours(1));
-                    } catch (Exception ex) {
-                        System.out.println("  Gagal kalkulasi waktu selesai: " + ex.getMessage());
-                    }
-                }
+                    Map<String,Object> e = new HashMap<>();
+                    e.put("type","Bimbingan");
+                    e.put("note", b.getPermintaanJadwal() != null ? b.getPermintaanJadwal().getCatatan() : null);
+                    e.put("startHour", b.getWaktu().getHour());
 
-                PermintaanJadwal p = b.getPermintaanJadwal();
-                if (p != null) {
-                    System.out.println("  PermintaanJadwal id: " + p.getId());// sesuaikan nama getter
-                    System.out.println("  Permintaan tanggal: " + p.getTanggal());
-                    System.out.println("  Permintaan waktu: " + p.getWaktu());
-                    if (p.getDosen() != null) System.out.println("  Dosen: " + p.getDosen().getNama());
-                } else {
-                    System.out.println("  PermintaanJadwal = null");
-                }
+                    String hariIndonesia = hariMapping.getOrDefault(b.getHari().toUpperCase(), b.getHari());
+                    System.out.println("DEBUG: Menambahkan Bimbingan id=" + b.getIdBimbingan() + " ke hari " + hariIndonesia
+                            + " jam=" + b.getWaktu());
 
-                jadwalPerHari.computeIfAbsent(b.getHari(), k -> new ArrayList<>()).add(b);
-                System.out.println("-------------------------");
+                    jadwalPerHari.computeIfAbsent(hariIndonesia, k -> new ArrayList<>()).add(e);
+                }
             }
         }
-        System.out.println("=============================");
 
+        // --- Cetak jadwalPerHari lengkap untuk debug ---
+        System.out.println("===== DEBUG JADWAL PER HARI =====");
+        for (String h : jadwalPerHari.keySet()) {
+            System.out.println("Hari: " + h);
+            for (Map<String,Object> item : jadwalPerHari.get(h)) {
+                System.out.println("  " + item);
+            }
+        }
+
+        List<String> hariList = Arrays.asList("Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+
+        model.addAttribute("hariList", hariList);
         model.addAttribute("jadwalPerHari", jadwalPerHari);
         model.addAttribute("nama", mahasiswa.getNama());
 
         return "JadwalMahasiswa";
     }
+
+
+
+
 
 }
