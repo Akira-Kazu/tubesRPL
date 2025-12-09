@@ -4,7 +4,11 @@ import com.example.demo.Entity.Bimbingan;
 import com.example.demo.Repository.BimbinganRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BimbinganService {
@@ -52,5 +56,17 @@ public class BimbinganService {
 public void deleteBimbingan(Long idBimbingan) {
     bimbinganRepository.deleteById(idBimbingan);
 }
+
+
+    public Map<String, List<Bimbingan>> getBimbinganPerHari(String emailMahasiswa) {
+        List<Bimbingan> bimbinganList = getBimbinganUntukMahasiswa(emailMahasiswa);
+        Map<String, List<Bimbingan>> jadwalPerHari = new HashMap<>();
+        for (Bimbingan bimbingan : bimbinganList) {
+            String hari = bimbingan.getHari();
+            jadwalPerHari.computeIfAbsent(hari, k -> new ArrayList<>())
+                    .add(bimbingan);
+        }
+        return jadwalPerHari;
+    }
 
 }

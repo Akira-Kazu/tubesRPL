@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Dosen</title>
-
     <link rel="stylesheet" th:href="@{/css/style.css}">  
     <link rel="stylesheet" th:href="@{/css/jadwal.css}">
 </head>
@@ -17,38 +16,39 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a th:href="@{/}">
+                    <a th:href="@{/dosen}">
                         Menu utama<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Ringkasan Dashboard.</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/riwayat}">
+                    <a th:href="@{/dosen/riwayat}">
                         Riwayat Bimbingan<br>
-                        <span class="menu-description">Menu description.</span>
-                    </a>
-                </li>
-                <li class="active"> <a th:href="@{/pengajuan}">
-                        Pengajuan bimbingan<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Arsip & Logbook.</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/kelola}">
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan bimbingan<br>
+                        <span class="menu-description">Buat Jadwal Baru.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/dosen/kelola}">
                         Kelola Pengajuan<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Acc/Tolak Request.</span>
                     </a>
                 </li>
                 <li>
                     <a th:href="@{/progress}">
                         progressTA<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Monitoring Mhs.</span>
                     </a>
                 </li>
-                <li>
-                    <a th:href="@{/jadwal}">
+                <li class="active">
+                    <a th:href="@{/dosen/jadwal}">
                         Jadwal<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Kalender Saya.</span>
                     </a>
                 </li>
             </ul>
@@ -56,11 +56,10 @@
     </div>
 
     <div class="main-content">
-
         <header class="header">
             <h1 class="header-title-custom">Jadwal Saya</h1>
             <div class="header-icons">
-                <span class="icon-circle">M</span>
+                <span class="icon-circle">D</span>
                 <span class="icon-circle">
                     <a th:href="@{/inbox}">
                         <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}" alt="Inbox">
@@ -76,7 +75,6 @@
                     <option value="jadwal" selected>Jadwal saya</option>
                     <option value="dosen">Jadwal dosen</option>
                 </select>
-
                 <a class="btn btn-add" th:href="@{/pengajuan}">
                     + Tambah Ajuan
                 </a>
@@ -84,7 +82,6 @@
         </div>
 
         <div class="schedule-grid">
-            
             <div class="days-row">
                 <span>Jam</span>
                 <span>Senin</span>
@@ -112,25 +109,14 @@
                 <div class="event-card event-blue"
                      style="top: 80px; left: 15%; height: 80px;"
                      th:each="item : ${jadwalList}">
-                    <strong th:text="${item.nama}">Mata Kuliah</strong>
+                    <strong th:text="${item.nama}">Matkul</strong>
                     <div class="event-time">
                         <span class="clock-icon">🕒</span>
                         <span th:text="${item.jamMulai + ' - ' + item.jamSelesai}">09:00 - 10:20</span>
                     </div>
                 </div>
-
-                <div class="event-card event-blue" style="top: 80px; left: calc(80px + ((100% - 80px) * 0 / 7)); height: 100px;">
-                    <strong>DAA (Senin)</strong>
-                    <div class="event-time"><span class="clock-icon">🕒</span> 09:00 - 10:20</div>
-                </div>
-
-                <div class="event-card event-blue" style="top: 240px; left: calc(80px + ((100% - 80px) * 2 / 7)); height: 80px;">
-                    <strong>AOK (Rabu)</strong>
-                    <div class="event-time"><span class="clock-icon">🕒</span> 10:30 - 11:50</div>
-                </div>
             </div>
         </div>
-
     </div>
 </div>
 </body>

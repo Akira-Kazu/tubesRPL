@@ -38,7 +38,11 @@ public class JadwalService {
         List<MataKuliah> mataKuliahList = mataKuliahRepo.findByMahasiswaEmail(emailMahasiswa);
 
         // 2. Ambil semua bimbingan mahasiswa di hari tersebut
-        List<Bimbingan> bimbinganList = bimbinganRepo.findByMahasiswaEmailAndHari(emailMahasiswa, hari);
+        List<Bimbingan> bimbinganList =
+                bimbinganRepo.findByPermintaanJadwal_Mahasiswa_EmailAndHari(emailMahasiswa, hari);
+
+
+
 
         LocalTime bimbinganStart = waktu;
         LocalTime bimbinganEnd = waktu.plusHours(1); // durasi bimbingan 1 jam

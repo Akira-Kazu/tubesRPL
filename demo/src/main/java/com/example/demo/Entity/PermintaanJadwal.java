@@ -40,4 +40,5 @@ public class PermintaanJadwal {
     @ManyToOne
     @JoinColumn(name = "email_dosen", referencedColumnName = "email")
     private Pengguna dosen;
+
 }

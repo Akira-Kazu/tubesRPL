@@ -1,10 +1,10 @@
-
 package com.example.demo.Entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class TerdaftarId implements Serializable {
+
     private String email;
     private Long idMk;
 
@@ -18,10 +18,9 @@ public class TerdaftarId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if(!(o instanceof TerdaftarId)) return false;
         TerdaftarId that = (TerdaftarId) o;
-        return Objects.equals(email, that.email) &&
-                Objects.equals(idMk, that.idMk);
+        return Objects.equals(email, that.email) && Objects.equals(idMk, that.idMk);
     }
 
     @Override
