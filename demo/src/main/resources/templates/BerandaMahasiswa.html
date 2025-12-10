@@ -89,13 +89,13 @@
                 <div class="summary-content">
                     <div class="profile-section">
                         <div class="profile-icon"></div>
-                        <p>Account Name</p>
+                        <p th:text="${namaUser}">Nama Mahasiswa</p>
                     </div>
 
                     <div class="stats-section">
-                        <p>TA Finished <b>0</b></p>
-                        <p>TA On Progress <b>0</b></p>
-                        <p>TA Not Started <b>0</b></p>
+                        <p>TA Finished <b th:text="${taFinished}">0</b></p>
+                        <p>TA On Progress <b th:text="${taOnProgress}">0</b></p>
+                        <p>TA Pending/Waiting <b th:text="${taNotStarted}">0</b></p> 
                     </div>
                 </div>
             </div>
@@ -126,26 +126,22 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>09:00</td>
-                    <td>Senin, 01-01-2025</td>
-                    <td>Gede Karya</td>
-                    <td>Unpar</td>
-                    <td>TA 1</td>
+                <tr th:each="row : ${listJadwal}">
+                    <td th:text="${row.waktu}">09:00</td>
+                    
+                    <td th:text="${row.hari + ', ' + row.permintaanJadwal.tanggal}">Senin, 01-01-2025</td>
+                    
+                    <td th:text="${row.permintaanJadwal.dosen.nama}">Nama Dosen</td>
+                    
+                    <td th:text="${row.lokasi}">Unpar</td>
+                    
+                    <td th:text="${row.permintaanJadwal.catatan}">TA 1</td>
                 </tr>
-                <tr>
-                    <td>10:30</td>
-                    <td>Rabu, 03-01-2025</td>
-                    <td>Keenan Adiwijaya Leman</td>
-                    <td>Unpar</td>
-                    <td>TA 1</td>
-                </tr>
-                <tr>
-                    <td>13:00</td>
-                    <td>Jumat, 05-01-2025</td>
-                    <td>Pascal Alfadian Nugroho</td>
-                    <td>Unpar</td>
-                    <td>TA 1</td>
+
+                <tr th:if="${#lists.isEmpty(listJadwal)}">
+                    <td colspan="5" style="text-align:center; padding: 20px; color: #999;">
+                        Belum ada jadwal bimbingan yang disetujui.
+                    </td>
                 </tr>
                 </tbody>
             </table>

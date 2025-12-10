@@ -15,6 +15,13 @@ public interface PermintaanJadwalRepository extends JpaRepository<PermintaanJadw
 
          // Karena email ada di entity Pengguna dan field relasinya adalah "dosen"
     List<PermintaanJadwal> findByMahasiswa_Email(String email);
+    
+	//KHUSUS DOSEN: Cari berdasarkan Status (Dipakai di DosenController untuk hitung 'Pending')
+    // INI YANG TADI ERROR KARENA HILANG
+    List<PermintaanJadwal> findByDosen_EmailAndStatus(String email, String status);
+
+    //KHUSUS DOSEN: Cari yang BUKAN status tertentu (Dipakai di DosenController untuk Riwayat)
+    List<PermintaanJadwal> findByDosen_EmailAndStatusNot(String email, String status);
 
     @Query("""
     SELECT p 
