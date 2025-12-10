@@ -5,11 +5,8 @@ import com.example.demo.Entity.Bimbingan;
 import com.example.demo.Entity.Pengguna;
 import com.example.demo.Entity.PermintaanJadwal;
 import com.example.demo.Repository.BimbinganRepository;
-import com.example.demo.service.BimbinganService;
-import com.example.demo.Repository.PenggunaRepository;
 import com.example.demo.Repository.PermintaanJadwalRepository;
-import com.example.demo.service.PermintaanJadwalService;
-
+import com.example.demo.Repository.PenggunaRepository;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +17,11 @@ import java.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/dosen")
@@ -35,7 +37,7 @@ public class DosenController {
     @Autowired
     private BimbinganRepository bimbinganRepo;
     @Autowired
-    private BimbinganService bimbinganService;
+    private PenggunaRepository penggunaRepo;
 
     // --- HOME & NAVIGASI ---
 
@@ -125,9 +127,100 @@ public class DosenController {
         if (b != null) {
             b.setKomentarDosen(komentar);
             bimbinganService.saveBimbingan(b);
-        }
+    // --- DASHBOARD (BERANDA) ---
+    @GetMapping
+    public String dosenHome(HttpSession session, Model model) {
+        Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+        if (dosen == null) return "redirect:/login";
 
-        return "redirect:/dosen/riwayat/detail/" + id;
+        model.addAttribute("namaUser", dosen.getNama());
+
+        // 1. DATA TABEL: Ambil semua jadwal bimbingan milik dosen ini
+        // (Method ini sudah ada di BimbinganRepository kamu)
+        List<Bimbingan> listJadwal = bimbinganRepo.findByPermintaanJadwal_Dosen_Email(dosen.getEmail());
+        model.addAttribute("listJadwal", listJadwal);
+
+        // 2. DATA STATISTIK
+        // Hitung Pengajuan Baru (Status = Pending)
+        int pendingCount = permintaanRepo.findByDosen_EmailAndStatus(dosen.getEmail(), "Pending").size();
+        
+        // Hitung Total Bimbingan (Yang sudah masuk tabel Bimbingan)
+        int bimbinganCount = listJadwal.size();
+        
+        // Hitung Catatan (Contoh: Bimbingan yang kolom komentarnya sudah diisi)
+        long catatanCount = listJadwal.stream()
+                            .filter(b -> b.getKomentarDosen() != null && !b.getKomentarDosen().isEmpty())
+                            .count();
+
+        model.addAttribute("pengajuanBaru", pendingCount);
+        model.addAttribute("bimbinganTotal", bimbinganCount);
+        model.addAttribute("catatanDiberikan", catatanCount);
+
+        return "berandaDosen";
+    }
+
+    // ... (SISA METHOD LAIN TETAP SAMA SEPERTI SEBELUMNYA) ...
+    // Pastikan method lain seperti /kelola, /riwayat, approve, reject tetap ada di sini.
+    // Kalau mau saya kirim full code DosenController lagi, bilang aja.
+    
+    // --- HALAMAN KELOLA PENGAJUAN (Hanya Pending) ---
+    @GetMapping("/kelola")
+    public String kelolaPengajuan(HttpSession session, Model model) {
+        Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+        if (dosen == null) return "redirect:/login";
+
+        List<PermintaanJadwal> listPending = permintaanRepo.findByDosen_EmailAndStatus(dosen.getEmail(), "Pending");
+        model.addAttribute("pengajuanList", listPending);
+        return "kelolaPengajuanDosen";
+    }
+
+    // --- HALAMAN RIWAYAT ---
+    @GetMapping("/riwayat")
+    public String riwayatBimbingan(HttpSession session, Model model) {
+        Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+        if (dosen == null) return "redirect:/login";
+
+        List<PermintaanJadwal> history = permintaanRepo.findByDosen_EmailAndStatusNot(dosen.getEmail(), "Pending");
+        model.addAttribute("riwayatList", history);
+        return "riwayatBimbinganDosen";
+    }
+
+    // --- APPROVE ---
+    @GetMapping("/pengajuan/approve/{id}")
+    public String approvePengajuan(@PathVariable Long id) {
+        PermintaanJadwal p = permintaanRepo.findById(id).orElse(null);
+        if (p != null) {
+            p.setStatus("Approved");
+            permintaanRepo.save(p);
+
+            // Buat Jadwal Bimbingan Real
+            Bimbingan b = new Bimbingan();
+            b.setPermintaanJadwal(p);
+            b.setLokasi(p.getLokasi());
+            b.setHari(p.getTanggal().getDayOfWeek().toString());
+            b.setWaktu(p.getWaktu());
+            b.setIsBimbingan(true);
+            bimbinganRepo.save(b);
+        }
+        return "redirect:/dosen/kelola";
+    }
+
+    // --- REJECT ---
+    @GetMapping("/pengajuan/reject/{id}")
+    public String rejectPengajuan(@PathVariable Long id) {
+        PermintaanJadwal p = permintaanRepo.findById(id).orElse(null);
+        if (p != null) {
+            p.setStatus("Rejected");
+            permintaanRepo.save(p);
+        }
+        return "redirect:/dosen/kelola";
+    }
+    
+    // --- FORM PENGAJUAN ---
+    @GetMapping("/pengajuan")
+    public String pengajuanBimbingan(Model model) {
+        model.addAttribute("mahasiswaList", penggunaRepo.findByRole(1));
+        return "pengajuanFormDosen";
     }
 
 

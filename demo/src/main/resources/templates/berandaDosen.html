@@ -21,49 +21,38 @@
                 <ul>
                     <li class="active">
                         <a th:href="@{/dosen}">
-                            Menu utama
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Menu utama<br>
+                            <span class="menu-description">Ringkasan Dashboard.</span>
                         </a>
                     </li>
-
                     <li>
                         <a th:href="@{/dosen/riwayat}">
-                            Riwayat Bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Riwayat Bimbingan<br>
+                            <span class="menu-description">Arsip & Logbook.</span>
                         </a>
                     </li>
-
-                    <li >
+                    <li>
                         <a th:href="@{/dosen/pengajuan}">
-                            Pengajuan bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Pengajuan bimbingan<br>
+                            <span class="menu-description">Buat Jadwal Baru.</span>
                         </a>
                     </li>
-
                     <li>
                         <a th:href="@{/dosen/kelola}">
-                            Kelola Pengajuan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Kelola Pengajuan<br>
+                            <span class="menu-description">Acc/Tolak Request.</span>
                         </a>
                     </li>
-
                     <li>
-                        <a th:href="@{/dosen/progress}">
-                            progressTA
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                        <a th:href="@{/progress}">
+                            progressTA<br>
+                            <span class="menu-description">Monitoring Mhs.</span>
                         </a>
                     </li>
-
-                    <li>
+                    <li class="active">
                         <a th:href="@{/dosen/jadwal}">
-                            Jadwal
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Jadwal<br>
+                            <span class="menu-description">Kalender Saya.</span>
                         </a>
                     </li>
                 </ul>
@@ -78,14 +67,14 @@
                 <h1>Beranda</h1>
 
                  <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
+                    <span class="icon-circle">M</span>
+                    <span class="icon-circle">
+                        <a th:href="@{/inbox}">
+                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                                alt="Tampilan Inbox Email">
+                        </a>
+                    </span>
+                </div>
 
             </header>
 
@@ -99,13 +88,13 @@
 
                         <div class="profile-section">
                             <div class="profile-icon"></div> 
-                            <p th:text="${namaUser}">Account Name</p>
+                            <p th:text="${namaUser}">Nama Dosen</p>
                         </div>
 
                         <div class="stats-section">
-                            <p>Pengajuan Baru: <span th:text="${pengajuanBaru}">0</span></p>
+                            <p>Request Pending: <span th:text="${pengajuanBaru}">0</span></p>
+                            <p>Total Bimbingan: <span th:text="${bimbinganTotal}">0</span></p>
                             <p>Catatan Diberikan: <span th:text="${catatanDiberikan}">0</span></p>
-                            <p>Bimbingan Minggu Ini: <span th:text="${bimbinganMingguIni}">0</span></p>
                         </div>
 
                     </div>
@@ -148,10 +137,18 @@
                     <tbody>
                         <tr th:each="jadwal : ${listJadwal}">
                             <td th:text="${jadwal.waktu}">09:00</td>
-                            <td th:text="${jadwal.hariTanggal}">Senin, 01-01-2025</td>
-                            <td th:text="${jadwal.mahasiswa}">Nama Mhs</td>
+                            
+                            <td th:text="${jadwal.hari + ', ' + jadwal.permintaanJadwal.tanggal}">Senin, 01-01-2025</td>
+                            
+                            <td th:text="${jadwal.permintaanJadwal.mahasiswa.nama}">Nama Mhs</td>
+                            
                             <td th:text="${jadwal.lokasi}">Unpar</td>
-                            <td th:text="${jadwal.jenis}">TA 1</td>
+                            
+                            <td th:text="${jadwal.permintaanJadwal.catatan}">TA 1</td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(listJadwal)}">
+                            <td colspan="5" style="text-align:center; padding: 20px;">Belum ada jadwal bimbingan.</td>
                         </tr>
                     </tbody>
 
