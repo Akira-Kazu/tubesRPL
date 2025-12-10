@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Bimbingan</title>
 
-    <!-- Arahkan CSS ke static -->
     <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
 
 <body>
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <div class="sidebar">
             <h2 class="sidebar-title">Bimbingan TA</h2>
 
@@ -20,76 +18,61 @@
                 <ul>
                     <li>
                         <a th:href="@{/dosen}">
-                            Menu utama
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Menu utama<br>
+                            <span class="menu-description">Ringkasan Dashboard.</span>
                         </a>
                     </li>
-
                     <li class="active">
                         <a th:href="@{/dosen/riwayat}">
-                            Riwayat Bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Riwayat Bimbingan<br>
+                            <span class="menu-description">Arsip & Logbook.</span>
                         </a>
                     </li>
-
-                    <li >
+                    <li>
                         <a th:href="@{/dosen/pengajuan}">
-                            Pengajuan bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Pengajuan bimbingan<br>
+                            <span class="menu-description">Buat Jadwal Baru.</span>
                         </a>
                     </li>
-
                     <li>
                         <a th:href="@{/dosen/kelola}">
-                            Kelola Pengajuan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Kelola Pengajuan<br>
+                            <span class="menu-description">Acc/Tolak Request.</span>
                         </a>
                     </li>
-
                     <li>
                         <a th:href="@{/dosen/progress}">
-                            progressTA
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            progressTA<br>
+                            <span class="menu-description">Monitoring Mhs.</span>
                         </a>
                     </li>
-
                     <li>
                         <a th:href="@{/dosen/jadwal}">
-                            Jadwal
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+                            Jadwal<br>
+                            <span class="menu-description">Kalender Saya.</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
 
-        <!-- MAIN CONTENT -->
         <div class="main-content">
 
-            <!-- Header -->
             <header class="header">
                 <h1>Dashboard</h1>
 
                 <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
+                    <span class="icon-circle">D</span>
+                    <span class="icon-circle">
+                        <a th:href="@{/inbox}">
+                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                                 alt="Tampilan Inbox Email" />
+                        </a>
+                    </span>
+                </div>
             </header>
 
-            <!-- CONTENT (Hardcoded Example) -->
-            <div th:if="${riwayat.size() == 0}">
+            <div th:if="${#lists.isEmpty(riwayat)}" style="text-align: center; color: #888; margin-top: 30px;">
                 <p>Tidak ada riwayat bimbingan.</p>
             </div>
 
@@ -124,10 +107,5 @@
 
             </div>
 
-
-</div>
-
-        </div>
-    </div>
-</body>
+        </div> </div> </body>
 </html>
