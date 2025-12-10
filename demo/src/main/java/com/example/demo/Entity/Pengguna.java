@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -43,4 +45,21 @@ public class Pengguna {
             inverseJoinColumns = @JoinColumn(name = "id_mk")
     )
     private Set<MataKuliah> mengajar;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pengguna that = (Pengguna) o;
+        return Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
+    @OneToOne(mappedBy = "mahasiswa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private TugasAkhir tugasAkhir;
+
 }

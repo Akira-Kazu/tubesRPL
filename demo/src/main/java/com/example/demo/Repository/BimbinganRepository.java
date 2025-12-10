@@ -2,9 +2,12 @@ package com.example.demo.Repository;
 
 import com.example.demo.Entity.Bimbingan;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.example.demo.Entity.PermintaanJadwal;
 
@@ -25,6 +28,15 @@ public interface BimbinganRepository extends JpaRepository<Bimbingan, Long> {
 
     List<Bimbingan> findByPermintaanJadwal_Mahasiswa_EmailAndHari(String email, String hari);
 
+    @Query("SELECT COUNT(b) FROM Bimbingan b " +
+            "WHERE b.tugasAkhir.idTa = :idTa " +
+            "AND b.statusRealisasi = :status " +
+            "AND b.tanggalWaktuRealisasi < :batasWaktu") // Kondisi kunci untuk batas waktu
+    Long countCompletedBeforeDate(
+            @Param("idTa") Integer idTa,
+            @Param("status") String status,
+            @Param("batasWaktu") LocalDateTime batasWaktu // Menggunakan LocalDateTime
+    );
 
-
+    long countByTugasAkhir_IdTaAndStatusRealisasi(Integer idTa, String statusSelesai);
 }

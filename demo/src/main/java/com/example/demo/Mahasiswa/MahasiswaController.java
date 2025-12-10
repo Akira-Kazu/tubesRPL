@@ -1,4 +1,11 @@
 package com.example.demo.Mahasiswa;
+import com.example.demo.Entity.*;
+import com.example.demo.service.JadwalService;
+import com.example.demo.service.PersyaratanService;
+import jakarta.transaction.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.PenggunaRepository;
@@ -29,6 +36,8 @@ public class MahasiswaController {
     @Autowired
     private JadwalService jadwalService;
 
+    @Autowired
+    private PersyaratanService persyaratanService;
     @Autowired
     private PermintaanJadwalService permintaanJadwalService;
 
@@ -138,8 +147,66 @@ public class MahasiswaController {
     @GetMapping("/kelola")
     public String kelola() { return "kelolaPengajuanmahasiswa"; }
 
+    // Dalam com.example.demo.Mahasiswa.MahasiswaController
+
+// Pastikan autowired ini ada di bagian atas class:
+// @Autowired
+// private PersyaratanService persyaratanService;
+
+// ...
+
     @GetMapping("/progress")
-    public String progress() { return "progressTAMahasiswa"; }
+    public String progress(HttpSession session, Model model) {
+
+        Pengguna mahasiswa = (Pengguna) session.getAttribute("loggedUser");
+
+        // Guard Clause: Pastikan user login dan adalah Mahasiswa (Role 1)
+        if (mahasiswa == null || mahasiswa.getRole() != 1) {
+            return "redirect:/login";
+        }
+
+        // 1. Ambil Tugas Akhir Mahasiswa
+        // Diasumsikan relasi Pengguna -> TugasAkhir sudah dikonfigurasi dan terisi
+        TugasAkhir ta = mahasiswa.getTugasAkhir();
+
+        if (ta == null) {
+            model.addAttribute("error", "Anda belum memiliki Tugas Akhir yang terdaftar.");
+            model.addAttribute("showProgress", false);
+            return "progressTAMahasiswa";
+        }
+
+        Integer idTa = ta.getIdTa();
+
+        // 2. Cek Status Kelayakan Sidang
+        boolean isMemenuhiSyarat = persyaratanService.isSyaratSidangTerpenuhi(idTa);
+
+        // 3. Ambil Detail Hitungan untuk Display (Untuk memberikan feedback spesifik ke mahasiswa)
+        // Asumsi: PersyaratanService memiliki helper method untuk mendapatkan hitungan ini
+        long totalSelesai = persyaratanService.countTotalBimbingan(idTa);
+        long praUts = persyaratanService.countBimbinganPraUts(idTa);
+        long praUas = persyaratanService.countBimbinganPraUas(idTa);
+
+        // 4. Set Model Attributes
+        model.addAttribute("showProgress", true);
+        model.addAttribute("judulTa", ta.getJudul());
+        model.addAttribute("isLulusSyarat", isMemenuhiSyarat);
+
+        // Detail Angka Bimbingan
+        model.addAttribute("totalSelesai", totalSelesai);
+        model.addAttribute("minTotal", PersyaratanService.MIN_TOTAL_BIMBINGAN);
+
+        model.addAttribute("praUts", praUts);
+        model.addAttribute("minPraUts", PersyaratanService.MIN_BIMBINGAN_UTS);
+
+        model.addAttribute("praUas", praUas);
+        model.addAttribute("minPraUas", PersyaratanService.MIN_BIMBINGAN_UAS);
+
+        // Batas Waktu (Opsional, untuk ditampilkan di UI)
+        model.addAttribute("batasUts", persyaratanService.getBatasWaktuUts().toLocalDate());
+        model.addAttribute("batasUas", persyaratanService.getBatasWaktuUas().toLocalDate());
+
+        return "progressTAMahasiswa";
+    }
 
     @GetMapping("/inbox")
     public String inbox() { return "inboxMahasiswa"; }
@@ -152,31 +219,77 @@ public class MahasiswaController {
         if (sessionUser == null) return "redirect:/login";
 
         Pengguna mahasiswa = penggunaRepo.findByEmail(sessionUser.getEmail());
-        Map<String, List<Object>> jadwalPerHari = new HashMap<>();
 
-        // Jadwal MK
-        if (mahasiswa.getMataKuliah() != null) {
-            for (MataKuliah mk : mahasiswa.getMataKuliah()) {
-                if (mk.getJadwal() != null) {
-                    for (JadwalMK sesi : mk.getJadwal()) {
-                        jadwalPerHari.computeIfAbsent(sesi.getHari().toUpperCase(), k -> new ArrayList<>()).add(sesi);
-                    }
+        Map<String, List<Map<String, Object>>> jadwalPerHari = new HashMap<>();
+
+        // Mapping hari Inggris -> Indonesia (untuk bimbingan)
+        Map<String, String> hariMapping = Map.of(
+                "MONDAY", "Senin",
+                "TUESDAY", "Selasa",
+                "WEDNESDAY", "Rabu",
+                "THURSDAY", "Kamis",
+                "FRIDAY", "Jumat",
+                "SATURDAY", "Sabtu",
+                "SUNDAY", "Minggu"
+        );
+
+        // --- MataKuliah ---
+        for (MataKuliah mk : mahasiswa.getMataKuliah()) {
+            if (mk.getJadwal() != null) {
+                for (JadwalMK sesi : mk.getJadwal()) {
+                    Map<String,Object> e = new HashMap<>();
+                    e.put("type","MK");
+                    e.put("name", mk.getNamaMK());
+                    e.put("startHour", sesi.getWaktu().getHour());
+                    e.put("endHour", sesi.getEndTime().getHour());
+
+                    System.out.println("DEBUG: Menambahkan MK " + mk.getNamaMK() + " ke hari " + sesi.getHari()
+                            + " start=" + sesi.getWaktu() + " end=" + sesi.getEndTime());
+
+                    jadwalPerHari.computeIfAbsent(sesi.getHari(), k -> new ArrayList<>()).add(e);
                 }
             }
         }
 
-        // Jadwal Bimbingan
+        // --- Bimbingan ---
         List<Bimbingan> bimbinganList = bimbinganService.getBimbinganUntukMahasiswa(mahasiswa.getEmail());
         if (bimbinganList != null) {
             for (Bimbingan b : bimbinganList) {
-                String hari = b.getHari() != null ? b.getHari().toUpperCase() : "UNKNOWN";
-                jadwalPerHari.computeIfAbsent(hari, k -> new ArrayList<>()).add(b);
+                if (b.getWaktu() != null) {
+                    Map<String,Object> e = new HashMap<>();
+                    e.put("type","Bimbingan");
+                    e.put("note", b.getPermintaanJadwal() != null ? b.getPermintaanJadwal().getCatatan() : null);
+                    e.put("startHour", b.getWaktu().getHour());
+
+                    String hariIndonesia = hariMapping.getOrDefault(b.getHari().toUpperCase(), b.getHari());
+                    System.out.println("DEBUG: Menambahkan Bimbingan id=" + b.getIdBimbingan() + " ke hari " + hariIndonesia
+                            + " jam=" + b.getWaktu());
+
+                    jadwalPerHari.computeIfAbsent(hariIndonesia, k -> new ArrayList<>()).add(e);
+                }
             }
         }
 
+        // --- Cetak jadwalPerHari lengkap untuk debug ---
+        System.out.println("===== DEBUG JADWAL PER HARI =====");
+        for (String h : jadwalPerHari.keySet()) {
+            System.out.println("Hari: " + h);
+            for (Map<String,Object> item : jadwalPerHari.get(h)) {
+                System.out.println("  " + item);
+            }
+        }
+
+        List<String> hariList = Arrays.asList("Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+
+        model.addAttribute("hariList", hariList);
         model.addAttribute("jadwalPerHari", jadwalPerHari);
         model.addAttribute("nama", mahasiswa.getNama());
 
         return "JadwalMahasiswa";
     }
+
+
+
+
+
 }
