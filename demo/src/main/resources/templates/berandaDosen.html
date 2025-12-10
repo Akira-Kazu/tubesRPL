@@ -11,156 +11,153 @@
 </head>
 
 <body>
-    <div class="dashboard-container">
+<div class="dashboard-container">
 
-        <!-- Sidebar -->
-               <div class="sidebar">
-            <h2 class="sidebar-title">Bimbingan TA</h2>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
 
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="active">
-                        <a th:href="@{/dosen}">
-                            Menu utama
-                            <br>
-                            <span class="menu-description">Menu description.</span>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a th:href="@{/dosen}">
+                        Menu utama<br>
+                        <span class="menu-description">Ringkasan Dashboard.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/dosen/riwayat}">
+                        Riwayat Bimbingan<br>
+                        <span class="menu-description">Arsip & Logbook.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/dosen/pengajuan}">
+                        Pengajuan bimbingan<br>
+                        <span class="menu-description">Buat Jadwal Baru.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/dosen/kelola}">
+                        Kelola Pengajuan<br>
+                        <span class="menu-description">Acc/Tolak Request.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/progress}">
+                        progressTA<br>
+                        <span class="menu-description">Monitoring Mhs.</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/dosen/jadwal}">
+                        Jadwal<br>
+                        <span class="menu-description">Kalender Saya.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <header class="header">
+            <h1>Beranda</h1>
+
+            <div class="header-icons">
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                        <a th:href="@{/inbox}">
+                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                                 alt="Tampilan Inbox Email">
                         </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/dosen/riwayat}">
-                            Riwayat Bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li >
-                        <a th:href="@{/dosen/pengajuan}">
-                            Pengajuan bimbingan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/dosen/kelola}">
-                            Kelola Pengajuan
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/dosen/progress}">
-                            progressTA
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/dosen/jadwal}">
-                            Jadwal
-                            <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Main content -->
-        <div class="main-content">
-
-            <!-- Header -->
-            <header class="header">
-                <h1>Beranda</h1>
-
-                 <div class="header-icons">
-    <span class="icon-circle">M</span>
-    <span class="icon-circle">
-        <a th:href="@{/inbox}">
-            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                 alt="Tampilan Inbox Email">
-        </a>
-    </span>
-</div>
-
-            </header>
-
-
-            <!-- Summary / Overview -->
-            <div class="dashboard-grid">
-                <div class="card ta-overview-summary">
-                    <h3>TA Overview</h3>
-
-                    <div class="summary-content">
-
-                        <div class="profile-section">
-                            <div class="profile-icon"></div> 
-                            <p th:text="${namaUser}">Account Name</p>
-                        </div>
-
-                        <div class="stats-section">
-                            <p>Pengajuan Baru: <span th:text="${pengajuanBaru}">0</span></p>
-                            <p>Catatan Diberikan: <span th:text="${catatanDiberikan}">0</span></p>
-                            <p>Bimbingan Minggu Ini: <span th:text="${bimbinganMingguIni}">0</span></p>
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="card pengajuan-bimbingan">
-                    <h3>Pengajuan Bimbingan</h3>
-
-                    <div class="button-group">
-                        <button class="btn btn-primary" 
-                                th:onclick="'location.href=\'/pengajuan/baru\''">
-                            Ajukan
-                        </button>
-
-                        <button class="btn btn-secondary" 
-                                th:onclick="'location.href=\'/pengajuan/lihat\''">
-                            Lihat Ajuan
-                        </button>
-                    </div>
-                </div>
+                    </span>
             </div>
 
+        </header>
 
-            <!-- Table Section -->
-            <div class="card ta-overview-table">
+
+        <!-- Summary / Overview -->
+        <div class="dashboard-grid">
+            <div class="card ta-overview-summary">
                 <h3>TA Overview</h3>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Hari & Tanggal</th>
-                            <th>Mahasiswa</th>
-                            <th>Lokasi</th>
-                            <th>Jenis</th>
-                        </tr>
-                    </thead>
+                <div class="summary-content">
 
-                    <tbody>
-                        <tr th:each="jadwal : ${listJadwal}">
-                            <td th:text="${jadwal.waktu}">09:00</td>
-                            <td th:text="${jadwal.hariTanggal}">Senin, 01-01-2025</td>
-                            <td th:text="${jadwal.mahasiswa}">Nama Mhs</td>
-                            <td th:text="${jadwal.lokasi}">Unpar</td>
-                            <td th:text="${jadwal.jenis}">TA 1</td>
-                        </tr>
-                    </tbody>
+                    <div class="profile-section">
+                        <div class="profile-icon"></div>
+                        <p th:text="${namaUser}">Nama Dosen</p>
+                    </div>
 
-                </table>
+                    <div class="stats-section">
+                        <p>Request Pending: <span th:text="${pengajuanBaru}">0</span></p>
+                        <p>Total Bimbingan: <span th:text="${bimbinganTotal}">0</span></p>
+                        <p>Catatan Diberikan: <span th:text="${catatanDiberikan}">0</span></p>
+                    </div>
+
+                </div>
             </div>
 
+
+            <div class="card pengajuan-bimbingan">
+                <h3>Pengajuan Bimbingan</h3>
+
+                <div class="button-group">
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/pengajuan/baru\''">
+                        Ajukan
+                    </button>
+
+                    <button class="btn btn-secondary"
+                            th:onclick="'location.href=\'/pengajuan/lihat\''">
+                        Lihat Ajuan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Table Section -->
+        <div class="card ta-overview-table">
+            <h3>TA Overview</h3>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>Hari & Tanggal</th>
+                    <th>Mahasiswa</th>
+                    <th>Lokasi</th>
+                    <th>Jenis</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="jadwal : ${listJadwal}">
+                    <td th:text="${jadwal.waktu}">09:00</td>
+
+                    <td th:text="${jadwal.hari + ', ' + jadwal.permintaanJadwal.tanggal}">Senin, 01-01-2025</td>
+
+                    <td th:text="${jadwal.permintaanJadwal.mahasiswa.nama}">Nama Mhs</td>
+
+                    <td th:text="${jadwal.lokasi}">Unpar</td>
+
+                    <td th:text="${jadwal.permintaanJadwal.catatan}">TA 1</td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(listJadwal)}">
+                    <td colspan="5" style="text-align:center; padding: 20px;">Belum ada jadwal bimbingan.</td>
+                </tr>
+                </tbody>
+
+            </table>
         </div>
 
     </div>
+
+</div>
 
 </body>
 </html>
