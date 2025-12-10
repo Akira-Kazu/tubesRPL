@@ -36,13 +36,37 @@ public class DosenController {
     private BimbinganRepository bimbinganRepo;
     @Autowired
     private BimbinganService bimbinganService;
+        // --- DASHBOARD (BERANDA) ---
+        @GetMapping
+        public String dosenHome(HttpSession session, Model model) {
+            Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
+            if (dosen == null) return "redirect:/login";
 
-    // --- HOME & NAVIGASI ---
+            model.addAttribute("namaUser", dosen.getNama());
 
-    @GetMapping
-    public String dosenHome() {
-        return "berandaDosen";
-    }
+            // 1. DATA TABEL: Ambil semua jadwal bimbingan milik dosen ini
+            // (Method ini sudah ada di BimbinganRepository kamu)
+            List<Bimbingan> listJadwal = bimbinganRepo.findByPermintaanJadwal_Dosen_Email(dosen.getEmail());
+            model.addAttribute("listJadwal", listJadwal);
+
+            // 2. DATA STATISTIK
+            // Hitung Pengajuan Baru (Status = Pending)
+            int pendingCount = permintaanRepo.findByDosen_EmailAndStatus(dosen.getEmail(), "Pending").size();
+
+            // Hitung Total Bimbingan (Yang sudah masuk tabel Bimbingan)
+            int bimbinganCount = listJadwal.size();
+
+            // Hitung Catatan (Contoh: Bimbingan yang kolom komentarnya sudah diisi)
+            long catatanCount = listJadwal.stream()
+                    .filter(b -> b.getKomentarDosen() != null && !b.getKomentarDosen().isEmpty())
+                    .count();
+
+            model.addAttribute("pengajuanBaru", pendingCount);
+            model.addAttribute("bimbinganTotal", bimbinganCount);
+            model.addAttribute("catatanDiberikan", catatanCount);
+
+            return "berandaDosen";
+        }
 
     @GetMapping("/jadwal")
     public String jadwalBimbingan() {

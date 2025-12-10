@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -31,4 +33,5 @@ List<PermintaanJadwal> getRiwayatDosen(@Param("emailDosen") String emailDosen);
     List<PermintaanJadwal> findAllByMahasiswa_EmailAndStatus(String email, String status);
 
 
+    Collection<Object> findByDosen_EmailAndStatus(String email, String pending);
 }
