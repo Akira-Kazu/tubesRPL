@@ -42,8 +42,33 @@ public class MahasiswaController {
     @Autowired
     private BimbinganService bimbinganService;
 
+    // --- HALAMAN UTAMA (DASHBOARD) ---
     @GetMapping("/mahasiswa")
-    public String beranda() {
+    public String beranda(HttpSession session, Model model) {
+        Pengguna mhs = (Pengguna) session.getAttribute("loggedUser");
+        if (mhs == null) return "redirect:/login";
+
+        model.addAttribute("namaUser", mhs.getNama());
+
+        // 1. Ambil Data Jadwal
+        List<Bimbingan> listJadwal = bimbinganService.getBimbinganUntukMahasiswa(mhs.getEmail());
+        model.addAttribute("listJadwal", listJadwal);
+
+        // 2. HITUNG STATISTIK (LOGIKA DINAMIS)
+        // Hitung berapa yang Approved (On Progress)
+        int countProgress = permintaanRepo.findAllByMahasiswa_EmailAndStatus(mhs.getEmail(), "Approved").size();
+
+        // Hitung berapa yang Pending (Waiting)
+        int countPending = permintaanRepo.findAllByMahasiswa_EmailAndStatus(mhs.getEmail(), "Pending").size();
+
+        // Hitung yang Finished (Sementara 0 atau logika lain)
+        int countFinished = 0;
+
+        // Kirim ke HTML
+        model.addAttribute("taOnProgress", countProgress);
+        model.addAttribute("taNotStarted", countPending); // Anggap aja Pending = Belum mulai/nunggu
+        model.addAttribute("taFinished", countFinished);
+
         return "BerandaMahasiswa";
     }
 
