@@ -52,18 +52,52 @@
         <!-- Main Content -->
         <div class="main-content">
 
-            <header class="header">
-                <h1>Dashboard</h1>
-                <div class="header-icons">
-                    <span class="icon-circle">M</span>
-                    <span class="icon-circle">
-                        <a th:href="@{/admin/inbox}">
-                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
-                                 alt="Inbox Email">
-                        </a>
+        <header class="header">
+            <h1>Dashboard</h1>
+
+            <div class="header-icons">              
+                <button onclick="openLogoutModal()" class="btn-logout-kotak" title="Keluar Aplikasi">
+                    LOG OUT
+                </button>
+                <a th:href="@{/admin/inbox}" style="text-decoration: none;">
+                    <span class="icon-circle" style="display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
                     </span>
+                </a>
+            </div>
+
+            <div id="modalLogout" class="logout-modal-overlay" style="display: none;">
+                <div class="logout-modal">
+                    <h3>Konfirmasi Logout</h3>
+                    <p>Apakah anda yakin ingin log out?</p>
+                    <div class="logout-actions">
+                        <a th:href="@{/logout}" class="btn-confirm-yes">Ya</a>
+                        <button onclick="closeLogoutModal()" class="btn-confirm-no">Tidak</button>
+                    </div>
                 </div>
-            </header>
+            </div>
+
+            <script>
+                function openLogoutModal() {
+                    document.getElementById('modalLogout').style.display = 'flex';
+                }
+
+                function closeLogoutModal() {
+                    document.getElementById('modalLogout').style.display = 'none';
+                }
+                
+                window.onclick = function(event) {
+                    var modal = document.getElementById('modalLogout');
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+
+        </header>
 
             <h2>Kelola Mahasiswa</h2>
             <p style="margin-bottom: 10px; opacity: .6;">Overview</p>

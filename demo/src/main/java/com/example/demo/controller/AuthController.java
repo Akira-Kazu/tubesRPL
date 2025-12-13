@@ -34,9 +34,13 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        return "redirect:/";
-    }
+	public String logout(HttpSession session) {
+  	  // 1. Hapus session biar aman
+    session.invalidate(); 
+    
+ 	  // 2. Balik ke halaman login
+	    return "redirect:/login"; 
+	}
 
     @PostMapping("/login")
 public String processLogin(@ModelAttribute Pengguna pengguna, Model model, HttpSession session) {
