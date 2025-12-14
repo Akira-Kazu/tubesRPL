@@ -3,86 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Bimbingan</title>
+    <title>Inbox Mahasiswa</title>
 
-    <!-- Load CSS dari static folder -->
-    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .notif-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #8e44ad; /* Ungu khas tema */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .notif-card:hover {
+            transform: translateY(-2px);
+        }
+        .notif-time {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .notif-msg {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+        .empty-state {
+            text-align: center;
+            color: #999;
+            margin-top: 50px;
+            padding: 40px;
+            background: #fff;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="dashboard-container">
+<div class="dashboard-container">
 
-        <!-- SIDEBAR -->
-        <div class="sidebar">
-            <h2 class="sidebar-title">Bimbingan TA</h2>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
 
-            <nav class="sidebar-nav">
-                <ul>
-                    <li>
-                        <a th:href="@{/menu}">
-                            Menu utama <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a th:href="@{/dashboard}">
+                        Menu utama <br>
+                        <span class="menu-description">Halaman Depan.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/riwayat}">
+                        Riwayat Bimbingan <br>
+                        <span class="menu-description">Log Bimbingan.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/pengajuan}">
+                        Pengajuan Bimbingan <br>
+                        <span class="menu-description">Form Bimbingan.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/kelola}">
+                        Kelola Pengajuan <br>
+                        <span class="menu-description">Cek Status Ajuan.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/progress}">
+                        Progress TA <br>
+                        <span class="menu-description">Milestone TA.</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/jadwal}">
+                        Jadwal <br>
+                        <span class="menu-description">Jadwal Kuliah.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-                    <li class="active">
-                        <a th:href="@{/riwayat}">
-                            Riwayat Bimbingan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
+    <div class="main-content">
 
-                    <li>
-                        <a th:href="@{/pengajuan}">
-                            Pengajuan Bimbingan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/kelola}">
-                            Kelola Pengajuan <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/progress}">
-                            Progress TA <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/jadwal}">
-                            Jadwal <br>
-                            <span class="menu-description">Menu description.</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- MAIN CONTENT -->
-        <div class="main-content">
-
-           <header class="header">
-            <h1>Dashboard</h1>
+        <header class="header">
+            <h1>Inbox Notifikasi</h1>
 
             <div class="header-icons">
-    <button onclick="openLogoutModal()" class="btn-logout-kotak" title="Keluar Aplikasi">
-        LOG OUT
-            </button>
+                <button onclick="openLogoutModal()" class="btn-logout-kotak" title="Keluar Aplikasi">
+                    LOG OUT
+                </button>
 
-            <a th:href="@{/inbox}" style="text-decoration: none;">
-                <span class="icon-circle" style="display: flex; align-items: center; justify-content: center;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                </span>
-            </a>
-        </div>
+                <a th:href="@{/dosen/inbox}" style="text-decoration: none;">
+                        <span class="icon-circle" style="display: flex; align-items: center; justify-content: center; background-color: #6c5ce7;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </span>
+                </a>
+            </div>
 
             <div id="modalLogout" class="logout-modal-overlay" style="display: none;">
                 <div class="logout-modal">
@@ -99,11 +130,9 @@
                 function openLogoutModal() {
                     document.getElementById('modalLogout').style.display = 'flex';
                 }
-
                 function closeLogoutModal() {
                     document.getElementById('modalLogout').style.display = 'none';
                 }
-                
                 window.onclick = function(event) {
                     var modal = document.getElementById('modalLogout');
                     if (event.target == modal) {
@@ -114,26 +143,25 @@
 
         </header>
 
-            <!-- CARD LIST (STATIC EXAMPLE) -->
-             
-            <!-- sebaiknya dibuat model class -->
-         
-            <div class="history-card">
-                <p class="history-date">1 Januari 2025, Gede Karya</p>
-                <p class="history-desc">...</p>
+        <div class="notif-list">
+
+            <div th:each="n : ${listNotif}" class="notif-card">
+                <div class="notif-time">
+                    <span th:text="${#temporals.format(n.waktuDibuat, 'dd-MM-yyyy HH:mm')}">Tanggal</span>
+                </div>
+                <div class="notif-msg" th:text="${n.pesan}">
+                    Isi pesan notifikasi disini...
+                </div>
             </div>
 
-            <div class="history-card">
-                <p class="history-date">3 Januari 2025, Keenan Adiwijaya Leman</p>
-                <p class="history-desc">...</p>
-            </div>
-
-            <div class="history-card">
-                <p class="history-date">5 Januari 2025, Pascal Alfadian Nugroho</p>
-                <p class="history-desc">...</p>
+            <div th:if="${#lists.isEmpty(listNotif)}" class="empty-state">
+                <h3>Kotak Masuk Bersih</h3>
+                <p>Belum ada aktivitas persetujuan atau penolakan jadwal.</p>
             </div>
 
         </div>
+
     </div>
+</div>
 </body>
 </html>

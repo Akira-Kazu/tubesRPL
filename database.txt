@@ -1,0 +1,241 @@
+-- ==========================================
+-- 1. DROP TABLES (Bersihkan data lama)
+-- ==========================================
+DROP TABLE IF EXISTS bimbingan CASCADE;
+DROP TABLE IF EXISTS permintaan_jadwal CASCADE;
+DROP TABLE IF EXISTS pembimbing CASCADE;
+DROP TABLE IF EXISTS mengajar CASCADE;
+DROP TABLE IF EXISTS terdaftar CASCADE;
+DROP TABLE IF EXISTS jadwal_mk CASCADE;
+DROP TABLE IF EXISTS tugas_akhir CASCADE;
+DROP TABLE IF EXISTS mata_kuliah CASCADE;
+DROP TABLE IF EXISTS pengguna CASCADE;
+
+-- ==========================================
+-- 2. CREATE TABLES (Buat Struktur)
+-- ==========================================
+
+CREATE TABLE pengguna (
+    email VARCHAR(100) PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    role INTEGER NOT NULL CHECK (role IN (1,2,3))
+    -- 1 Mahasiswa, 2 Dosen, 3 Admin
+);
+
+CREATE TABLE mata_kuliah (
+    id_mk SERIAL PRIMARY KEY,
+    nama_mk VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE jadwal_mk (
+    id SERIAL PRIMARY KEY,
+    id_mk INTEGER REFERENCES mata_kuliah(id_mk) ON DELETE CASCADE,
+    hari VARCHAR(20) NOT NULL,
+    waktu TIME NOT NULL,
+    end_time TIME NOT NULL
+);
+
+CREATE TABLE terdaftar (
+    email_mahasiswa VARCHAR(100) REFERENCES pengguna(email) ON DELETE CASCADE,
+    id_mk INTEGER REFERENCES mata_kuliah(id_mk) ON DELETE CASCADE,
+    PRIMARY KEY (email_mahasiswa, id_mk)
+);
+
+CREATE TABLE mengajar (
+    email_dosen VARCHAR(100) REFERENCES pengguna(email) ON DELETE CASCADE,
+    id_mk INTEGER REFERENCES mata_kuliah(id_mk) ON DELETE CASCADE,
+    PRIMARY KEY (email_dosen, id_mk)
+);
+
+CREATE TABLE pembimbing (
+    email_mahasiswa VARCHAR(100) REFERENCES pengguna(email) ON DELETE CASCADE,
+    email_dosen VARCHAR(100) REFERENCES pengguna(email) ON DELETE CASCADE,
+    PRIMARY KEY (email_mahasiswa, email_dosen)
+);
+
+CREATE TABLE permintaan_jadwal (
+    id_permintaan SERIAL PRIMARY KEY,
+    tanggal DATE NOT NULL,
+    waktu TIME NOT NULL,
+    lokasi VARCHAR(100),
+    catatan TEXT,
+    status VARCHAR(20) DEFAULT 'Pending'
+        CHECK (status IN ('Pending','Approved','Rejected')),
+    email_mahasiswa VARCHAR(100) REFERENCES pengguna(email),
+    email_dosen VARCHAR(100) REFERENCES pengguna(email)
+);
+
+CREATE TABLE bimbingan (
+    id_bimbingan SERIAL PRIMARY KEY,
+    id_permintaan INTEGER REFERENCES permintaan_jadwal(id_permintaan) ON DELETE CASCADE,
+    hari VARCHAR(20),
+    waktu TIME,
+    lokasi VARCHAR(100),
+    komentar_mahasiswa TEXT,
+    komentar_dosen TEXT,
+    status_realisasi VARCHAR(20) DEFAULT 'Selesai'
+        CHECK (status_realisasi IN ('Selesai','Tidak Hadir','Batal')),
+    tanggal_waktu_realisasi TIMESTAMP
+);
+
+CREATE TABLE tugas_akhir (
+    id_ta SERIAL PRIMARY KEY,
+    judul TEXT NOT NULL,
+    topik TEXT,
+    komentar TEXT,
+    email_mahasiswa VARCHAR(100) REFERENCES pengguna(email)
+);
+
+-- ==========================================
+-- 3. INSERT DATA (Urutan Diperbaiki)
+-- ==========================================
+
+-- A. Insert Pengguna DULU
+INSERT INTO pengguna VALUES
+('harry@student.ac.id','123','Harry Potter',1),
+('hermione@student.ac.id','123','Hermione Granger',1),
+('ron@student.ac.id','123','Ron Weasley',1),
+('snape@univ.ac.id','123','Severus Snape',2),
+('mcgonagall@univ.ac.id','123','Minerva McGonagall',2),
+('dumbledore@univ.ac.id','123','Albus Dumbledore',2),
+('admin@hogwarts.ac.id','123','Ministry Admin',3);
+
+-- B. Insert Mata Kuliah (HARUS SEBELUM 'mengajar' & 'terdaftar')
+INSERT INTO mata_kuliah (nama_mk) VALUES
+('Algoritma dan Struktur Data'),             -- id_mk 1
+('Pemrograman Berorientasi Objek'),          -- id_mk 2
+('Basis Data'),                              -- id_mk 3
+('Rekayasa Perangkat Lunak'),                -- id_mk 4
+('Artificial Intelligence'),                 -- id_mk 5
+('Machine Learning'),                        -- id_mk 6
+('Computer Graphics'),                       -- id_mk 7
+('Pengembangan Game'),                       -- id_mk 8
+('Jaringan Komputer'),                       -- id_mk 9
+('Interaksi Manusia dan Komputer'),          -- id_mk 10
+('Sistem Operasi'),                          -- id_mk 11
+('Analisis dan Perancangan Sistem'),         -- id_mk 12
+('Pemrograman Web Lanjut'),                  -- id_mk 13
+('Keamanan Informasi'),                      -- id_mk 14
+('Deep Learning');                           -- id_mk 15
+
+-- C. Insert Relasi (Mengajar & Terdaftar) - SEKARANG AMAN
+-- Dosen mengajar
+INSERT INTO mengajar VALUES
+('snape@univ.ac.id',1),
+('snape@univ.ac.id',3),
+('mcgonagall@univ.ac.id',5),
+('mcgonagall@univ.ac.id',6),
+('dumbledore@univ.ac.id',9),
+('dumbledore@univ.ac.id',10);
+
+-- Mahasiswa mengambil MK
+INSERT INTO terdaftar VALUES
+('harry@student.ac.id',1),
+('harry@student.ac.id',3),
+('hermione@student.ac.id',2),
+('hermione@student.ac.id',4),
+('ron@student.ac.id',5),
+('ron@student.ac.id',7);
+
+-- D. Insert Pembimbing
+INSERT INTO pembimbing VALUES
+('harry@student.ac.id','snape@univ.ac.id'),
+('harry@student.ac.id','dumbledore@univ.ac.id'),
+('hermione@student.ac.id','mcgonagall@univ.ac.id'),
+('ron@student.ac.id','snape@univ.ac.id');
+
+-- E. Insert Permintaan & Bimbingan
+INSERT INTO permintaan_jadwal
+(tanggal,waktu,lokasi,catatan,email_mahasiswa,email_dosen)
+VALUES
+('2025-12-20','09:00','Ruang Dungeons','Bimbingan AI TA',
+ 'harry@student.ac.id','snape@univ.ac.id');
+
+INSERT INTO bimbingan
+(id_permintaan,hari,waktu,lokasi,komentar_dosen,tanggal_waktu_realisasi)
+VALUES
+(1,'Jumat','09:00','Ruang Dungeons','Logika sudah bagus',
+ '2025-12-20 09:00');
+
+-- F. Insert Jadwal MK
+INSERT INTO jadwal_mk (id_mk, hari, waktu, end_time) VALUES
+(1,'Senin','08:00','10:00'),
+(1,'Rabu','08:00','10:00'),
+(1,'Jumat','08:00','09:40');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,2,'Selasa','10:00','12:00'),
+(DEFAULT,2,'Kamis','10:00','12:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,3,'Senin','13:00','15:00'),
+(DEFAULT,3,'Rabu','13:00','15:00'),
+(DEFAULT,3,'Jumat','13:00','14:40');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,4,'Selasa','08:00','10:00'),
+(DEFAULT,4,'Kamis','08:00','10:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,5,'Senin','10:00','12:00'),
+(DEFAULT,5,'Rabu','10:00','12:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,6,'Selasa','13:00','15:00'),
+(DEFAULT,6,'Jumat','10:00','12:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,7,'Kamis','13:00','16:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,8,'Rabu','15:00','17:00'),
+(DEFAULT,8,'Sabtu','09:00','11:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,9,'Senin','15:00','17:00'),
+(DEFAULT,9,'Kamis','15:00','17:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,10,'Rabu','13:00','15:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,11,'Selasa','15:00','17:00'),
+(DEFAULT,11,'Jumat','15:00','17:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,12,'Kamis','08:00','10:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,13,'Rabu','10:00','12:00'),
+(DEFAULT,13,'Sabtu','13:00','15:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,14,'Jumat','13:00','15:00');
+
+INSERT INTO jadwal_mk VALUES
+(DEFAULT,15,'Senin','13:00','15:00'),
+(DEFAULT,15,'Rabu','15:00','17:00');
+
+ALTER TABLE tugas_akhir
+RENAME COLUMN email_mahasiswa TO email;
+
+ALTER TABLE bimbingan
+ADD COLUMN is_bimbingan BOOLEAN DEFAULT TRUE;
+
+ALTER TABLE bimbingan
+ADD COLUMN id_ta INTEGER REFERENCES tugas_akhir(id_ta);
+
+ALTER TABLE terdaftar
+RENAME COLUMN email_mahasiswa TO email;
+
+INSERT INTO tugas_akhir (judul, topik, komentar, email) VALUES
+('Penerapan AI untuk Deteksi Mantra Terlarang', 'Artificial Intelligence', 'Bab 1 Revisi', 'harry@student.ac.id'),
+('Analisis Sejarah Sihir Menggunakan Big Data', 'Data Science', 'Lanjut Bab 2', 'hermione@student.ac.id'),
+('Strategi Catur Sihir dengan Algoritma Minimax', 'Game Development', 'Judul Disetujui', 'ron@student.ac.id');
+CREATE TABLE notifikasi (
+    id BIGSERIAL PRIMARY KEY,          -- Map ke Long id @GeneratedValue
+    email_user VARCHAR(255),           -- Map ke String emailUser (Perhatikan nama kolom!)
+    pesan TEXT,                        -- Map ke @Column(columnDefinition = "TEXT")
+    waktu_dibuat TIMESTAMP             -- Map ke LocalDateTime
+);
