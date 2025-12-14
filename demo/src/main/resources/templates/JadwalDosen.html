@@ -1,11 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Dosen</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">  
-    <link rel="stylesheet" th:href="@{/css/jadwal.css}">
+    <title>Jadwal Mahasiswa</title>
+
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <style>
+        /* Gaya tambahan sederhana untuk tampilan jadwal */
+        .schedule-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .schedule-header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        .schedule-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        .item-type-mk { color: #007bff; font-weight: bold; }
+        .item-type-bimbingan { color: #28a745; font-weight: bold; }
+        .no-schedule {
+            color: #6c757d;
+            font-style: italic;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,42 +43,48 @@
 
     <div class="sidebar">
         <h2 class="sidebar-title">Bimbingan TA</h2>
+
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a th:href="@{/dosen}">
-                        Menu utama<br>
-                        <span class="menu-description">Ringkasan Dashboard.</span>
+                    <a th:href="@{/menu}">
+                        Menu utama <br>
+                        <span class="menu-description">Akses menu utama aplikasi.</span>
                     </a>
                 </li>
+
                 <li>
-                    <a th:href="@{/dosen/riwayat}">
-                        Riwayat Bimbingan<br>
-                        <span class="menu-description">Arsip & Logbook.</span>
+                    <a th:href="@{/riwayat}">
+                        Riwayat Bimbingan <br>
+                        <span class="menu-description">Lihat riwayat bimbingan yang telah dilakukan.</span>
                     </a>
                 </li>
+
                 <li>
                     <a th:href="@{/pengajuan}">
-                        Pengajuan bimbingan<br>
-                        <span class="menu-description">Buat Jadwal Baru.</span>
+                        Pengajuan Bimbingan <br>
+                        <span class="menu-description">Ajukan jadwal bimbingan baru.</span>
                     </a>
                 </li>
+
                 <li>
-                    <a th:href="@{/dosen/kelola}">
-                        Kelola Pengajuan<br>
-                        <span class="menu-description">Acc/Tolak Request.</span>
+                    <a th:href="@{/kelola}">
+                        Kelola Pengajuan <br>
+                        <span class="menu-description">Kelola pengajuan bimbingan dari mahasiswa.</span>
                     </a>
                 </li>
+
                 <li>
                     <a th:href="@{/progress}">
-                        progressTA<br>
-                        <span class="menu-description">Monitoring Mhs.</span>
+                        Progress TA <br>
+                        <span class="menu-description">Pantau perkembangan Tugas Akhir Anda.</span>
                     </a>
                 </li>
+
                 <li class="active">
-                    <a th:href="@{/dosen/jadwal}">
-                        Jadwal<br>
-                        <span class="menu-description">Kalender Saya.</span>
+                    <a th:href="@{/jadwal}">
+                        Jadwal <br>
+                        <span class="menu-description">Lihat jadwal Mata Kuliah dan Bimbingan.</span>
                     </a>
                 </li>
             </ul>
@@ -56,10 +92,11 @@
     </div>
 
     <div class="main-content">
+
         <header class="header">
             <h1>Dashboard</h1>
 
-            <div class="header-icons">              
+            <div class="header-icons">
                 <button onclick="openLogoutModal()" class="btn-logout-kotak" title="Keluar Aplikasi">
                     LOG OUT
                 </button>
@@ -92,7 +129,7 @@
                 function closeLogoutModal() {
                     document.getElementById('modalLogout').style.display = 'none';
                 }
-                
+
                 window.onclick = function(event) {
                     var modal = document.getElementById('modalLogout');
                     if (event.target == modal) {
@@ -103,55 +140,43 @@
 
         </header>
 
-        <div class="schedule-header">
-            <h2>Minggu Ini</h2>
-            <div class="schedule-actions">
-                <select class="select-view" th:value="${view}">
-                    <option value="jadwal" selected>Jadwal saya</option>
-                    <option value="dosen">Jadwal dosen</option>
-                </select>
-                <a class="btn btn-add" th:href="@{/pengajuan}">
-                    + Tambah Ajuan
-                </a>
-            </div>
-        </div>
+        <section class="schedule-section">
+            <div th:each="hari : ${hariList}">
 
-        <div class="schedule-grid">
-            <div class="days-row">
-                <span>Jam</span>
-                <span>Senin</span>
-                <span class="active-day">Selasa</span>
-                <span>Rabu</span>
-                <span>Kamis</span>
-                <span>Jumat</span>
-                <span>Sabtu</span>
-                <span>Minggu</span>
-            </div>
+                <h2 class="schedule-header" th:text="${hari}">Hari: Senin</h2>
 
-            <div class="time-column">
-                <div class="time-slot">08:00</div>
-                <div class="time-slot">09:00</div>
-                <div class="time-slot">10:00</div>
-                <div class="time-slot">11:00</div>
-                <div class="time-slot">12:00</div>
-                <div class="time-slot">13:00</div>
-                <div class="time-slot">14:00</div>
-                <div class="time-slot">15:00</div>
-                <div class="time-slot">16:00</div>
-                <div class="time-slot">17:00</div>
-                <div class="time-slot">18:00</div>
+                <div class="schedule-card">
+                    <div th:if="${jadwalPerHari.containsKey(hari)}">
+                        <div th:each="item : ${jadwalPerHari.get(hari)}" class="schedule-item">
+                            <p>
+                                <span th:if="${item.type == 'MK'}" class="item-type-mk">Mata Kuliah:</span>
+                                <span th:if="${item.type == 'Bimbingan'}" class="item-type-bimbingan">Bimbingan:</span>
 
-                <div class="event-card event-blue"
-                     style="top: 80px; left: 15%; height: 80px;"
-                     th:each="item : ${jadwalList}">
-                    <strong th:text="${item.nama}">Matkul</strong>
-                    <div class="event-time">
-                        <span class="clock-icon">🕒</span>
-                        <span th:text="${item.jamMulai + ' - ' + item.jamSelesai}">09:00 - 10:20</span>
+                                <span th:if="${item.type == 'MK'}">
+                                        <strong th:text="${item.name}">Nama MK</strong>
+                                        <br>
+                                        Pukul: <span th:text="${#numbers.formatInteger(item.startHour, 2)} + ':00'">08:00</span>
+                                        - <span th:text="${#numbers.formatInteger(item.endHour, 2)} + ':00'">10:00</span>
+                                    </span>
+
+                                <span th:if="${item.type == 'Bimbingan'}">
+                                        Catatan: <span th:text="${item.note != null ? item.note : '-'}">-</span>
+                                        <br>
+                                        Pukul: <span th:text="${#numbers.formatInteger(item.startHour, 2)} + ':00'">14:00</span>
+                                        (Waktu mulai bimbingan)
+                                    </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div th:unless="${jadwalPerHari.containsKey(hari)}" class="no-schedule">
+                        Tidak ada jadwal untuk hari <span th:text="${hari}">Senin</span>.
                     </div>
                 </div>
+
             </div>
-        </div>
+        </section>
+
     </div>
 </div>
 </body>

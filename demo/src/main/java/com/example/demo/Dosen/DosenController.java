@@ -1,9 +1,8 @@
 package com.example.demo.Dosen;
 
+import com.example.demo.Entity.*;
+import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*; // Menggunakan RestController, RequestMapping, dll.
-import com.example.demo.Entity.Bimbingan;
-import com.example.demo.Entity.Pengguna;
-import com.example.demo.Entity.PermintaanJadwal;
 import com.example.demo.Repository.BimbinganRepository;
 import com.example.demo.service.BimbinganService;
 import com.example.demo.Repository.PenggunaRepository;
@@ -12,7 +11,7 @@ import com.example.demo.service.PermintaanJadwalService;
 
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,7 +35,11 @@ public class DosenController {
     private BimbinganRepository bimbinganRepo;
     @Autowired
     private BimbinganService bimbinganService;
-        // --- DASHBOARD (BERANDA) ---
+
+    @Autowired
+    private PenggunaRepository penggunaRepo;
+
+    // --- DASHBOARD (BERANDA) ---
         @GetMapping
         public String dosenHome(HttpSession session, Model model) {
             Pengguna dosen = (Pengguna) session.getAttribute("loggedUser");
@@ -68,10 +71,6 @@ public class DosenController {
             return "berandaDosen";
         }
 
-    @GetMapping("/jadwal")
-    public String jadwalBimbingan() {
-        return "JadwalDosen";
-    }
 
     @GetMapping("/progress")
     public String progressTA() {
@@ -250,6 +249,91 @@ public class DosenController {
         return "redirect:/dosen/kelola";
     }
 
+    @Transactional
+    @GetMapping("/jadwal")
+    public String jadwalMahasiswa(HttpSession session, Model model) {
+
+        Pengguna sessionUser = (Pengguna) session.getAttribute("loggedUser");
+        if (sessionUser == null) return "redirect:/login";
+
+        Pengguna dosen = penggunaRepo.findByEmail(sessionUser.getEmail());
+
+        Map<String, List<Map<String, Object>>> jadwalPerHari = new HashMap<>();
+
+        // Mapping hari Inggris -> Indonesia (untuk bimbingan)
+        Map<String, String> hariMapping = Map.of(
+                "MONDAY", "Senin",
+                "TUESDAY", "Selasa",
+                "WEDNESDAY", "Rabu",
+                "THURSDAY", "Kamis",
+                "FRIDAY", "Jumat",
+                "SATURDAY", "Sabtu",
+                "SUNDAY", "Minggu"
+        );
+
+        // =====================
+// Jadwal Mengajar Dosen
+// =====================
+        for (MataKuliah mk : dosen.getMengajar()) {
+            if (mk.getJadwal() == null) continue;
+
+            for (JadwalMK sesi : mk.getJadwal()) {
+                Map<String, Object> e = new HashMap<>();
+                e.put("type", "MK");
+                e.put("name", mk.getNamaMK());
+                e.put("startHour", sesi.getWaktu().getHour());
+                e.put("endHour", sesi.getEndTime().getHour());
+
+                System.out.println("DEBUG: [DOSEN] MK " + mk.getNamaMK()
+                        + " hari=" + sesi.getHari()
+                        + " start=" + sesi.getWaktu()
+                        + " end=" + sesi.getEndTime());
+
+                jadwalPerHari
+                        .computeIfAbsent(sesi.getHari(), k -> new ArrayList<>())
+                        .add(e);
+            }
+        }
+
+
+        // --- Bimbingan ---
+        List<Bimbingan> bimbinganList = bimbinganService.getBimbinganUntukMahasiswa(dosen.getEmail());
+        if (bimbinganList != null) {
+            for (Bimbingan b : bimbinganList) {
+                if (b.getWaktu() != null) {
+                    Map<String,Object> e = new HashMap<>();
+                    e.put("type","Bimbingan");
+                    e.put("note", b.getPermintaanJadwal() != null ? b.getPermintaanJadwal().getCatatan() : null);
+                    e.put("startHour", b.getWaktu().getHour());
+
+                    String hariIndonesia = hariMapping.getOrDefault(b.getHari().toUpperCase(), b.getHari());
+                    System.out.println("DEBUG: Menambahkan Bimbingan id=" + b.getIdBimbingan() + " ke hari " + hariIndonesia
+                            + " jam=" + b.getWaktu());
+
+                    jadwalPerHari.computeIfAbsent(hariIndonesia, k -> new ArrayList<>()).add(e);
+                }
+            }
+        }
+
+        // --- Cetak jadwalPerHari lengkap untuk debug ---
+        System.out.println("===== DEBUG JADWAL PER HARI =====");
+        for (String h : jadwalPerHari.keySet()) {
+            System.out.println("Hari: " + h);
+            for (Map<String,Object> item : jadwalPerHari.get(h)) {
+                System.out.println("  " + item);
+            }
+        }
+
+        List<String> hariList = Arrays.asList("Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+
+        model.addAttribute("hariList", hariList);
+        model.addAttribute("jadwalPerHari", jadwalPerHari);
+        model.addAttribute("nama", dosen.getNama());
+
+        return "JadwalDosen";
+    }
+
+    }
+
     // --- METODE YANG TIDAK DIPAKAI / DUPLIKAT DIHAPUS ---
     // @PostMapping("/dosen/permintaan/{id}/komentar") telah dihapus karena duplikat/redundant
-}
