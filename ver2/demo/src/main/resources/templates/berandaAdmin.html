@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bimbingan TA - Dashboard</title>
+
+    <!-- Load CSS dari folder static -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ===== Sidebar ===== -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Bimbingan TA</h2>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a th:href="@{/admin/menu-utama}">
+                        Menu utama<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/admin/pengajuan}">
+                        Pengajuan Bimbingan<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li >
+                    <a th:href="@{/admin/kelola-mahasiswa}">
+                        Kelola Mahasiswa<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/admin/kelola-dosen}">
+                        Kelola Dosen<br>
+                        <span class="menu-description">Menu description.</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- ===== Main Content ===== -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <header class="header">
+            <h1>Dashboard</h1>
+
+            <div class="header-icons">
+                <span class="icon-circle">M</span>
+                <span class="icon-circle">
+                    <a th:href="@{/admin/inbox}">
+                        <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                             alt="Tampilan Inbox Email">
+                    </a>
+                </span>
+            </div>
+
+        </header>
+
+        <!-- Card Section -->
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Kelola User (Mahasiswa dan Dosen)</h3><br>
+                <div class="button-group">
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/dosen\''">
+                        Kelola Dosen
+                    </button>
+
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/mahasiswa\''">
+                        Kelola Mahasiswa
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
+                <div class="button-group">
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/jadwal-dosen\''">
+                        Jadwal Dosen
+                    </button>
+
+                    <button class="btn btn-primary"
+                            th:onclick="'location.href=\'/admin/jadwal-mahasiswa\''">
+                        Jadwal Mahasiswa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="card ta-overview-table">
+            <h3>Today</h3>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>Mahasiswa</th>
+                    <th>Dosen</th>
+                    <th>Lokasi</th>
+                    <th>Aksi</th>
+                    <th>Pengajuan</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="row : ${todayList}">
+                    <td th:text="${row.waktu}">09:00</td>
+                    <td th:text="${row.mahasiswa}">Mahasiswa</td>
+                    <td th:text="${row.dosen}">Dosen</td>
+                    <td th:text="${row.lokasi}">Unpar</td>
+                    <td>🗑️</td>
+                    <td>➡️</td>
+                </tr>
+
+    <tr th:if="${#lists.isEmpty(todayList)}">
+        <td colspan="6" style="text-align:center;">Belum ada jadwal hari ini</td>
+    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

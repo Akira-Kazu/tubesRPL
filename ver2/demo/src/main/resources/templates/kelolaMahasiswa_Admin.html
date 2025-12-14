@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Mahasiswa</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2 class="sidebar-title">Bimbingan TA</h2>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a th:href="@{/admin/menu-utama}">
+                            Menu utama
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/pengajuan}">
+                            Pengajuan Bimbingan
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a th:href="@{/admin/kelola-mahasiswa}">
+                            Kelola Mahasiswa
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/kelola-dosen}">
+                            Kelola Dosen
+                            <br>
+                            <span class="menu-description">Menu description.</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="header-icons">
+                    <span class="icon-circle">M</span>
+                    <span class="icon-circle">
+                        <a th:href="@{/admin/inbox}">
+                            <img th:src="@{'https://png.pngtree.com/png-vector/20190118/ourmid/pngtree-vector-inbox-icon-png-image_323840.jpg'}"
+                                 alt="Inbox Email">
+                        </a>
+                    </span>
+                </div>
+            </header>
+
+            <h2>Kelola Mahasiswa</h2>
+            <p style="margin-bottom: 10px; opacity: .6;">Overview</p>
+
+            <!-- Table Section -->
+            <div class="card ta-overview-table kelola-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Nama</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- LOOP DATA MAHASISWA -->
+                        <tr th:each="mhs : ${mahasiswa}">
+                            <td th:text="${mhs.email}">email</td>
+                            <td th:text="${mhs.nama}">Nama Mahasiswa</td>
+
+                            <!-- Tombol hapus -->
+                            <td class="action-icons">
+                                <a th:href="@{'/admin/delete/' + ${mhs.email}}">🗑️</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

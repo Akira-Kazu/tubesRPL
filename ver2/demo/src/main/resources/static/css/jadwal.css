@@ -1,0 +1,163 @@
+/* ====== LAYOUT DASHBOARD ====== */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: #fdfdfd;
+    font-family: "Poppins", sans-serif;
+}
+
+/* ====== SIDEBAR ====== */
+.sidebar {
+    width: 250px;
+    background: #d6d0ff; /* warna ungu muda sesuai gambar */
+    padding: 20px;
+}
+
+.sidebar-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.sidebar-nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav ul li {
+    margin-bottom: 16px;
+}
+
+.sidebar-nav a {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+}
+
+.sidebar-nav li.active a {
+    background: #b7affd;
+    font-weight: 600;
+}
+
+/* ====== HEADER ====== */
+.main-content {
+    flex: 1;
+    padding: 25px 40px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title-custom {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.header-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-circle {
+    width: 38px;
+    height: 38px;
+    background: #eaeaea;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ====== SCHEDULE TITLE & BUTTON ====== */
+.schedule-header {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.schedule-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.select-view {
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+.btn-add {
+    background: #2b7cff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ====== DAYS ROW ====== */
+.schedule-grid {
+    margin-top: 30px;
+}
+
+.days-row {
+    display: grid;
+    grid-template-columns: 100px repeat(7, 1fr);
+    padding: 10px 0;
+    font-weight: 600;
+}
+
+.active-day {
+    color: #6876ff;
+}
+
+/* ====== TIME COLUMN ====== */
+.time-column {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.time-slot {
+    padding: 25px 10px;
+    font-size: 14px;
+    color: #777;
+    border-top: 1px solid #eee;
+}
+
+/* ====== EVENT CARDS ====== */
+.event-card {
+    position: absolute;
+    width: 180px;
+    padding: 10px;
+    border-radius: 10px;
+    color: #000;
+}
+
+.event-blue {
+    background: #dce7ff;
+    border-left: 4px solid #6d8cff;
+}
+
+.event-cyan {
+    background: #d2f9ff;
+    border-left: 4px solid #00c6d9;
+}
+
+.event-time {
+    margin-top: 5px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.clock-icon {
+    font-size: 14px;
+}

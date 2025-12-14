@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail Bimbingan</title>
+    <link rel="stylesheet" th:href="@{/css/detailBimbingan.css}">
+    <style>
+        /* Gaya dasar untuk visualisasi status (Tambahkan ke detailBimbingan.css jika perlu) */
+        .status-verified { color: green; font-weight: bold; }
+        .status-pending { color: orange; font-weight: bold; }
+        .alert-success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
+        .alert-danger { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px; }
+        .btn-realisasi { background-color: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="main-content">
+    <h2>Detail Bimbingan</h2>
+
+    <h3>Status Sesi</h3>
+    <p th:if="${bimbingan.statusRealisasi != null && bimbingan.statusRealisasi == 'Selesai'}" class="status-verified">
+        ✅ **SESI TELAH SELESAI** dan sudah dihitung ke Progress TA pada tanggal:
+        <span th:text="${bimbingan.tanggalWaktuRealisasi}"></span>
+    </p>
+    <p th:unless="${bimbingan.statusRealisasi != null && bimbingan.statusRealisasi == 'Selesai'}" class="status-pending">
+        ⏳ **MENUNGGU REALISASI.** Sesi ini belum dihitung untuk Progress TA.
+    </p>
+
+    <hr>
+
+    <p><strong>Mahasiswa:</strong> <span th:text="${bimbingan.permintaanJadwal.mahasiswa.nama}"></span></p>
+    <p><strong>Tanggal Jadwal:</strong> <span th:text="${bimbingan.permintaanJadwal.tanggal}"></span></p>
+    <p><strong>Waktu Jadwal:</strong> <span th:text="${bimbingan.waktu}"></span></p>
+    <p><strong>Lokasi:</strong> <span th:text="${bimbingan.lokasi}"></span></p>
+    <p><strong>Catatan Pengajuan:</strong> <span th:text="${bimbingan.permintaanJadwal.catatan}"></span></p>
+
+    <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error[0]}"></div>
+    <div th:if="${param.success}" class="alert alert-success">Sesi berhasil ditandai selesai dan dihitung ke progres TA.</div>
+
+    <hr>
+
+    <h3>Catatan & Realisasi Sesi</h3>
+
+    <div th:if="${bimbingan.statusRealisasi == null || bimbingan.statusRealisasi != 'Selesai'}">
+
+        <h4>Tandai Sesi Selesai dan Catat Feedback Akhir</h4>
+
+        <form th:action="@{/dosen/riwayat/realisasi/{id}(id=${bimbingan.idBimbingan})}" method="post">
+
+            <textarea name="komentarRealisasi" rows="5" cols="60" required
+                      placeholder="Masukkan komentar/feedback akhir sesi bimbingan di sini."
+                      th:text="${bimbingan.komentarDosen}"></textarea>
+
+            <br/>
+
+            <button type="submit" class="btn-realisasi">
+                ✅ Sesi Selesai & Hitung ke Counter TA
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${bimbingan.statusRealisasi != null && bimbingan.statusRealisasi == 'Selesai'}">
+
+        <h4>Komentar Dosen (Realisasi)</h4>
+        <form th:action="@{/dosen/riwayat/update-komentar}" method="post">
+            <input type="hidden" name="id" th:value="${bimbingan.idBimbingan}"/>
+
+            <textarea name="komentar" rows="5" cols="60" th:text="${bimbingan.komentarDosen}"></textarea>
+            <br/>
+            <button type="submit">Simpan Pembaruan Komentar</button>
+            <p><small class="status-verified">Status Realisasi tidak dapat diubah lagi.</small></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+/* ===== COLOR VARIABLES ===== */
+:root {
+    --purple: #8e44ad;
+    --purple-light: #f3f0ff;
+    --purple-btn: #6c5ce7;
+    --text-dark: #333;
+    --text-light: #666;
+    --border: #ddd;
+    --bg-page: #f5f5f5;
+    --bg-card: #fff;
+}
+
+/* ===== GLOBAL & BODY ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background: var(--bg-page);
+    color: var(--text-dark);
+}
+
+/* ===== DASHBOARD WRAPPER ===== */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== SIDEBAR (Navigasi) ===== */
+.sidebar {
+    width: 250px;
+    background: var(--purple-light);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-title {
+    font-size: 1.5rem;
+    color: var(--purple);
+    margin-bottom: 40px;
+}
+
+.sidebar-nav ul { list-style: none; }
+
+.sidebar-nav a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-light);
+    line-height: 1.4;
+    transition: 0.2s;
+}
+
+.sidebar-nav .active a {
+    background: var(--bg-card);
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.sidebar-nav a:hover {
+    background: rgba(142, 68, 173, 0.1);
+}
+
+.menu-description {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* ===== HEADER ===== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+    font-size: 1.8rem;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+/* .icon-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 15px;
+    cursor: pointer;
+} */
+
+.fa-bell {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* ===== FORM CARD (Khusus Pengajuan Bimbingan) ===== */
+.card {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.form-card {
+    padding: 30px;
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+.bimbingan-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px; 
+    margin: 0 auto;
+    text-align: left;
+}
+
+.bimbingan-form label {
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+/* Styling Input Fields (Text, Select, Date) */
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-card); 
+}
+
+.form-input:focus {
+    border-color: var(--purple-btn);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+/* Select Input (Dropdown) */
+.form-select {
+    appearance: none; 
+}
+
+/* Textarea styling */
+.form-input[rows] {
+    resize: vertical;
+}
+
+/* Tombol Submit Form */
+.btn-submit-form {
+    background: var(--purple-btn);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 40px;
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+    width: 100%; 
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.btn-submit-form:hover {
+    filter: brightness(1.1);
+}
+
+.history-card {
+    background: var(--bg-card); /* Latar belakang putih */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px; /* Jarak antar kartu */
+}
+
+.history-date {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.history-desc {
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+/* Gaya untuk tombol Aksi di Riwayat */
+.btn-history-action {
+    /* Menggunakan styling dasar dari tombol sebelumnya */
+    background: var(--purple-btn); /* Warna ungu yang lebih gelap */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-history-action:hover {
+    filter: brightness(1.1);
+}
+
+img {
+  max-width: 100%;
+  height: auto;    
+  display: block;  
+}
+/* ===== LOGOUT MODAL STYLES ===== */
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Layar gelap transparan */
+    display: none; /* Default sembunyi */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Pastikan di paling atas */
+}
+
+.logout-modal {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+}
+
+.logout-modal h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.logout-modal p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.logout-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-confirm-yes {
+    background: #e74c3c; /* Merah */
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-confirm-no {
+    background: #bdc3c7; /* Abu-abu */
+    color: #333;
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-confirm-yes:hover { background: #c0392b; }
+.btn-confirm-no:hover { background: #95a5a6; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TOMBOL LOGOUT KOTAK ===== */
+.btn-logout-kotak {
+    background-color: #6c5ce7; /* Warna Merah */
+    color: white;
+    border: none;
+    padding: 10px 20px;       /* Ukuran tombol */
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase; /* Huruf Kapital Semua */
+    cursor: pointer;
+    border-radius: 0;         /* KUNCI: 0 biar sudutnya tajam (kotak banget) */
+    transition: background 0.3s;
+    margin-right: 15px;       /* Jarak ke icon amplop */
+    border-radius: 8px;        /* Sedikit membulatkan sudut biar gak terlalu tajam */
+}
+
+.btn-logout-kotak:hover {
+    background-color: #c0392b; /* Merah lebih gelap pas di-hover */
+}

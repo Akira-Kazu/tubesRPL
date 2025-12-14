@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!-- Gunakan th:href agar file CSS diambil dari static folder -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <!-- Jika tombol ini menuju halaman login, gunakan th:href -->
+            <a th:href="@{/login}" class="btn btn-secondary">Sign In</a>
+        </header>
+
+        <main class="login-modal">
+            <div class="close-btn">X</div>
+
+            <h1 class="modal-title">Log In</h1>
+
+            <!-- Ubah form agar bisa dikirim ke controller Spring -->
+            <form class="login-form" th:action="@{/login}" method="post">
+
+                <label for="account">Enter your account</label>
+                <input type="text" id="account" name="email"
+                       class="input-field" placeholder=" " required>
+
+                <label for="password">Enter your Password</label>
+               <input type="password" id="password" name="password"
+                       class="input-field" placeholder=" " required>
+
+                <button type="submit" class="btn btn-submit">Submit</button>
+
+                <a th:href="@{/forgot-password}" class="forgot-password">
+                    Forgot password?
+                </a>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
