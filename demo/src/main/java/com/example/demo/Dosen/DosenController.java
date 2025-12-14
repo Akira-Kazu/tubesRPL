@@ -221,10 +221,6 @@ public class DosenController {
         model.addAttribute("pengajuanList", pengajuanList);
         return "kelolaPengajuanDosen";
     }
-
-
-    v
-
     @Transactional
     @GetMapping("/jadwal")
     public String jadwalMahasiswa(HttpSession session, Model model) {
@@ -307,6 +303,58 @@ public class DosenController {
         model.addAttribute("nama", dosen.getNama());
 
         return "JadwalDosen";
+    }
+    @GetMapping("/pengajuan/approve/{id}")
+    public String approvePengajuan(@PathVariable Long id) {
+        // 1. Cari data pengajuan berdasarkan ID
+        PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
+
+        if (pengajuan != null) {
+            // 2. Ubah status menjadi Approved
+            pengajuan.setStatus("Approved");
+            permintaanRepo.save(pengajuan);
+
+            // 3. (Opsional) Buat notifikasi untuk mahasiswa
+            Notifikasi notif = new Notifikasi(
+                    pengajuan.getMahasiswa().getEmail(),
+                    "Pengajuan bimbingan Anda pada " + pengajuan.getTanggal() + " telah DISETUJUI."
+            );
+            notifRepo.save(notif);
+
+            // 4. (Opsional) Otomatis buat Bimbingan baru (jika logika bisnis Anda demikian)
+            Bimbingan bimbinganBaru = new Bimbingan();
+            bimbinganBaru.setPermintaanJadwal(pengajuan);
+            bimbinganBaru.setLokasi(pengajuan.getLokasi());
+            bimbinganBaru.setHari(pengajuan.getTanggal().getDayOfWeek().toString());
+            bimbinganBaru.setWaktu(pengajuan.getWaktu());
+            bimbinganBaru.setIsBimbingan(true);
+            bimbinganRepo.save(bimbinganBaru);
+        }
+
+        // 5. Kembali ke halaman kelola (daftar pengajuan)
+        return "redirect:/dosen/kelola";
+    }
+
+    @GetMapping("/pengajuan/reject/{id}")
+    public String rejectPengajuan(@PathVariable Long id) {
+        // 1. Cari data pengajuan
+        PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
+
+        if (pengajuan != null) {
+            // 2. Ubah status menjadi Rejected
+            pengajuan.setStatus("Rejected");
+            permintaanRepo.save(pengajuan);
+
+            // 3. (Opsional) Buat notifikasi
+            Notifikasi notif = new Notifikasi(
+                    pengajuan.getMahasiswa().getEmail(),
+                    "Maaf, pengajuan bimbingan Anda pada " + pengajuan.getTanggal() + " DITOLAK."
+            );
+            notifRepo.save(notif);
+        }
+
+        // 4. Kembali ke halaman kelola
+        return "redirect:/dosen/kelola";
     }
 
     }

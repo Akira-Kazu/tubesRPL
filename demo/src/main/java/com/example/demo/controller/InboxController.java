@@ -28,7 +28,7 @@ public class InboxController {
         model.addAttribute("listNotif", listNotif);
         model.addAttribute("role", "Mahasiswa"); // Buat sidebar/header
 
-        return "inbox"; // Pake satu file HTML aja biar hemat
+        return "inboxMahasiswa"; // Pake satu file HTML aja biar hemat
     }
     
     // Inbox buat Dosen (Mapping sama, nanti dibedain di view kalo perlu)
@@ -44,7 +44,7 @@ public class InboxController {
         model.addAttribute("listNotif", listNotif);
         model.addAttribute("role", "Dosen");
 
-        return "inbox";
+        return "inboxDosen";
     }
 
 }
