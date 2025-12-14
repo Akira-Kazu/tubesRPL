@@ -15,10 +15,14 @@ import java.util.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import com.example.demo.Entity.Notifikasi;
+import com.example.demo.Repository.NotifikasiRepository;
 
 @Controller
 @RequestMapping("/dosen")
@@ -26,7 +30,8 @@ public class DosenController {
 
     @Autowired
     private PermintaanJadwalService permintaanJadwalService;
-
+    @Autowired
+    private NotifikasiRepository notifRepo;	
     @Autowired
     private PenggunaRepository penggunaRepository;
     @Autowired
@@ -176,7 +181,7 @@ public class DosenController {
 
         Pengguna mahasiswa = penggunaRepository.findByEmail(emailMahasiswa);
 
-        // 1️⃣ Simpan ke PermintaanJadwal
+        // Simpan ke PermintaanJadwal
         PermintaanJadwal pengajuan = new PermintaanJadwal();
         pengajuan.setDosen(dosen);
         pengajuan.setMahasiswa(mahasiswa);
@@ -188,7 +193,7 @@ public class DosenController {
 
         permintaanRepo.save(pengajuan);
 
-        // 2️⃣ Buat Bimbingan otomatis (sebagai placeholder jadwal yang disetujui)
+        // Buat Bimbingan otomatis (sebagai placeholder jadwal yang disetujui)
         Bimbingan bimbingan = new Bimbingan();
         bimbingan.setPermintaanJadwal(pengajuan);
         bimbingan.setLokasi(lokasi);
@@ -218,36 +223,7 @@ public class DosenController {
     }
 
 
-    @GetMapping("/pengajuan/approve/{id}")
-    public String approvePengajuan(@PathVariable Long id) {
-        PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
-        if (pengajuan != null) {
-            pengajuan.setStatus("Approved");
-            permintaanRepo.save(pengajuan);
-
-            // Buat Entitas Bimbingan sebagai placeholder jadwal
-            Bimbingan bimbingan = new Bimbingan();
-            bimbingan.setPermintaanJadwal(pengajuan);
-            bimbingan.setLokasi(pengajuan.getLokasi());
-            bimbingan.setHari(pengajuan.getTanggal().getDayOfWeek().toString());
-            bimbingan.setWaktu(pengajuan.getWaktu());
-            bimbingan.setIsBimbingan(true);
-
-            bimbinganRepo.save(bimbingan);
-        }
-        return "redirect:/dosen/kelola";
-    }
-
-    @GetMapping("/pengajuan/reject/{id}")
-    public String rejectPengajuan(@PathVariable Long id) {
-        PermintaanJadwal pengajuan = permintaanRepo.findById(id).orElse(null);
-        if (pengajuan != null) {
-            pengajuan.setStatus("Rejected");
-            permintaanRepo.save(pengajuan);
-            // Hapus Bimbingan jika ada yang sudah dibuat (walaupun seharusnya tidak ada jika status Pending)
-        }
-        return "redirect:/dosen/kelola";
-    }
+    v
 
     @Transactional
     @GetMapping("/jadwal")
