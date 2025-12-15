@@ -154,14 +154,6 @@ public class MahasiswaController {
     }
 
 
-    // Dalam com.example.demo.Mahasiswa.MahasiswaController
-
-// Pastikan autowired ini ada di bagian atas class:
-// @Autowired
-// private PersyaratanService persyaratanService;
-
-// ...
-
     @GetMapping("/progress")
     public String progress(HttpSession session, Model model) {
 
