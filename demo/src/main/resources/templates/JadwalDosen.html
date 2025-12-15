@@ -41,50 +41,46 @@
 <body>
 <div class="dashboard-container">
 
+    <!-- Sidebar -->
     <div class="sidebar">
         <h2 class="sidebar-title">Bimbingan TA</h2>
 
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a th:href="@{/dosen/menu}">
-                        Menu utama <br>
-                        <span class="menu-description">Akses menu utama aplikasi.</span>
+                    <a th:href="@{/dosen}">
+                        Menu utama<br>
+                        <span class="menu-description">Ringkasan Dashboard.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/dosen/riwayat}">
-                        Riwayat Bimbingan <br>
-                        <span class="menu-description">Lihat riwayat bimbingan yang telah dilakukan.</span>
+                        Riwayat Bimbingan<br>
+                        <span class="menu-description">Arsip & Logbook.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/dosen/pengajuan}">
-                        Pengajuan Bimbingan <br>
-                        <span class="menu-description">Ajukan jadwal bimbingan baru.</span>
+                        Pengajuan bimbingan<br>
+                        <span class="menu-description">Buat Jadwal Baru.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/dosen/kelola}">
-                        Kelola Pengajuan <br>
-                        <span class="menu-description">Kelola pengajuan bimbingan dari mahasiswa.</span>
+                        Kelola Pengajuan<br>
+                        <span class="menu-description">Acc/Tolak Request.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/dosen/progress}">
-                        Progress TA <br>
-                        <span class="menu-description">Pantau perkembangan Tugas Akhir Anda.</span>
+                        progressTA<br>
+                        <span class="menu-description">Monitoring Mhs.</span>
                     </a>
                 </li>
-
                 <li class="active">
                     <a th:href="@{/dosen/jadwal}">
-                        Jadwal <br>
-                        <span class="menu-description">Lihat jadwal Mata Kuliah dan Bimbingan.</span>
+                        Jadwal<br>
+                        <span class="menu-description">Kalender Saya.</span>
                     </a>
                 </li>
             </ul>

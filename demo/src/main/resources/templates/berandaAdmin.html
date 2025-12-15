@@ -13,34 +13,30 @@
 
     <div class="sidebar">
         <h2 class="sidebar-title">Bimbingan TA</h2>
-
         <nav class="sidebar-nav">
             <ul>
                 <li class="active">
                     <a th:href="@{/admin/menu-utama}">
                         Menu utama<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Dashboard & Statistik.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/admin/pengajuan}">
                         Pengajuan Bimbingan<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Cek Request Masuk.</span>
                     </a>
                 </li>
-
-                <li >
+                <li>
                     <a th:href="@{/admin/kelola-mahasiswa}">
                         Kelola Mahasiswa<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Database Mahasiswa.</span>
                     </a>
                 </li>
-
                 <li>
                     <a th:href="@{/admin/kelola-dosen}">
                         Kelola Dosen<br>
-                        <span class="menu-description">Menu description.</span>
+                        <span class="menu-description">Database Dosen.</span>
                     </a>
                 </li>
             </ul>
@@ -56,14 +52,6 @@
                 <button onclick="openLogoutModal()" class="btn-logout-kotak" title="Keluar Aplikasi">
                     LOG OUT
                 </button>
-                <a th:href="@{/admin/inbox}" style="text-decoration: none;">
-                    <span class="icon-circle" style="display: flex; align-items: center; justify-content: center;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                    </span>
-                </a>
             </div>
 
             <div id="modalLogout" class="logout-modal-overlay" style="display: none;">
@@ -113,20 +101,6 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h3>Lihat Ajuan Jadwal Dosen & Mahasiswa</h3><br>
-                <div class="button-group">
-                    <button class="btn btn-primary"
-                            th:onclick="'location.href=\'/admin/jadwal-dosen\''">
-                        Jadwal Dosen
-                    </button>
-
-                    <button class="btn btn-primary"
-                            th:onclick="'location.href=\'/admin/jadwal-mahasiswa\''">
-                        Jadwal Mahasiswa
-                    </button>
-                </div>
-            </div>
         </div>
 
         <div class="card ta-overview-table">
